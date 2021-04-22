@@ -1,0 +1,37 @@
+.pagenavi{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 45px;
+    &__item{
+        margin-right: 8px;
+        &:last-child{
+            margin-right: 0;
+        }
+        &.current{
+            .pagenavi{
+                &__link{
+                    background: #343A40;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    &__link{
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #AAAAAA;
+        border: 1px solid #AAAAAA;
+        border-radius: 50%;
+        transition: 0.3s;
+        stroke: #AAAAAA;
+        &:hover{
+            color: #111;
+            border: 1px solid #111;
+            stroke: #111;
+        }
+    }
+}

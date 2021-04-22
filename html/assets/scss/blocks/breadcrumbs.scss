@@ -1,0 +1,36 @@
+.breadcrumbs{
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    &__item{
+        position: relative;
+        &::after{
+            content: '»';
+            font-size: 14px;
+            line-height: 140%;
+            color: #888888;
+            margin-right: 0.25rem;
+        }
+        &:last-child{
+            margin-right: 0;
+            &::after{
+                display: none;
+            }
+        }
+    }
+    &__link{
+        font-size: 14px;
+        line-height: 140%;
+        color: #888888;
+        transition: 0.5s;
+        &:hover{
+            color: $black;
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .breadcrumbs{
+        margin-bottom: 30px;
+    }
+}

@@ -1,0 +1,139 @@
+.lk{
+    &__header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 40px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid #DEDEDE;
+    }
+    &__title{
+        font-size: 48px;
+        line-height: 58px;
+    }
+    &__user{
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 10px;
+    }
+    &__link{
+        margin-bottom: 15px;
+        display: block;
+        span{
+            position: relative;
+            color: $brand-color;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 18px;
+            &::after{
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                border-bottom: 1px solid $brand-color;
+                transition: 0.3s;
+            }
+        }
+        &:hover{
+            span{
+                color: $brand-color;
+                &::after{
+                    width: 0;
+                }
+            }
+        }
+    }
+    &__nav-item{
+        border-bottom: 1px solid #DEDEDE;
+        &:last-child{
+            border-bottom: 0;
+        }
+    }
+    &__nav-link{
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        line-height: 24px;
+        color: $black;
+        transition: 0.3s;
+        height: 60px;
+        stroke: #D8D8D8;
+        svg{
+            margin-left: auto;
+        }
+        &:hover, &.active{
+            color: $brand-color;
+            stroke: $brand-color;
+        }
+    }
+    &__nav-link-icon{
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-right: 8px;
+        background-color: $brand-color;
+        svg{
+            margin: auto
+        }
+    }
+}
+
+.lk-form{
+    &__step{
+        display: none;
+        &.active{
+            display: block;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .lk{
+        &__title{
+            font-size: 40px;
+            line-height: 50px;
+        }
+        &__nav{
+            margin-bottom: 25px;
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .lk{
+        &__header{
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+        }
+        &__title{
+            font-size: 30px;
+            line-height: 40px;
+        }
+    }
+}
+
+@include media-breakpoint-down(xs) {
+    .lk{
+        &__header{
+            flex-wrap: wrap;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            .btn{
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        &__title{
+            width: 100%;
+            font-size: 26px;
+            line-height: 36px;
+        }
+    }
+}

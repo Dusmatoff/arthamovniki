@@ -1,0 +1,27 @@
+.share-block{
+    &__title{
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        margin-bottom: 12px;
+    }
+    &__list{
+        display: flex;
+        align-items: center;
+    }
+    &__list-item{
+        margin-right: 8px;
+        &:last-child{
+            margin-right: 0;
+        }
+    }
+    &__list-link{
+        width: 24px;
+        height: 24px;
+        display: block;
+        transition: 0.5s;
+        &:hover{
+            opacity: 0.7;
+        }
+    }
+}

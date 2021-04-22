@@ -1,0 +1,114 @@
+.mobile-menu{
+    position: fixed;
+    top: 59px;
+    height: calc(100% - 59px);
+    padding: 25px 15px;
+    width: 290px;
+    background-color: #fff;
+    z-index: 10;
+    transform: translateX(-100%);
+    transition: 0.3s;
+    opacity: 0;
+    pointer-events: none;
+    &__group{
+        border-bottom: 1px solid #DEDEDE;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        &:last-child{
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+    }
+    &__list-item{
+        margin-bottom: 12px;
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+    &__list-link{
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+    }
+    &__list-link-icon{
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: $brand-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 8px;
+    }
+    &.active{
+        opacity: 1;
+        pointer-events: all;
+        transform: translateX(0%);
+    }
+    &__nav-item{
+        margin-bottom: 18px;
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+    &__nav-link{
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: $black;
+        &.dropdown{
+            display: flex;
+            align-items: center;
+            &::after{
+                content: '';
+                display: block;
+                background-image: url(../img/chevron-down-brand.svg);
+                width: 10px;
+                height: 10px;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+                margin-left: 6px;
+                margin-top: 2px;
+            }
+        }
+    }
+    &__submenu{
+        padding-left: 20px;
+        padding-top: 20px;
+        display: none;
+        li{
+            margin-bottom: 10px;
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+        a{
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 19px;
+            color: #111111;
+        }
+    }
+}
+
+
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(17, 17, 17, 0.3);
+    z-index: 9;
+    pointer-events: none;
+    transition: 0.3s;
+    opacity: 0;
+    &.active{
+        pointer-events: all;
+        opacity: 1;
+    }
+}

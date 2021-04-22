@@ -1,0 +1,92 @@
+
+.btn {
+  @include reset-button();
+  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  color: $brand-color;
+  height: 50px;
+  line-height: 48px;
+  text-align: center;
+  transition: 0.3s;
+  border-radius: 4px;
+  svg{
+    margin-right: 6px;
+    position: relative;
+    top: 1px;
+  }
+  &--border{
+    border: 1px solid $brand-color;
+    stroke: $brand-color;
+    &:hover{
+      background-color: $brand-color;
+      color: #fff;
+      stroke: #fff;
+    }
+  }
+  &--full{
+    background-color: $brand-color;
+    color: #fff;
+    border: 1px solid $brand-color;
+    stroke: #fff;
+    &:hover{
+      background-color: #fff;
+      color: $brand-color;
+      stroke: $brand-color;
+    }
+  }
+  &--black{
+    background: #343A40;
+    color: #fff;
+    &:hover{
+      background-color: $brand-color;
+      color: #fff
+    }
+  }
+  &--lg{
+    width: 166px;
+    display: block;
+  }
+  &--dynamic{
+    padding: 0 15px;
+    display: flex;
+    align-items: baseline;
+  }
+  &--h-md{
+    display: block;
+    height: 40px;
+    line-height: 38px;
+  }
+  
+}
+
+.link{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: $brand-color;
+  text-decoration: underline;
+  &:hover{
+    color: $brand-color;
+    text-decoration: none;
+  }
+}
+
+.back-btn{
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  color: #888;
+  stroke: #888;
+  transition: 0.3s;
+  svg{
+    margin-right: 8px;
+  }
+  &:hover{
+    color: $brand-color;
+    stroke: $brand-color;
+  }
+}

@@ -1,0 +1,141 @@
+.contacts{
+    &__title{
+        font-weight: 400;
+        margin-bottom: 40px;
+    }
+    &__info{
+        display: flex;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+    &__info-item{
+        margin-right: 40px;        
+        &:last-child{
+            margin-right: 0;
+        }
+        svg{
+            margin-right: 6px;
+        }
+        a{
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 19px;
+            line-height: 23px;
+            color: $black;
+        }
+        span{
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 19px;
+            line-height: 23px;
+            color: $black;
+        }
+        &:nth-child(2){
+            svg{
+                position: relative;
+                top: 2px;
+            }
+        }
+    }
+    &__map{
+        display: flex;
+        width: 100%;
+        height: 440px;
+        iframe{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        img{
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    &__group{
+        padding-top: 60px;
+        margin-top: 60px;
+        border-top: 1px solid #DEDEDE
+    }
+    &__group-title{
+        font-size: 30px;
+        line-height: 36px;
+        margin-bottom: 40px;
+    }
+    &__block-title{
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 8px;
+    }
+    &__block-subtitle{
+        font-size: 15px;
+        line-height: 18px;
+        color: $brand-color;
+    }
+    .data{
+        margin: 14px 0 0;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .contacts{
+        &__blocks{
+            margin-bottom: -40px;
+        }
+        &__block{
+            margin-bottom: 40px;
+        }
+        &__info{
+            flex-wrap: wrap;
+        }
+        &__info-item{
+            margin-bottom: 14px;
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .contacts{
+        &__group{
+            margin-bottom: -30px;
+            margin-top: 40px;
+            padding-top: 30px;
+        }
+        &__group-title{
+            margin-bottom: 25px;
+            font-size: 25px;
+            line-height: 35px;
+        }
+        &__blocks{
+            padding-top: 30px;
+        }
+        &__block{
+            margin-bottom: 30px;
+        }
+        &__block-title{
+            font-size: 20px;
+        }
+        &__title{
+            margin-bottom: 30px;
+        }
+        &__info{
+            margin-bottom: 30px;
+        }
+        &__info-item{
+            a{
+                font-size: 16px;
+                line-height: 19px;
+            }
+            span{
+                font-size: 16px;
+                line-height: 19px;
+            }
+        }
+        &__map{
+            height: 300px;
+        }
+    }
+}

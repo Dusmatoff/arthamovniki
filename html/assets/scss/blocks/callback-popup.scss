@@ -1,0 +1,20 @@
+.callback-popup{
+    background: #FFFFFF;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 50px;
+    width: 100%;
+    max-width: 480px;
+    &__title{
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 140%;
+        margin-bottom: 20px;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .callback-popup{
+        padding: 20px 15px 20px;
+    }
+}

@@ -1,0 +1,103 @@
+@@include('template/head.html', {
+	"pagetitle": "Главная страница",
+	"bodyclass": ""
+})
+
+@@include('template/page-header.html',{
+	"active_item": "",
+	"logged": "false"
+})
+
+<section class="section-first product">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<ul class="breadcrumbs">
+					<li class="breadcrumbs__item">
+						<a href="" class="breadcrumbs__link">Главная</a>
+					</li>
+					<li class="breadcrumbs__item">
+						<span class="breadcrumbs__link">Личный кабинет</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="lk">
+					<div class="lk__header">
+						<div class="lk__title">
+							Добавить картину шаг 2 из 4
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-5">
+						<div class="instraction">
+							<div class="instraction__title">Видео шаг 2: Добавляем художника и указываем цену</div>
+							<div class="instraction__video">
+								<iframe width="560" height="315" src="https://www.youtube.com/embed/8qhmQ7U2-go" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-7">
+						<form class="form">
+							<div class="form__row">
+								<div class="form__field-label">Художник (выберите из списка)</div>
+								<div class="form__field">
+									<select class="form__field-select">
+										<option value="Автор 1">Автор 1</option>
+										<option value="Автор 2">Автор 2</option>
+									</select>
+								</div>
+								<div class="author-row d-none">
+									<div class="form__field-label">Год рождения, годы жизни художника, например: 1948 г.р. или 1857-1923 г </div>
+									<div class="form__field form__field--grey">
+										<input type="text" class="form__field-input">
+									</div>
+								</div>
+								<a href="" class="remove-link add-author">
+									<svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M7.65685 2.34315L7.71947 13.5942M2 8L13.2511 8.06262L2 8Z" stroke="#AAAAAA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+									</svg>																																	
+									<span>
+										Добавить нового художника
+									</span>
+								</a>
+							</div>
+							<div class="form__row">
+								<div class="form__field-label">
+									Цена картины*
+								</div>
+								<div class="form__field form__field--grey">
+									<input type="text" placeholder="1 руб" required class="form__field-input">
+								</div>
+							</div>
+							<div class="form__footer">
+								<a href="" class="back-btn">
+									<svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M5.30356 0.629883L1.33238 4.81783L5.30356 8.62988M1.33008 4.78094H11.8115H1.33008Z" stroke-width="1.5"/>
+									</svg>										
+									Назад
+								</a>
+								<a href="" class="btn btn--full btn--lg">Далле</a>
+							</div>
+						</form>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</section>
+
+@@include('template/page-footer.html')
+@@include('template/popups.html')
+
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/plugins.min.js"></script>
+<script src="js/main.min.js"></script>
+
+</body>
+</html>

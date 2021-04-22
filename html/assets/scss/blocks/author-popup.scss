@@ -1,0 +1,27 @@
+.author-popup{
+    background: #FFFFFF;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 50px;
+    max-width: 480px;
+    &__title{
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 140%;
+        margin-bottom: 10px;
+    }
+    &__text{
+        font-size: 16px;
+        line-height: 150%;
+    }
+    .data{
+        margin-top: 20px;
+        margin-bottom: 0;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .author-popup{
+        padding: 20px 15px 20px;
+    }
+}

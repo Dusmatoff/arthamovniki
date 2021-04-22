@@ -1,0 +1,28 @@
+.action-popup{
+    background: #FFFFFF;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 50px;
+    max-width: 480px;
+    &__title{
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 130%;
+    }
+    &__footer{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 30px;
+        .btn{
+            width: calc(50% - 5px);
+            display: block;
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .action-popup{
+        padding: 20px 15px 20px;
+    }
+}

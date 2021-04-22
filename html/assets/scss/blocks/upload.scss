@@ -1,0 +1,84 @@
+.upload-field{
+    background: #EEEEEE;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    &__results{
+        min-height: 188px;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;        
+        margin: 0 -10px;
+    }
+    &__footer{
+        display: flex;
+        padding: 14px 20px;
+        border-top: 1px solid #D8D8D8;
+    }
+}
+
+.upload{
+    position: relative;
+    margin-bottom: 0;
+    &__input{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        pointer-events: none;
+    }
+    &__text{
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 18px;
+        padding: 0 20px;
+        background-color: $brand-color;
+        color: #fff;
+        height: 40px;
+        border-radius: 4px;
+        line-height: 38px;
+        border: 1px solid $brand-color;
+        cursor: pointer;
+        transition: 0.3s;
+        &:hover{
+            background-color: transparent;
+            color: $brand-color;
+        }
+    }
+}
+
+.pip {
+	width: 80px;
+	height: 80px;
+	flex-shrink: 0;
+    position: relative;
+    margin: 0 10px 20px;
+	img{
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+    &:hover{
+        .remove{
+            opacity: 1;
+        }
+    }
+}
+.remove {
+	position: absolute;
+    top: -10px;
+    right: -10px;
+    border-radius: 50%;
+    background-color: $brand-color;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background-image: url(../img/remove-icon.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px;
+    transition: 0.3s;
+    opacity: 0;
+}

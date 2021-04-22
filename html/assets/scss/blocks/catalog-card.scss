@@ -1,0 +1,216 @@
+.catalog-card{
+    display: flex;
+    align-items: center;
+    margin-bottom: 45px;
+    &:last-child{
+        margin-bottom: 0;
+    }
+    &__img{
+        position: relative;
+        width: 380px;
+        flex-shrink: 0;
+        margin-right: 30px;
+        box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.14);
+        overflow: hidden;
+        img{
+            display: block;
+            width: 100%;
+            transition: 0.3s;
+        }
+        &:hover{
+            img{
+                transform: scale(1.05);
+            }
+        }
+    }
+    &__title{
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 25px;
+    }
+    &__info-item{
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 10px;
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+    &__info-item-title{
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        color: #888;
+        width: 110px;
+        margin-right: 10px;
+        flex-shrink: 0;
+        display: flex;
+        overflow: hidden;
+        &::after{
+            content: '............................';
+            color: #D3D3D3;
+            margin-left: 10px;
+        }
+    }
+    &__info-item-value{
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+    }
+    &__footer{
+        display: flex;
+        margin-top: 30px;
+    }
+    &__row{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 284px;
+        margin-bottom: 25px;
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+    &__col{
+        width: calc(50% - 6px);
+    }
+}
+
+.edit-link{
+    display: flex;
+    align-items: center;
+    svg{
+        margin-right: 4px;
+        stroke: $brand-color;
+    }
+    span{
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        position: relative;
+        color: $brand-color;
+        &::after{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid $brand-color;
+            transition: 0.3s;
+        }
+    }
+    &:hover{
+        span{
+            color: $brand-color;
+            &::after{
+                width: 0;
+            }
+        }
+    }
+}
+
+.remove-link{
+    display: flex;
+    align-items: center;
+    svg{
+        margin-right: 4px;
+        stroke: #AAAAAA;
+    }
+    span{
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        position: relative;
+        color: #AAAAAA;
+        &::after{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px solid #AAAAAA;
+            transition: 0.3s;
+        }
+    }
+    &:hover{
+        span{
+            color: #AAAAAA;
+            &::after{
+                width: 0;
+            }
+        }
+    }
+}
+
+a.catalog-card__info-item-value{
+    color: $brand-color;
+    position: relative;
+    &::after{
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-bottom: 1px solid $brand-color;
+        transition: 0.3s;
+    }
+    &:hover{
+        color: $brand-color;
+        &::after{
+            width: 0;
+        }
+    }
+}
+
+.catalog-cards{
+    &--middle{
+        max-width: 850px;
+        margin: 0 auto;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .catalog-card{
+        &__img{
+            width: 330px;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .catalog-card{
+        display: block;
+        &__img{
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        &__footer{
+            margin-top: 20px;
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .catalog-card{
+        margin-bottom: 35px;
+        &__img{
+            margin-bottom: 20px;
+        }
+        &__title{
+            margin-bottom: 20px;
+        }
+        &__info-item-title{
+            width: 85px;
+        }
+        &__info-item-value{
+            font-weight: 700;
+        }
+        &__footer{
+            .btn{
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+}
