@@ -35,3 +35,20 @@ function arthamovniki_pingback_header() {
 	}
 }
 add_action( 'wp_head', 'arthamovniki_pingback_header' );
+
+
+/****************************************************
+ * Theme Settings
+ *****************************************************/
+if ( function_exists( 'acf_add_options_page' ) ) {
+	acf_add_options_page( [
+		'page_title' => 'Настройки сайта',
+		'menu_title' => 'Настройки сайта',
+		'menu_slug'  => 'theme-general-settings',
+		'capability' => 'edit_posts',
+		'redirect'   => false
+	] );
+}
+/****************************************************
+ * Theme Settings
+ *****************************************************/
