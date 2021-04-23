@@ -9,6 +9,7 @@
  * Adds custom classes to the array of body classes.
  *
  * @param array $classes Classes for the body element.
+ *
  * @return array
  */
 function arthamovniki_body_classes( $classes ) {
@@ -24,6 +25,7 @@ function arthamovniki_body_classes( $classes ) {
 
 	return $classes;
 }
+
 add_filter( 'body_class', 'arthamovniki_body_classes' );
 
 /**
@@ -34,6 +36,7 @@ function arthamovniki_pingback_header() {
 		printf( '<link rel="pingback" href="%s">', esc_url( get_bloginfo( 'pingback_url' ) ) );
 	}
 }
+
 add_action( 'wp_head', 'arthamovniki_pingback_header' );
 
 
@@ -52,3 +55,11 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 /****************************************************
  * Theme Settings
  *****************************************************/
+
+add_filter( 'nav_menu_css_class', 'hamovniki_menu_item_class', 10, 2 );
+
+function hamovniki_menu_item_class( $classes, $item ) {
+	$classes[] = 'footer__nav-item';
+
+	return $classes;
+}

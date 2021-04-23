@@ -51,6 +51,7 @@ if ( ! function_exists( 'arthamovniki_setup' ) ) :
 		register_nav_menus(
 			array(
 				'menu-1' => esc_html__( 'Primary', 'arthamovniki' ),
+				'menu-footer' => esc_html__( 'Footer', 'arthamovniki' ),
 			)
 		);
 
@@ -180,6 +181,12 @@ require get_template_directory() . '/inc/template-functions.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Custom menu
+ */
+require get_template_directory() . '/inc/HamovnikiNavMenu.php';
+require get_template_directory() . '/inc/HamovnikiMobileMenu.php';
 
 /**
  * Load Jetpack compatibility file.
