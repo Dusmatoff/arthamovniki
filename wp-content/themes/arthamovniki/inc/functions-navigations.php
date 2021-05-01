@@ -25,7 +25,7 @@ function profile_navigation( $active_id = null ) {
             </a>
         </li>
         <li class="lk__nav-item">
-            <a href="" class="lk__nav-link <?php echo $active_id === 2 ? 'active' : ''; ?>">
+            <a href="/add-picture/" class="lk__nav-link <?php echo $active_id === 2 ? 'active' : ''; ?>">
                 <div class="lk__nav-link-icon">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="-0.05" y="0.05" width="10.1" height="1.1" transform="matrix(1 0 0 -1 1 6.5165)"
@@ -120,7 +120,7 @@ function header_profile_navigation() {
             </a>
         </li>
         <li class="header__menu-list-item">
-            <a href="" class="header__menu-list-link">
+            <a href="/add-picture/" class="header__menu-list-link">
                                             <span class="header__menu-list-link-icon">
                                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
@@ -207,7 +207,7 @@ function mobile_profile_navigation() {
                     </a>
                 </li>
                 <li class="mobile-menu__list-item">
-                    <a href="" class="mobile-menu__list-link">
+                    <a href="/add-picture/" class="mobile-menu__list-link">
                         <span class="mobile-menu__list-link-icon">
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">

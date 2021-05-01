@@ -143,6 +143,7 @@ add_action( 'widgets_init', 'arthamovniki_widgets_init' );
 function arthamovniki_scripts() {
 	wp_enqueue_style( 'arthamovniki-main-style', get_stylesheet_directory_uri() . '/css/main.min.css', array(), _S_VERSION );
 	wp_enqueue_style( 'arthamovniki-style', get_stylesheet_uri(), array(), _S_VERSION );
+	wp_enqueue_style( 'chosen-css', get_template_directory_uri() . '/css/chosen.css' );
 	//wp_style_add_data( 'arthamovniki-style', 'rtl', 'replace' );
 
 	/*wp_enqueue_script( 'arthamovniki-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
@@ -161,6 +162,7 @@ function arthamovniki_scripts() {
 	wp_enqueue_script( 'jquery-validate', get_template_directory_uri() . '/js/jquery.validate.min.js', [ 'arthamovniki-jquery' ], '1.19.2', true );
 	wp_enqueue_script( 'jquery-validate-additional-methods', get_template_directory_uri() . '/js/additional-methods.min.js', [ 'arthamovniki-jquery' ], '1.19.2', true );
 	wp_enqueue_script( 'jquery-validation-messages', get_template_directory_uri() . '/js/jquery-validation-messages.js', [ 'jquery-validate' ], '1', true );
+	wp_enqueue_script( 'chosen-script', get_template_directory_uri() . '/js/chosen.jquery.min.js', [ 'arthamovniki-jquery' ], '1.8.7', true );
 
 }
 add_action( 'wp_enqueue_scripts', 'arthamovniki_scripts' );
@@ -207,4 +209,7 @@ require get_template_directory() . '/inc/HamovnikiMobileMenu.php';
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
+
+//Disable Gutenberg
+add_filter('use_block_editor_for_post', '__return_false', 10);
 
