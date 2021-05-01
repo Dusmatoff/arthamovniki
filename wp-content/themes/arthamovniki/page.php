@@ -15,8 +15,20 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
-
+        <section class="section-first product">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="breadcrumbs">
+                            <li class="breadcrumbs__item">
+                                <a href="/" class="breadcrumbs__link">Главная</a>
+                            </li>
+                            <li class="breadcrumbs__item">
+                                <span class="breadcrumbs__link"><?php the_title(); ?></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 		<?php
 		while ( have_posts() ) :
 			the_post();
@@ -30,9 +42,9 @@ get_header();
 
 		endwhile; // End of the loop.
 		?>
-
-	</main><!-- #main -->
+            </div>
+        </section>
 
 <?php
-get_sidebar();
+//get_sidebar();
 get_footer();
