@@ -44,7 +44,7 @@ $user_city    = get_user_meta( $user_id, 'user_city', true );
 								Просмотр профиля
 							</span>
                             </a>
-							<?php profile_navigation( 1 ) ?>
+							<?php profile_navigation( 3 ); ?>
                         </div>
                         <div class="col-lg-8">
                             <form class="form" id="account_form" action="" method="POST">
