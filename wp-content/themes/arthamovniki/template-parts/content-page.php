@@ -20,7 +20,7 @@
 
 	<?php //arthamovniki_post_thumbnail(); ?>
 
-	<div class="entry-content row">
+	<div class="entry-content row text-section">
 		<?php
 		the_content();
 
