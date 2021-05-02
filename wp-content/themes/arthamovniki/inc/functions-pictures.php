@@ -101,6 +101,69 @@ function add_picture() {
 		wp_send_json( [ 'result' => $error->getMessage() ], 400 );
 	}
 }
+
 /****************************************************
  * AJAX Add picture
+ *****************************************************/
+
+/****************************************************
+ * AJAX Delete picture
+ *****************************************************/
+add_action( 'wp_ajax_delete_picture', 'delete_picture' );
+function delete_picture() {
+	//check nonce field
+	if ( empty( $_GET ) || ! wp_verify_nonce( $_GET['nonce'], 'delete_picture_action' ) ) {
+		wp_send_json( [ 'result' => 'Bad nonce field' ], 400 );
+	}
+
+	$id = $_GET['id'];
+
+	$deleted = wp_delete_post( $id, true );
+
+	if ( $deleted ) {
+		$attachments = get_posts(
+			[
+				'post_type'      => 'attachment',
+				'posts_per_page' => - 1,
+				'post_status'    => 'any',
+				'post_parent'    => $_GET['id'],
+			]
+		);
+
+		foreach ( $attachments as $attachment ) {
+			wp_delete_attachment( $attachment->ID );
+		}
+
+		wp_send_json( [ 'result' => 'Картина с id: ' . $id . ' удалена.' ], 200 );
+	}
+
+	wp_send_json( [ 'result' => 'Ошибка. Попробуйте еще раз.' ], 400 );
+}
+
+/****************************************************
+ * AJAX Delete picture
+ *****************************************************/
+
+/****************************************************
+ * AJAX Change picture status
+ *****************************************************/
+add_action( 'wp_ajax_change_picture_status', 'change_picture_status' );
+function change_picture_status() {
+	//check nonce field
+	if ( empty( $_GET ) || ! wp_verify_nonce( $_GET['nonce'], 'status_picture_action' ) ) {
+		wp_send_json( [ 'result' => 'Bad nonce field' ], 400 );
+	}
+
+	$is_active = get_field( 'is_active', $_GET['id'] );
+
+	try {
+		update_post_meta( $_GET['id'], 'is_active', ! $is_active );
+
+		wp_send_json( [ 'result' => 1 ], 200 );
+	} catch ( Error $error ) {
+		wp_send_json( [ 'result' => $error->getMessage() ], 400 );
+	}
+}
+/****************************************************
+ * AJAX Change picture status
  *****************************************************/

@@ -144,6 +144,7 @@ function arthamovniki_scripts() {
 	wp_enqueue_style( 'arthamovniki-main-style', get_stylesheet_directory_uri() . '/css/main.min.css', array(), _S_VERSION );
 	wp_enqueue_style( 'arthamovniki-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_enqueue_style( 'chosen-css', get_template_directory_uri() . '/css/chosen.css' );
+	//wp_enqueue_style( 'image-uploader-css', get_template_directory_uri() . '/css/image-uploader.min.css' );
 	//wp_style_add_data( 'arthamovniki-style', 'rtl', 'replace' );
 
 	/*wp_enqueue_script( 'arthamovniki-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );

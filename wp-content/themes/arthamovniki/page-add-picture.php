@@ -71,7 +71,8 @@ $picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empt
                                 <div class="col-lg-7">
                                     <div class="form__row">
                                         <div class="form__field-label">Изображения картины*</div>
-                                        <!-- <div class="input-images"></div> -->
+                                        <!--<div class="input-images"></div>-->
+
                                         <div class="upload-field">
                                             <div class="upload-field__results">
 
@@ -86,6 +87,7 @@ $picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empt
                                                 </label>
                                             </div>
                                         </div>
+
                                     </div>
                                     <div class="form__row">
                                         <div class="form__field-header">
@@ -445,6 +447,7 @@ $picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empt
             $('#add_picture_form').validate({
                 errorElement: 'em',
                 submitHandler: function (form) {
+                    //const images = $('.image-uploader input')[0].files;
                     const images = $('#files')[0].files;
                     const price = $('input[name=price]').val();
                     const pictureName = $('input[name=picture_name]').val();

@@ -110,6 +110,7 @@ $copyright   = get_field( 'copyright', 'option' );
         </div>
     </div>
 
+    <!--
     <div class="action-popup" id="action-popup">
         <div class="action-popup__title">
             Вы уверены, что хотите
@@ -120,6 +121,7 @@ $copyright   = get_field( 'copyright', 'option' );
             <a href="" class="btn btn--full">Да, удалить</a>
         </div>
     </div>
+    -->
 
 </div>
 

@@ -6,7 +6,7 @@ function profile_navigation( $active_id = null ) {
 	?>
     <ul class="lk__nav">
         <li class="lk__nav-item">
-            <a href="" class="lk__nav-link <?php echo $active_id === 1 ? 'active' : ''; ?>">
+            <a href="/my-pictures/" class="lk__nav-link <?php echo $active_id === 1 ? 'active' : ''; ?>">
                 <div class="lk__nav-link-icon">
                     <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.40244 13.1H11.8024C11.935 13.1 12.0622 13.0473 12.156 12.9536C12.2498 12.8598 12.3024 12.7326 12.3024 12.6V1.4C12.3024 1.26739 12.2498 1.14021 12.156 1.04645C12.0622 0.952678 11.9351 0.9 11.8024 0.9H1.40244C1.26983 0.9 1.14266 0.952678 1.04889 1.04645C0.95512 1.14021 0.902441 1.26739 0.902441 1.4V12.6C0.902441 12.7326 0.95512 12.8598 1.04889 12.9536C1.14266 13.0473 1.26983 13.1 1.40244 13.1ZM11.3024 1.9V12.1H1.90244V1.9H11.3024Z"
@@ -104,7 +104,7 @@ function header_profile_navigation() {
 	?>
     <ul class="header__menu-list">
         <li class="header__menu-list-item">
-            <a href="" class="header__menu-list-link">
+            <a href="/my-pictures/" class="header__menu-list-link">
                                             <span class="header__menu-list-link-icon">
                                                 <svg width="13" height="14" viewBox="0 0 13 14" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +116,7 @@ function header_profile_navigation() {
                                                           fill="white" stroke="white" stroke-width="0.2"/>
                                                 </svg>
                                             </span>
-                Мои картины – 4
+                Мои картины
             </a>
         </li>
         <li class="header__menu-list-item">
@@ -191,7 +191,7 @@ function mobile_profile_navigation() {
         <div class="mobile-menu__group">
             <ul class="mobile-menu__list">
                 <li class="mobile-menu__list-item">
-                    <a href="" class="mobile-menu__list-link">
+                    <a href="/my-pictures/" class="mobile-menu__list-link">
                         <span class="mobile-menu__list-link-icon">
                             <svg width="13" height="14" viewBox="0 0 13 14" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -203,7 +203,7 @@ function mobile_profile_navigation() {
                                       fill="white" stroke="white" stroke-width="0.2"/>
                             </svg>
                         </span>
-                        Мои картины – 4
+                        Мои картины
                     </a>
                 </li>
                 <li class="mobile-menu__list-item">
