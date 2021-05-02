@@ -193,6 +193,11 @@ require get_template_directory() . '/inc/functions-navigations.php';
 require get_template_directory() . '/inc/functions-account.php';
 
 /**
+ * Functions pictures
+ */
+require get_template_directory() . '/inc/functions-pictures.php';
+
+/**
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
@@ -211,5 +216,5 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 }
 
 //Disable Gutenberg
-add_filter('use_block_editor_for_post', '__return_false', 10);
+//add_filter('use_block_editor_for_post', '__return_false', 10);
 

@@ -31,6 +31,10 @@ $artists = get_posts(
 		'post_status'    => 'publish',
 	]
 );
+
+$picture_categories = get_terms( [ 'taxonomy' => 'picture_category', 'hide_empty' => false ] );
+$picture_subjects   = get_terms( [ 'taxonomy' => 'picture_subject', 'hide_empty' => false ] );
+$picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empty' => false ] );
 ?>
     <style>
         .chosen-container {
@@ -91,6 +95,7 @@ $artists = get_posts(
                                                            name="who_can_see"
                                                            id="fixed-radio"
                                                            class="form__radio-input"
+                                                           value="everyone"
                                                            checked
                                                     >
                                                     <div class="form__radio-marker"></div>
@@ -101,6 +106,7 @@ $artists = get_posts(
                                                            name="who_can_see"
                                                            id="query-radio"
                                                            class="form__radio-input"
+                                                           value="partners"
                                                     >
                                                     <div class="form__radio-marker"></div>
                                                     <div class="form__radio-text">Картина видна только партнерам
@@ -138,7 +144,6 @@ $artists = get_posts(
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-lg-5">
                                     <div class="instraction">
@@ -154,20 +159,54 @@ $artists = get_posts(
                                     <div class="form__row">
                                         <div class="form__field-label">Художник (выберите из списка)</div>
                                         <div class="form__field">
-                                            <select class="form__field-select chosen-select">
-                                                <?php foreach ($artists as $artist): ?>
+                                            <select class="form__field-select chosen-select" name="artist">
+												<?php foreach ( $artists as $artist ): ?>
                                                     <option value="<?php echo $artist->ID; ?>">
-	                                                    <?php echo $artist->post_title; ?>
+														<?php echo $artist->post_title; ?>
                                                     </option>
-                                                <?php endforeach; ?>
+												<?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="author-row d-none">
-                                            <div class="form__field-label">Год рождения, годы жизни художника, например:
-                                                1948 г.р. или 1857-1923 г
+                                            <div class="form__field-label">
+                                                Добавьте информацию о новом художнике
+                                            </div>
+                                            <div class="form__field">
+                                                Фото
+                                                <input type="file"
+                                                       name="artist_picture"
+                                                       class="form__field-input"
+                                                >
                                             </div>
                                             <div class="form__field form__field--grey">
-                                                <input type="text" class="form__field-input">
+                                                <input type="text"
+                                                       name="artist_name"
+                                                       class="form__field-input"
+                                                       placeholder="ФИО художника *"
+                                                       required
+                                                >
+                                            </div>
+                                            <div class="form__field form__field--grey">
+                                                <input type="text"
+                                                       name="artist_birth_death"
+                                                       class="form__field-input"
+                                                       placeholder="Дата рождения и смерти"
+                                                >
+                                            </div>
+                                            <div class="form__field form__field--grey">
+                                                <input type="text"
+                                                       name="artist_address"
+                                                       class="form__field-input"
+                                                       placeholder="Адрес"
+                                                >
+                                            </div>
+                                            <div class="form__field form__field--grey">
+                                                Описание
+                                                <textarea name="artist_description"
+                                                          class="form__field-input"
+                                                          style="width: 100%"
+                                                >
+                                                </textarea>
                                             </div>
                                         </div>
                                         <a href="" class="remove-link add-author">
@@ -187,7 +226,12 @@ $artists = get_posts(
                                             Цена картины*
                                         </div>
                                         <div class="form__field form__field--grey">
-                                            <input type="text" placeholder="1 руб" required class="form__field-input">
+                                            <input type="number"
+                                                   min="1"
+                                                   name="price"
+                                                   class="form__field-input"
+                                                   required
+                                            >
                                         </div>
                                     </div>
                                     <div class="form__footer">
@@ -199,7 +243,7 @@ $artists = get_posts(
                                             </svg>
                                             Назад
                                         </a>
-                                        <a href="" class="btn btn--full btn--lg" id="step-next-2">Далле</a>
+                                        <a href="" class="btn btn--full btn--lg" id="step-next-2">Далее</a>
                                     </div>
                                 </div>
                             </div>
@@ -212,7 +256,6 @@ $artists = get_posts(
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-lg-5">
                                     <div class="instraction">
@@ -225,11 +268,14 @@ $artists = get_posts(
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
-
                                     <div class="form__row">
                                         <div class="form__field-label">Название картины*</div>
                                         <div class="form__field form__field--grey">
-                                            <input type="text" required class="form__field-input">
+                                            <input type="text"
+                                                   name="picture_name"
+                                                   class="form__field-input"
+                                                   required
+                                            >
                                         </div>
                                     </div>
                                     <div class="form__row">
@@ -237,67 +283,90 @@ $artists = get_posts(
                                             <div class="col-md-4">
                                                 <div class="form__field-label">Год создания</div>
                                                 <div class="form__field form__field--grey">
-                                                    <input type="text" class="form__field-input">
+                                                    <input type="number"
+                                                           min="1"
+                                                           name="year"
+                                                           class="form__field-input"
+                                                    >
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form__field-label">Ширина, см*</div>
                                                 <div class="form__field form__field--grey">
-                                                    <input type="text" required class="form__field-input">
+                                                    <input type="number"
+                                                           min="1"
+                                                           name="width"
+                                                           class="form__field-input"
+                                                           required
+                                                    >
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form__field-label">Длина, см*</div>
                                                 <div class="form__field form__field--grey">
-                                                    <input type="text" required class="form__field-input">
+                                                    <input type="number"
+                                                           min="1"
+                                                           class="form__field-input"
+                                                           name="length"
+                                                           required
+                                                    >
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form__row">
-                                        <div class="form__field-label">Категории</div>
+                                        <div class="form__field-label">Темы</div>
                                         <div class="form__field-group">
                                             <div class="form__field form__field--grey">
-                                                <input type="text" class="form__field-input">
+                                                <select class="form__field-select chosen-select"
+                                                        name="categories[]"
+                                                        id="categories"
+                                                        data-placeholder="Выберите темы"
+                                                        multiple>
+													<?php foreach ( $picture_categories as $category ): ?>
+                                                        <option value="<?php echo $category->slug; ?>">
+															<?php echo $category->name; ?>
+                                                        </option>
+													<?php endforeach; ?>
+                                                </select>
                                             </div>
-                                            <a href="" class="btn btn--border btn--lg">
-                                                Добавить
-                                            </a>
                                         </div>
-                                        <div class="form__field-sublabel">
-                                            Разделите рубрики запятыми
-                                        </div>
-                                        <a href="" class="link">Выберите наиболее используемые категории</a>
                                     </div>
                                     <div class="form__row">
                                         <div class="form__field-label">Сюжеты</div>
                                         <div class="form__field-group">
                                             <div class="form__field form__field--grey">
-                                                <input type="text" class="form__field-input">
+                                                <select class="form__field-select chosen-select"
+                                                        name="subjects[]"
+                                                        id="subjects"
+                                                        data-placeholder="Выберите сюжеты"
+                                                        multiple>
+													<?php foreach ( $picture_subjects as $subject ): ?>
+                                                        <option value="<?php echo $subject->slug; ?>">
+															<?php echo $subject->name; ?>
+                                                        </option>
+													<?php endforeach; ?>
+                                                </select>
                                             </div>
-                                            <a href="" class="btn btn--border btn--lg">
-                                                Добавить
-                                            </a>
                                         </div>
-                                        <div class="form__field-sublabel">
-                                            Разделите рубрики запятыми
-                                        </div>
-                                        <a href="" class="link">Выберите наиболее используемые сюжеты</a>
                                     </div>
                                     <div class="form__row">
                                         <div class="form__field-label">Техники</div>
                                         <div class="form__field-group">
                                             <div class="form__field form__field--grey">
-                                                <input type="text" class="form__field-input">
+                                                <select class="form__field-select chosen-select"
+                                                        name="techniques[]"
+                                                        id="techniques"
+                                                        data-placeholder="Выберите техники"
+                                                        multiple>
+													<?php foreach ( $picture_techniques as $technique ): ?>
+                                                        <option value="<?php echo $technique->slug; ?>">
+															<?php echo $technique->name; ?>
+                                                        </option>
+													<?php endforeach; ?>
+                                                </select>
                                             </div>
-                                            <a href="" class="btn btn--border btn--lg">
-                                                Добавить
-                                            </a>
                                         </div>
-                                        <div class="form__field-sublabel">
-                                            Разделите рубрики запятыми
-                                        </div>
-                                        <a href="" class="link">Выберите наиболее используемые техники</a>
                                     </div>
                                     <div class="form__footer">
                                         <a href="" class="back-btn" id="step-back-3">
@@ -310,7 +379,6 @@ $artists = get_posts(
                                         </a>
                                         <a href="" class="btn btn--full btn--lg" id="step-next-3">Далле</a>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -322,7 +390,6 @@ $artists = get_posts(
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-lg-5">
                                     <div class="instraction">
@@ -335,12 +402,16 @@ $artists = get_posts(
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
-
                                     <div class="form__row">
                                         <div class="form__field-label">Описание картины</div>
                                         <div class="form__field form__field--grey">
-                                            <textarea class="form__field-textarea form__field-textarea--xl"></textarea>
+                                            <textarea class="form__field-textarea form__field-textarea--xl"
+                                                      name="description"
+                                            >
+                                            </textarea>
                                         </div>
+                                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+										<?php wp_nonce_field( 'add_picture_action', 'add_picture_nonce' ); ?>
                                     </div>
                                     <div class="form__footer">
                                         <a href="" class="back-btn" id="step-back-4">
@@ -351,9 +422,11 @@ $artists = get_posts(
                                             </svg>
                                             Назад
                                         </a>
-                                        <button class="btn btn--full btn--lg">Опубликовать</button>
+                                        <button class="btn btn--full btn--lg" type="submit">
+                                            Опубликовать
+                                        </button>
+                                        <p id="form-status" style="text-align: center"></p>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -366,41 +439,67 @@ $artists = get_posts(
 
     <script>
         window.addEventListener('DOMContentLoaded', (event) => {
-            $('.chosen-select').chosen();
+            $('.chosen-select').chosen({no_results_text: 'Ничего не найдено'});
 
             //Form submit
-            $('#account_form').validate({
+            $('#add_picture_form').validate({
                 errorElement: 'em',
                 submitHandler: function (form) {
-                    let formData = new FormData;
-                    formData.append('first_name', $('input[name=first_name]').val());
-                    formData.append('last_name', $('input[name=last_name]').val());
-                    formData.append('phone_number', $('input[name=phone_number]').val());
-                    formData.append('user_country', $('input[name=user_country]').val());
-                    formData.append('user_city', $('input[name=user_city]').val());
-                    formData.append('user_id', $('input[name=user_id]').val());
-                    formData.append('save_account_nonce', $('input[name=save_account_nonce]').val());
+                    const images = $('#files')[0].files;
+                    const price = $('input[name=price]').val();
+                    const pictureName = $('input[name=picture_name]').val();
 
-                    const formStatus = $('#form-status');
+                    if (images.length > 0 && price !== '' && pictureName !== '') {
+                        let formData = new FormData;
 
-                    $.ajax({
-                        url: '/wp-admin/admin-ajax.php?action=save_account',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        cache: false,
-                        type: 'POST',
-                        beforeSend: function () {
-                            formStatus.text('Отправка...');
-                        },
-                        success: function (jqXHR) {
-                            formStatus.text('Данные сохранены');
-                            location.reload();
-                        },
-                        error: function (jqXHR) {
-                            formStatus.text(jqXHR.responseJSON.result);
-                        },
-                    });
+                        $.each($('#files'), function (i, obj) {
+                            $.each(obj.files, function (j, file) {
+                                formData.append('images' + j, file);
+                            })
+                        });
+
+                        formData.append('who_can_see', $('input[name=who_can_see]:checked').val());
+                        formData.append('artist', $('select[name=artist] option').filter(":selected").val());
+                        formData.append('artist_picture', $('input[name=artist_picture]')[0].files[0]);
+                        formData.append('artist_name', $('input[name=artist_name]').val());
+                        formData.append('artist_birth_death', $('input[name=artist_birth_death]').val());
+                        formData.append('artist_address', $('input[name=artist_address]').val());
+                        formData.append('artist_description', $('textarea[name=artist_description]').val().trim());
+                        formData.append('price', price);
+                        formData.append('picture_name', pictureName);
+                        formData.append('year', $('input[name=year]').val());
+                        formData.append('width', $('input[name=width]').val());
+                        formData.append('length', $('input[name=length]').val());
+                        formData.append('categories', $('#categories').val());
+                        formData.append('subjects', $('#subjects').val());
+                        formData.append('techniques', $('#techniques').val());
+                        formData.append('description', $('textarea[name=description]').val().trim());
+                        formData.append('user_id', $('input[name=user_id]').val());
+                        formData.append('add_picture_nonce', $('input[name=add_picture_nonce]').val());
+
+                        const formStatus = $('#form-status');
+
+                        $.ajax({
+                            url: '/wp-admin/admin-ajax.php?action=add_picture',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            type: 'POST',
+                            beforeSend: function () {
+                                formStatus.text('Отправка...');
+                            },
+                            success: function (jqXHR) {
+                                formStatus.text('Картина добавлена');
+                                window.location.href = '/my-pictures/';
+                            },
+                            error: function (jqXHR) {
+                                formStatus.text(jqXHR.responseJSON.result);
+                            },
+                        });
+                    } else {
+                        alert('Пожалуйста заполните обязательные поля');
+                    }
                 }
             });
         });

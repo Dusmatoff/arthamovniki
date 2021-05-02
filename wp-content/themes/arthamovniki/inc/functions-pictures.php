@@ -1,0 +1,106 @@
+<?php
+/****************************************************
+ * AJAX Add picture
+ *****************************************************/
+add_action( 'wp_ajax_add_picture', 'add_picture' );
+function add_picture() {
+	if ( empty( $_POST ) || ! wp_verify_nonce( $_POST['add_picture_nonce'], 'add_picture_action' ) ) {
+		wp_send_json( [ 'result' => 'Bad nonce field' ], 400 );
+	}
+
+	if ( empty( $_FILES ) || empty( $_FILES['images0'] ) ) {
+		wp_send_json( [ 'result' => 'Добавьте фотографии' ], 400 );
+	}
+
+	$user_id = $_POST['user_id'];
+
+	try {
+		$post_data = [
+			'post_title'   => wp_strip_all_tags( $_POST['picture_name'] ),
+			'post_content' => $_POST['description'],
+			'post_status'  => 'publish',
+			'post_author'  => $user_id,
+			'post_type'    => 'picture',
+		];
+
+		$post_id = wp_insert_post( $post_data );
+
+		if ( $post_id > 0 ) {
+			//Привязка таксономий
+			$categories = empty( $_POST['categories'] ) ? [] : explode( ',', $_POST['categories'] );
+			$subjects   = empty( $_POST['subjects'] ) ? [] : explode( ',', $_POST['subjects'] );
+			$techniques = empty( $_POST['techniques'] ) ? [] : explode( ',', $_POST['techniques'] );
+			wp_set_object_terms( $post_id, $categories, 'picture_category' );
+			wp_set_object_terms( $post_id, $subjects, 'picture_subject' );
+			wp_set_object_terms( $post_id, $techniques, 'picture_technique' );
+
+			add_post_meta( $post_id, 'who_can_see', $_POST['who_can_see'] );
+
+			if ( ! empty( $_POST['artist_name'] ) ) {
+				//Add new artist
+				$artist_data = [
+					'post_title'   => wp_strip_all_tags( $_POST['artist_name'] ),
+					'post_content' => $_POST['artist_description'],
+					'post_status'  => 'publish',
+					'post_author'  => $user_id,
+					'post_type'    => 'artist'
+				];
+
+				$artist_id = wp_insert_post( $artist_data );
+
+				if ( $artist_id > 0 ) {
+					//Add artist picture
+					if ( ! empty( $_FILES['artist_picture'] ) ) {
+						$attachment_id = media_handle_upload( 'artist_picture', 0 );
+						set_post_thumbnail( $artist_id, $attachment_id );
+
+						if ( is_wp_error( $attachment_id ) ) {
+							wp_send_json( [ 'result' => 'Ошибка добавления фото художника.' ], 400 );
+						}
+					}
+
+					add_post_meta( $artist_id, 'artist_birth_death', $_POST['artist_birth_death'] );
+					add_post_meta( $artist_id, 'artist_address', $_POST['artist_address'] );
+
+					add_post_meta( $post_id, 'artist', $artist_id );
+				} else {
+					wp_send_json( [ 'result' => 'Ошибка добавления художника.' ], 400 );
+				}
+			} else {
+				add_post_meta( $post_id, 'artist', $_POST['artist'] );
+			}
+
+			add_post_meta( $post_id, 'price', $_POST['price'] );
+			add_post_meta( $post_id, 'year', $_POST['year'] );
+			add_post_meta( $post_id, 'width', $_POST['width'] );
+			add_post_meta( $post_id, 'length', $_POST['length'] );
+
+			//Галерея
+			$images_array = [];
+			foreach ( $_FILES as $key => $value ) {
+				if ( $key != 'artist_picture' ) {
+					//Добавляем фотографии только для картины
+					$attachment_id = media_handle_upload( $key, 0 );
+
+					if ( $key == 'images0' ) {
+						set_post_thumbnail( $post_id, $attachment_id );
+					}
+
+					if ( is_wp_error( $attachment_id ) ) {
+						wp_send_json( [ 'result' => 'Ошибка добавления фото картины' ], 400 );
+					}
+
+					array_push( $images_array, $attachment_id );
+				}
+			}
+			add_post_meta( $post_id, 'images', $images_array );
+		}
+
+		wp_send_json( [ 'result' => 'Картина добавлена' ], 200 );
+	} catch ( Error $error ) {
+		wp_send_json( [ 'result' => $error->getMessage() ], 400 );
+	}
+}
+/****************************************************
+ * AJAX Add picture
+ *****************************************************/
