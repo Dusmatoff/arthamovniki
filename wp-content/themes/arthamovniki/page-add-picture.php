@@ -192,7 +192,7 @@ $picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empt
                                                 <input type="text"
                                                        name="artist_birth_death"
                                                        class="form__field-input"
-                                                       placeholder="Дата рождения и смерти"
+                                                       placeholder="Дата рождения или годы жизни"
                                                 >
                                             </div>
                                             <div class="form__field form__field--grey">

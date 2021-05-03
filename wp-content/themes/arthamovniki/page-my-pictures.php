@@ -149,7 +149,7 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
                                                         >
                                                         <div class="form__radio-marker"></div>
                                                         <div class="form__radio-text">
-                                                            Картина видна только партнерам галереи
+                                                            картину показывать только партнерам галереи
                                                         </div>
                                                     </label>
                                                 </div>
