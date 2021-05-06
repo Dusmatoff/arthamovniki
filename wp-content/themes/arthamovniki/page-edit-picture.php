@@ -58,10 +58,7 @@ foreach ( $picture_techniques as $technique ) {
 	}
 }
 
-
-/*echo "<pre>";
-var_dump( $picture_categories );
-echo "</pre>";*/
+$owner_description = get_field( 'owner_description', $picture_id );
 ?>
     <style>
         .chosen-container {
@@ -281,7 +278,8 @@ echo "</pre>";*/
                         <div class="form__row">
                             <div class="form__field-label">Описание картины</div>
                             <div class="form__field form__field--grey">
-                                            <textarea class="form__field-textarea form__field-textarea--xl" name="description"><?php echo $picture_data->post_content; ?></textarea>
+                                <textarea class="form__field-textarea form__field-textarea--xl"
+                                          name="description"><?php echo $owner_description; ?></textarea>
                             </div>
                             <input type="hidden" name="picture_id" value="<?php echo $picture_id; ?>">
                             <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">

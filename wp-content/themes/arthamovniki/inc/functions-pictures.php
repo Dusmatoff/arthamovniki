@@ -17,7 +17,6 @@ function add_picture() {
 	try {
 		$post_data = [
 			'post_title'   => wp_strip_all_tags( $_POST['picture_name'] ),
-			'post_content' => $_POST['description'],
 			'post_status'  => 'publish',
 			'post_author'  => $user_id,
 			'post_type'    => 'picture',
@@ -35,6 +34,8 @@ function add_picture() {
 			wp_set_object_terms( $post_id, $techniques, 'picture_technique' );
 
 			add_post_meta( $post_id, 'who_can_see', $_POST['who_can_see'] );
+			add_post_meta($post_id, 'owner_description', $_POST['description']);
+			add_post_meta($post_id, 'manager_description', $_POST['description']);
 
 			if ( ! empty( $_POST['artist_name'] ) ) {
 				//Add new artist
@@ -126,7 +127,6 @@ function edit_picture() {
 		$post_id = wp_update_post( [
 			'ID'           => $picture_id,
 			'post_title'   => wp_strip_all_tags( $_POST['picture_name'] ),
-			'post_content' => wp_strip_all_tags( $_POST['description'] ),
 		], true );
 
 
@@ -138,6 +138,8 @@ function edit_picture() {
 			wp_set_object_terms( $post_id, $subjects, 'picture_subject' );
 			wp_set_object_terms( $post_id, $techniques, 'picture_technique' );
 
+			update_post_meta($post_id, 'owner_description', $_POST['description']);
+			//update_post_meta($post_id, 'manager_description', $_POST['description']);
 			update_post_meta( $post_id, 'who_can_see', $_POST['who_can_see'] );
 			update_post_meta( $post_id, 'price', $_POST['price'] );
 			update_post_meta( $post_id, 'year', $_POST['year'] );
