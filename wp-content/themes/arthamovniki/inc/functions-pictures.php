@@ -107,6 +107,72 @@ function add_picture() {
  *****************************************************/
 
 /****************************************************
+ * AJAX Edit picture
+ *****************************************************/
+add_action( 'wp_ajax_edit_picture', 'edit_picture' );
+function edit_picture() {
+	if ( empty( $_POST ) || ! wp_verify_nonce( $_POST['edit_picture_nonce'], 'edit_picture_action' ) ) {
+		wp_send_json( [ 'result' => 'Bad nonce field' ], 400 );
+	}
+
+	if ( empty( $_FILES ) || empty( $_FILES['images0'] ) ) {
+		wp_send_json( [ 'result' => 'Добавьте фотографии' ], 400 );
+	}
+
+	$user_id    = $_POST['user_id'];
+	$picture_id = $_POST['picture_id'];
+
+	try {
+		$post_id = wp_update_post( [
+			'ID'           => $picture_id,
+			'post_title'   => wp_strip_all_tags( $_POST['picture_name'] ),
+			'post_content' => wp_strip_all_tags( $_POST['description'] ),
+		], true );
+
+
+		if ( $post_id > 0 ) {
+			$categories = empty( $_POST['categories'] ) ? [] : explode( ',', $_POST['categories'] );
+			$subjects   = empty( $_POST['subjects'] ) ? [] : explode( ',', $_POST['subjects'] );
+			$techniques = empty( $_POST['techniques'] ) ? [] : explode( ',', $_POST['techniques'] );
+			wp_set_object_terms( $post_id, $categories, 'picture_category' );
+			wp_set_object_terms( $post_id, $subjects, 'picture_subject' );
+			wp_set_object_terms( $post_id, $techniques, 'picture_technique' );
+
+			update_post_meta( $post_id, 'who_can_see', $_POST['who_can_see'] );
+			update_post_meta( $post_id, 'price', $_POST['price'] );
+			update_post_meta( $post_id, 'year', $_POST['year'] );
+			update_post_meta( $post_id, 'width', $_POST['width'] );
+			update_post_meta( $post_id, 'length', $_POST['length'] );
+
+			//Галерея
+			$images_array = [];
+			foreach ( $_FILES as $key => $value ) {
+				$attachment_id = media_handle_upload( $key, 0 );
+
+				if ( $key == 'images0' ) {
+					set_post_thumbnail( $post_id, $attachment_id );
+				}
+
+				if ( is_wp_error( $attachment_id ) ) {
+					wp_send_json( [ 'result' => 'Ошибка добавления фото картины' ], 400 );
+				}
+
+				array_push( $images_array, $attachment_id );
+			}
+			update_post_meta( $post_id, 'images', $images_array );
+		}
+
+		wp_send_json( [ 'result' => 'Картина изменена' ], 200 );
+	} catch ( Error $error ) {
+		wp_send_json( [ 'result' => $error->getMessage() ], 400 );
+	}
+}
+
+/****************************************************
+ * AJAX Edit picture
+ *****************************************************/
+
+/****************************************************
  * AJAX Delete picture
  *****************************************************/
 add_action( 'wp_ajax_delete_picture', 'delete_picture' );
