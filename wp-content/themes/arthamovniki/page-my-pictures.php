@@ -57,6 +57,7 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
                             <div class="catalog-cards catalog-cards--middle">
 								<?php foreach ( $user_pictures as $picture ):
 									$is_active = get_field( 'is_active', $picture->ID );
+									$who_can_see = get_field( 'who_can_see', $picture->ID );
 									?>
                                     <div class="catalog-card">
                                         <div class="catalog-card__img">
@@ -127,31 +128,45 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
                                             </div>
                                             <div class="catalog-card__row">
                                                 <div class="form__radio-group">
-                                                    <label for="radio-<?php echo $picture->ID; ?>-all"
-                                                           class="form__radio">
-                                                        <input type="radio"
-                                                               checked
-                                                               id="radio-<?php echo $picture->ID; ?>-all"
-                                                               name="radio-group-1"
-                                                               class="form__radio-input"
-                                                        >
-                                                        <div class="form__radio-marker"></div>
-                                                        <div class="form__radio-text">
-                                                            Картина видна всем
-                                                        </div>
-                                                    </label>
-                                                    <label for="radio-<?php echo $picture->ID; ?>-partner"
-                                                           class="form__radio">
-                                                        <input type="radio"
-                                                               id="radio-<?php echo $picture->ID; ?>-partner"
-                                                               name="radio-group-1"
-                                                               class="form__radio-input"
-                                                        >
-                                                        <div class="form__radio-marker"></div>
-                                                        <div class="form__radio-text">
-                                                            картину показывать только партнерам галереи
-                                                        </div>
-                                                    </label>
+                                                    <a href="#see-popup"
+                                                       data-fancybox
+                                                       data-id="<?php echo $picture->ID; ?>"
+                                                       data-visibility="everyone"
+                                                       onclick="changeVisibility(this)"
+                                                    >
+                                                        <label for="radio-<?php echo $picture->ID; ?>-all"
+                                                               class="form__radio">
+                                                            <input type="radio"
+                                                                   id="radio-<?php echo $picture->ID; ?>-all"
+                                                                   class="form__radio-input"
+                                                                <?php echo $who_can_see == 'everyone' ? 'checked' : ''; ?>
+                                                            >
+                                                            <div class="form__radio-marker"></div>
+                                                            <div class="form__radio-text">
+                                                                Картина видна всем
+                                                            </div>
+                                                        </label>
+                                                    </a>
+                                                    <br/>
+                                                    <a href="#see-popup"
+                                                       data-fancybox
+                                                       data-id="<?php echo $picture->ID; ?>"
+                                                       data-visibility="partners"
+                                                       onclick="changeVisibility(this)"
+                                                    >
+                                                        <label for="radio-<?php echo $picture->ID; ?>-partner"
+                                                               class="form__radio">
+                                                            <input type="radio"
+                                                                   id="radio-<?php echo $picture->ID; ?>-partner"
+                                                                   class="form__radio-input"
+                                                                <?php echo $who_can_see == 'partners' ? 'checked' : ''; ?>
+                                                            >
+                                                            <div class="form__radio-marker"></div>
+                                                            <div class="form__radio-text">
+                                                                Картину показывать только партнерам галереи
+                                                            </div>
+                                                        </label>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -186,8 +201,16 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
                 <button class="btn btn--full" onclick="changePictureStatus();">Да, изменить</button>
             </div>
         </div>
-    </div>
 
+        <div class="action-popup" id="see-popup">
+            <div class="action-popup__title">
+                Видимость меняется
+            </div>
+            <div class="action-popup__footer">
+                Загрузка...
+            </div>
+        </div>
+    </div>
 
     <script>
         var deleteId = null;
@@ -247,6 +270,20 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
             jQuery.ajax({
                 type: 'GET',
                 url: `/wp-admin/admin-ajax.php?action=change_picture_status&id=${statusChangeId}&nonce=${statusNonce}`,
+                complete: function (jqXHR) {
+                    location.reload();
+                }
+            });
+        }
+
+        function changeVisibility(el) {
+            const statusNonce = $('#status_picture_nonce').val();
+            const id = $(el).data('id');
+            const visibilityName = $(el).data('visibility');
+
+            jQuery.ajax({
+                type: 'GET',
+                url: `/wp-admin/admin-ajax.php?action=change_picture_visibility&id=${id}&visibilityName=${visibilityName}&nonce=${statusNonce}`,
                 complete: function (jqXHR) {
                     location.reload();
                 }

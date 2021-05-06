@@ -164,6 +164,29 @@ function change_picture_status() {
 		wp_send_json( [ 'result' => $error->getMessage() ], 400 );
 	}
 }
+
 /****************************************************
  * AJAX Change picture status
+ *****************************************************/
+
+/****************************************************
+ * AJAX Change picture visibility
+ *****************************************************/
+add_action( 'wp_ajax_change_picture_visibility', 'change_picture_visibility' );
+function change_picture_visibility() {
+	//check nonce field
+	if ( empty( $_GET ) || ! wp_verify_nonce( $_GET['nonce'], 'status_picture_action' ) ) {
+		wp_send_json( [ 'result' => 'Bad nonce field' ], 400 );
+	}
+
+	try {
+		update_post_meta( $_GET['id'], 'who_can_see', $_GET['visibilityName'] );
+
+		wp_send_json( [ 'result' => 1 ], 200 );
+	} catch ( Error $error ) {
+		wp_send_json( [ 'result' => $error->getMessage() ], 400 );
+	}
+}
+/****************************************************
+ * AJAX Change picture visibility
  *****************************************************/
