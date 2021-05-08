@@ -25,3 +25,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 .um{
     opacity: 1!important;
 }
+
+#ajaxsearchlite1 .promagnifier{
+    display: none;
+}

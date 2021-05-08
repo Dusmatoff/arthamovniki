@@ -60,10 +60,7 @@ $address           = get_field( 'address', 'option' );
                                 <img src="<?php echo $logo; ?>" alt="">
                             </a>
                             <form class="header__search d-none d-md-block">
-                                <div class="header__search-icon">
-                                    <img src="<?php echo $theme_uri; ?>/img/search-icon.svg" alt="">
-                                </div>
-                                <input type="search" placeholder="Поиск по художникам..." class="header__search-input">
+	                            <?php echo do_shortcode('[wpdreams_ajaxsearchlite]'); ?>
                             </form>
                             <ul class="header__info d-none d-lg-block">
                                 <li class="header__info-item">
