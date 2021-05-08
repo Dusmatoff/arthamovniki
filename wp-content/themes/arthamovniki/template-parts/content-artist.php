@@ -10,6 +10,7 @@
 $id                 = get_the_ID();
 $artist_birth_death = get_field( 'artist_birth_death' );
 $artist_address     = get_field( 'artist_address' );
+echo $id;
 ?>
 
 <section class="section-first product">
@@ -54,7 +55,11 @@ $artist_address     = get_field( 'artist_address' );
 						'post_status'    => 'publish',
 						'orderby'        => 'rand',
 						'meta_query'     => [
-							'relation' => 'OR',
+							'relation' => 'AND',
+							[
+								'key'   => 'is_active',
+								'value' => 1
+							],
 							[
 								'key'   => 'artist',
 								'value' => $id
@@ -66,7 +71,7 @@ $artist_address     = get_field( 'artist_address' );
 
 					while ( $query->have_posts() ) {
 						$query->the_post();
-						get_template_part( 'loop-templates/content', 'loop-author-picture' );
+						get_template_part( 'loop-templates/content', 'loop-artist-picture' );
 					}
 					?>
                 </div>

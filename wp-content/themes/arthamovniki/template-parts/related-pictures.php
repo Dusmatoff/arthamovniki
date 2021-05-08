@@ -5,6 +5,13 @@ $args = [
 	'post_status'    => 'publish',
 	'orderby'        => 'rand',
 	'post__not_in'   => [ $post->ID ],
+	'meta_query'     => [
+		'relation' => 'AND',
+		[
+			'key'   => 'is_active',
+			'value' => 1
+		],
+	]
 ];
 
 $query = new WP_Query( $args );
