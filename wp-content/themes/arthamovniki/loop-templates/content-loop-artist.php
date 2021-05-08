@@ -23,7 +23,6 @@ $artist_address     = get_field( 'artist_address' );
 			'post_type'      => 'picture',
 			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
-			'orderby'        => 'rand',
 			'meta_query'     => [
 				'relation' => 'AND',
 				[

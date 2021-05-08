@@ -82,7 +82,7 @@ $owner_modal_info = get_user_meta( $author_id, 'owner_modal_info', true );
                     Владелец
                 </div>
 				<?php if ( $show_owner_link == '' || $show_owner_link == '1' ): ?>
-                    <a href="/user/<?php echo $owner->data->user_login; ?>/"
+                    <a href="/owner/?id=<?php echo $owner->ID; ?>"
                        class="catalog-card__info-item-value"
                        target="_blank"
                     >
