@@ -9,6 +9,8 @@
 defined( 'ABSPATH' ) || exit;
 
 global $show_favorite;
+$artist_id = get_field( 'artist' );
+$artist    = get_post( $artist_id );
 ?>
 
 <div class="col-lg-4 col-md-6">
@@ -23,10 +25,12 @@ global $show_favorite;
             <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="">
         </a>
         <p class="product-card__title">
-            <?php echo get_the_author(); ?>
+            <a href="/artist/<?php echo $artist->post_name; ?>/" target="_blank">
+				<?php echo $artist->post_title; ?>
+            </a>
         </p>
         <div class="product-card__subtitle">
-            <?php echo get_the_title(); ?>
+			<?php echo get_the_title(); ?>
         </div>
     </div>
 </div>

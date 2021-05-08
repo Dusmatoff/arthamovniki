@@ -163,7 +163,6 @@ $owner_modal_info = get_user_meta( $picture_data->post_author, 'owner_modal_info
 
 <?php get_template_part( 'template-parts/related-pictures' ); ?>
 
-
 <div class="d-none">
     <div class="author-popup" id="owner-popup">
         <div class="author-popup__title">
