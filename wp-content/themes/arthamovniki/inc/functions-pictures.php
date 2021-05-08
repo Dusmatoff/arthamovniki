@@ -17,7 +17,7 @@ function add_picture() {
 	try {
 		$post_data = [
 			'post_title'   => wp_strip_all_tags( $_POST['picture_name'] ),
-			'post_status'  => 'publish',
+			'post_status'  => 'draft',
 			'post_author'  => $user_id,
 			'post_type'    => 'picture',
 		];
@@ -42,7 +42,7 @@ function add_picture() {
 				$artist_data = [
 					'post_title'   => wp_strip_all_tags( $_POST['artist_name'] ),
 					'post_content' => $_POST['artist_description'],
-					'post_status'  => 'publish',
+					'post_status'  => 'draft',
 					'post_author'  => $user_id,
 					'post_type'    => 'artist'
 				];
