@@ -50,7 +50,7 @@ if ( ! function_exists( 'arthamovniki_setup' ) ) :
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus(
 			array(
-				'menu-1' => esc_html__( 'Primary', 'arthamovniki' ),
+				'menu-1'      => esc_html__( 'Primary', 'arthamovniki' ),
 				'menu-footer' => esc_html__( 'Footer', 'arthamovniki' ),
 			)
 		);
@@ -115,6 +115,7 @@ add_action( 'after_setup_theme', 'arthamovniki_setup' );
 function arthamovniki_content_width() {
 	$GLOBALS['content_width'] = apply_filters( 'arthamovniki_content_width', 640 );
 }
+
 add_action( 'after_setup_theme', 'arthamovniki_content_width', 0 );
 
 /**
@@ -135,6 +136,7 @@ function arthamovniki_widgets_init() {
 		)
 	);
 }
+
 add_action( 'widgets_init', 'arthamovniki_widgets_init' );
 
 /**
@@ -153,8 +155,8 @@ function arthamovniki_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}*/
 
-	if ( !is_admin() ){
-		wp_deregister_script('jquery');
+	if ( ! is_admin() ) {
+		wp_deregister_script( 'jquery' );
 	}
 	wp_enqueue_script( 'arthamovniki-jquery', get_template_directory_uri() . '/js/jquery-3.4.1.min.js', [], '3.4.1', true );
 	wp_enqueue_script( 'arthamovniki-plugins', get_template_directory_uri() . '/js/plugins.min.js', [], _S_VERSION, true );
@@ -165,7 +167,18 @@ function arthamovniki_scripts() {
 	wp_enqueue_script( 'jquery-validation-messages', get_template_directory_uri() . '/js/jquery-validation-messages.js', [ 'jquery-validate' ], '1', true );
 	wp_enqueue_script( 'chosen-script', get_template_directory_uri() . '/js/chosen.jquery.min.js', [ 'arthamovniki-jquery' ], '1.8.7', true );
 
+	wp_enqueue_script( 'picture-favorite', get_stylesheet_directory_uri() . '/js/pictureFavorite.js', [], _S_VERSION, true );
+
+	if ( is_page_template( 'page-favorites.php' ) ) {
+		wp_enqueue_script( 'favorites-page', get_stylesheet_directory_uri() . '/js/favoritesPage.js', [], _S_VERSION, true );
+	}
+
+	wp_localize_script('arthamovniki-main-js', 'Ajax', [
+		'nonce' => wp_create_nonce('ajax_nonce'),
+		'url'   => admin_url('admin-ajax.php'),
+	]);
 }
+
 add_action( 'wp_enqueue_scripts', 'arthamovniki_scripts' );
 
 /**
@@ -197,6 +210,11 @@ require get_template_directory() . '/inc/functions-account.php';
  * Functions pictures
  */
 require get_template_directory() . '/inc/functions-pictures.php';
+
+/**
+ * Functions favorites
+ */
+require get_template_directory() . '/inc/functions-favorites.php';
 
 /**
  * Customizer additions.

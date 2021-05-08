@@ -8,104 +8,82 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 ?>
-	<section class="section-first product">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<ul class="breadcrumbs">
-						<li class="breadcrumbs__item">
-							<a href="" class="breadcrumbs__link">Главная</a>
-						</li>
-						<li class="breadcrumbs__item">
-							<span class="breadcrumbs__link">Избранное</span>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">
-					<div class="lk">
-						<div class="lk__header">
-							<div class="lk__title">
-								Избранное – 1
-							</div>
-							<a href="#action-popup" data-fancybox class="btn btn--dynamic btn--full">
-								<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M11 1L1.11069 11M1 1L10.8893 11L1 1Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-								</svg>
-								Очистить избранное
-							</a>
-						</div>
-					</div>
+    <section class="section-first product">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <ul class="breadcrumbs">
+                        <li class="breadcrumbs__item">
+                            <a href="" class="breadcrumbs__link">Главная</a>
+                        </li>
+                        <li class="breadcrumbs__item">
+                            <span class="breadcrumbs__link">Избранное</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+					<?php
+					$user_id              = get_current_user_id();
+					$favorite_properties  = get_favorites();
+					$number_of_properties = count( $favorite_properties );
+					$show_favorite        = true;
 
-					<div class="catalog-cards catalog-cards--middle">
+					if ( $number_of_properties > 0 ): ?>
+                    <div class="lk">
+                        <div class="lk__header">
+                            <div class="lk__title">
+                                Избранное – <?php echo $number_of_properties; ?>
+                            </div>
+                            <!--<a href="#action-popup" data-fancybox class="btn btn--dynamic btn--full">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 1L1.11069 11M1 1L10.8893 11L1 1Z" stroke-width="2"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Очистить избранное
+                            </a>
+                            -->
+                        </div>
+                    </div>
+                    <div class="catalog-cards catalog-cards--middle">
+						<?php
+						$favorites_properties_args = [
+							'post_type'      => 'picture',
+							'post_status'    => [ 'publish' ],
+							'posts_per_page' => $number_of_properties,
+							'post__in'       => $favorite_properties,
+							'orderby'        => 'post__in',
+						];
 
-						<div class="catalog-card">
-							<div class="catalog-card__img">
-								<img src="/wp-content/uploads/2021/05/yabloki-doma-1-13.jpg" alt="">
-							</div>
-							<div class="catalog-card__content">
-								<div class="catalog-card__title">
-									Иллюстрация для журнала «Крокодил»
-								</div>
-								<ul class="catalog-card__info">
-									<li class="catalog-card__info-item">
-										<div class="catalog-card__info-item-title">
-											Автор
-										</div>
-										<a href="" class="catalog-card__info-item-value">
-											Елисеев К.С.
-										</a>
-									</li>
-									<li class="catalog-card__info-item">
-										<div class="catalog-card__info-item-title">
-											Год
-										</div>
-										<div class="catalog-card__info-item-value">
-											1947
-										</div>
-									</li>
-									<li class="catalog-card__info-item">
-										<div class="catalog-card__info-item-title">
-											Размер
-										</div>
-										<div class="catalog-card__info-item-value">
-											37,5×28,4
-										</div>
-									</li>
-									<li class="catalog-card__info-item">
-										<div class="catalog-card__info-item-title">
-											Техника
-										</div>
-										<div class="catalog-card__info-item-value">
-											Бумага, графитный карандаш, акварель, белила
-										</div>
-									</li>
-									<li class="catalog-card__info-item">
-										<div class="catalog-card__info-item-title">
-											Владелец
-										</div>
-										<a href="#author-popup" data-fancybox class="catalog-card__info-item-value">
-											Константинов В.
-										</a>
-									</li>
-								</ul>
-								<div class="catalog-card__footer">
-									<a href="#action-popup" data-fancybox class="btn btn--dynamic btn--border">
-										<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-											<path d="M11 1L1.11069 11M1 1L10.8893 11L1 1Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-										</svg>
-										Удалить из избранное
-									</a>
-								</div>
-							</div>
-						</div>
+						$favorites_query = new WP_Query( $favorites_properties_args );
 
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</section>
+						if ( $favorites_query->have_posts() ) :
+							while ( $favorites_query->have_posts() ) :
+								$favorites_query->the_post();
+								get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+							endwhile;
+							wp_reset_query();
+						else:
+							?>
+                            <div class="alert alert-warning" role="alert">
+                                <h4>Ничего не найдено</h4>
+                            </div>
+						<?php
+						endif;
+						else:
+							?>
+                            <div class="alert alert-warning" role="alert">
+                                <h3>Вы пока не добавили ничего в избранное</h3>
+                            </div>
+						<?php
+						endif;
+						?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 <?php
 get_footer();
