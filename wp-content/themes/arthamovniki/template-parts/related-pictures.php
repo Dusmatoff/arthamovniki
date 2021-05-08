@@ -28,11 +28,15 @@ $query = new WP_Query( $args );
                     </div>
                     <div class="product-cards">
                         <div class="row">
-							<?php while ( $query->have_posts() ) {
-								$query->the_post();
+							<?php
+                                while ( $query->have_posts() ) {
+                                    $query->the_post();
 
-								get_template_part( 'loop-templates/content', 'loop-picture' );
-							} ?>
+                                    get_template_part( 'loop-templates/content', 'loop-picture' );
+                                }
+
+							    wp_reset_postdata();
+							?>
                         </div>
                     </div>
                 </div>

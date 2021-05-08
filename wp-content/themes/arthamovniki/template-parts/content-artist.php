@@ -10,7 +10,6 @@
 $id                 = get_the_ID();
 $artist_birth_death = get_field( 'artist_birth_death' );
 $artist_address     = get_field( 'artist_address' );
-echo $id;
 ?>
 
 <section class="section-first product">
@@ -73,6 +72,7 @@ echo $id;
 						$query->the_post();
 						get_template_part( 'loop-templates/content', 'loop-artist-picture' );
 					}
+					wp_reset_postdata();
 					?>
                 </div>
             </div>

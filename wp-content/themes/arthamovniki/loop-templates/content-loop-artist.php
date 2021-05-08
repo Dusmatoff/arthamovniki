@@ -41,13 +41,19 @@ $artist_address     = get_field( 'artist_address' );
 
 		while ( $query->have_posts() ) :
 			$query->the_post();
+			$title = get_the_title();
 			?>
             <div class="authors__item-pictures-item">
-                <img src="img/product-card-img-1.jpg" alt="">
+                <a href="<?php the_permalink(); ?>" target="_blank">
+                    <img src="<?php the_post_thumbnail_url(); ?>"
+                         alt="<?php echo $title; ?>"
+                         title="<?php echo $title; ?>"
+                    >
+                </a>
             </div>
-		<?php endwhile; ?>
+		<?php endwhile; wp_reset_postdata(); ?>
     </div>
-    <a href="<?php echo get_permalink(); ?>" class="btn btn--border btn--lg">
+    <a href="<?php the_permalink($id); ?>" class="btn btn--border btn--lg">
         Смотреть
     </a>
 </div>
