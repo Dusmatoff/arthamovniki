@@ -173,10 +173,14 @@ function arthamovniki_scripts() {
 		wp_enqueue_script( 'favorites-page', get_stylesheet_directory_uri() . '/js/favoritesPage.js', [], _S_VERSION, true );
 	}
 
-	wp_localize_script('arthamovniki-main-js', 'Ajax', [
-		'nonce' => wp_create_nonce('ajax_nonce'),
-		'url'   => admin_url('admin-ajax.php'),
-	]);
+	if ( is_archive() ) {
+		wp_enqueue_script( 'picture-filter', get_stylesheet_directory_uri() . '/js/pictureFilter.js', [], _S_VERSION, true );
+	}
+
+	wp_localize_script( 'arthamovniki-main-js', 'Ajax', [
+		'nonce' => wp_create_nonce( 'ajax_nonce' ),
+		'url'   => admin_url( 'admin-ajax.php' ),
+	] );
 }
 
 add_action( 'wp_enqueue_scripts', 'arthamovniki_scripts' );
@@ -217,6 +221,11 @@ require get_template_directory() . '/inc/functions-pictures.php';
 require get_template_directory() . '/inc/functions-favorites.php';
 
 /**
+ * Functions filter pictures
+ */
+require get_template_directory() . '/inc/functions-filter.php';
+
+/**
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
@@ -237,3 +246,48 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 //Disable Gutenberg
 //add_filter('use_block_editor_for_post', '__return_false', 10);
 
+// Custom pagination
+function custom_pagination( $pages = '', $range = 2 ) {
+	$showitems = ( $range * 2 ) + 1;
+
+	global $paged;
+	if ( empty( $paged ) ) {
+		$paged = 1;
+	}
+
+	if ( $pages == '' ) {
+		global $wp_query;
+		$pages = $wp_query->max_num_pages;
+		if ( ! $pages ) {
+			$pages = 1;
+		}
+	}
+
+	if ( 1 != $pages ) {
+		echo "<ul class='pagenavi'>";
+		/*
+		if ( $paged > 2 && $paged > $range + 1 && $showitems < $pages ) {
+			echo "<a href='" . get_pagenum_link( 1 ) . "' class='pagenavi__link'>&laquo;</a>";
+		}
+		if ( $paged > 1 && $showitems < $pages ) {
+			echo "<a href='" . get_pagenum_link( $paged - 1 ) . "' class='pagenavi__link'>&lsaquo;</a>";
+		}
+		*/
+
+		for ( $i = 1; $i <= $pages; $i ++ ) {
+			if ( 1 != $pages && ( ! ( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $showitems ) ) {
+				$current = $paged == $i ? 'current' : '';
+				echo "<li class='pagenavi__item $current'><a href='" . get_pagenum_link( $i ) . "' class='pagenavi__link' >" . $i . "</a></li>";
+			}
+		}
+		/*
+		if ( $paged < $pages && $showitems < $pages ) {
+			echo "<a href='" . get_pagenum_link( $paged + 1 ) . "' class='pagenavi__link'>&rsaquo;</a>";
+		}
+		if ( $paged < $pages - 1 && $paged + $range - 1 < $pages && $showitems < $pages ) {
+			echo "<a href='" . get_pagenum_link( $pages ) . "' class='pagenavi__link'>&raquo;</a>";
+		}
+		*/
+		echo "</ul>\n";
+	}
+}
