@@ -20,7 +20,7 @@ $artist_address     = get_field( 'artist_address' );
                 <div class="author">
                     <div class="author__data">
                         <div class="author__data-ava">
-                            <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
+                            <img src="<?php echo get_the_post_thumbnail_url(); ?>">
                         </div>
                         <div class="author__data-content">
                             <div class="author__data-name">
