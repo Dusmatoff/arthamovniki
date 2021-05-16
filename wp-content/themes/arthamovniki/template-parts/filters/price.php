@@ -6,7 +6,18 @@
         Любая
     </label>
 </div>
-
+<div class="form-check">
+    <input class="form-check-input"
+           type="radio"
+           name="price"
+           value="50000"
+           id="price-50"
+		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '50000' ? 'checked' : ''; ?>
+    >
+    <label class="form-check-label" for="price-50">
+        До 50 тыс руб
+    </label>
+</div>
 <div class="form-check">
     <input class="form-check-input"
            type="radio"
@@ -16,42 +27,32 @@
 		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '300000' ? 'checked' : ''; ?>
     >
     <label class="form-check-label" for="price-300">
-        До 300 тыс руб
+        От 50 до 300 тыс руб
     </label>
 </div>
 <div class="form-check">
     <input class="form-check-input"
            type="radio"
            name="price"
-           value="100000"
-           id="price-100"
-		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '100000' ? 'checked' : ''; ?>
+           value="301000"
+           id="price-301"
+		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '301000' ? 'checked' : ''; ?>
     >
-    <label class="form-check-label" for="price-100">
-        До 100 тыс руб
+    <label class="form-check-label" for="price-300">
+        Свыше  300 тыс руб
     </label>
 </div>
-<div class="form-check">
-    <input class="form-check-input"
-           type="radio"
-           name="price"
-           value="30000"
-           id="price-30"
-		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '30000' ? 'checked' : ''; ?>
-    >
-    <label class="form-check-label" for="price-30">
-        До 30 тыс руб
-    </label>
-</div>
-<div class="form-check">
+
+
+<!--<div class="form-check">
     <input class="form-check-input"
            type="radio"
            name="price"
            value="0"
            id="price-0"
-		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '0' ? 'checked' : ''; ?>
+		<?php //echo ! empty( $_GET['price'] ) && $_GET['price'] === '0' ? 'checked' : ''; ?>
     >
     <label class="form-check-label" for="price-0">
         Не показывать без цены
     </label>
-</div>
+</div>-->

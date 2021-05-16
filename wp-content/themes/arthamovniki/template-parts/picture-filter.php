@@ -66,6 +66,7 @@
 		            <?php get_template_part('template-parts/filters/price'); ?>
                 </div>
             </div>
+            <br/>
             <div class="filter__btn" onclick="location.href = '/picture/';">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 1L1.08855 9M1 1L8.91145 9L1 1Z" stroke-width="1.7" stroke-linecap="round"

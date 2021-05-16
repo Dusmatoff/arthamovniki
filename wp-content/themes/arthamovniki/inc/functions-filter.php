@@ -77,14 +77,24 @@ add_action( 'wp_ajax_nopriv_pictures_filter_ajax_handler', 'pictures_filter_ajax
 
 function get_products_meta_filter( $args, $price, $size ) {
 	$meta_query   = isset( $args['meta_query'] ) ? $args['meta_query'] : [];
-	$prices_array = [ '0', '30000', '100000', '300000' ];
+	$prices_array = [ '0', '50000', '100000', '301000' ];
 	$sizes_array  = [ '0', '50', '100' ];
 
 	if ( isset( $price ) && in_array( $price, $prices_array ) ) {
 		if ( $price == 0 ) {
 			$meta_query[] = [ 'key' => 'price', 'value' => [ '' ], 'compare' => 'NOT IN' ];
 		} else {
-			$meta_query[] = [ 'key' => 'price', 'value' => $price, 'compare' => '<=', 'type' => 'numeric' ];
+		    if ($price == '50000'){
+			    $meta_query[] = [ 'key' => 'price', 'value' => $price, 'compare' => '<=', 'type' => 'numeric' ];
+            }
+
+			if ($price == '100000'){
+				$meta_query[] = [ 'key' => 'price', 'value' => [ '50000', '100000' ], 'compare' => 'BETWEEN', 'type' => 'numeric' ];
+			}
+
+			if ($price == '301000'){
+				$meta_query[] = [ 'key' => 'price', 'value' => '300000', 'compare' => '>=', 'type' => 'numeric' ];
+			}
 		}
 	}
 
