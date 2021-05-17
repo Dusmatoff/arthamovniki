@@ -25,8 +25,8 @@ get_header();
             <div class="row">
                 <div class="col-12">
 					<?php
-					$user_id              = get_current_user_id();
-					$favorite_properties  = get_favorites();
+					$user_id = get_current_user_id();
+					$favorite_properties = get_favorites( $user_id );
 					$number_of_properties = count( $favorite_properties );
 					$show_favorite        = true;
 

@@ -13,40 +13,50 @@ function add_to_favorites( $postId, $userId ) {
 		}
 
 		update_user_meta( $userId, 'favorite_pictures', $favorites );
-	} else {
-		//TODO Add to cookie
-		$favorites = $_COOKIE['favorite_pictures'];
-		if ( ! isset( $_COOKIE['favorite_pictures'] ) ) {
-			setcookie( 'favorite_pictures', $postId, time() + 31556926 );
-		}
-	}
 
-	return $favorites;
+		return true;
+	} else {
+		if ( ! isset( $_COOKIE['hamovniki_fav'] ) ) {
+			setcookie( 'hamovniki_fav', json_encode( [ $postId ] ), strtotime( '+1 year' ), '/', $_SERVER['HTTP_HOST'] );
+		} else {
+			$old_favorites = json_decode( $_COOKIE['hamovniki_fav'], true );
+			$old_favorites[] = $postId;
+			setcookie( 'hamovniki_fav', json_encode( $old_favorites ), strtotime( '+1 year' ), '/', $_SERVER['HTTP_HOST'] );
+		}
+
+		return true;
+	}
 }
 
 function delete_from_favorites( $postId, $userId ) {
-	if ( ! $userId ) {
-		$userId = get_current_user_id();
+	if ( $userId != '0' ) {
+		$favorites = get_user_meta( $userId, 'favorite_pictures', true );
+
+		if ( ! $favorites ) {
+			return true;
+		}
+
+		if ( ( $key = array_search( $postId, $favorites ) ) !== false ) {
+			unset( $favorites[ $key ] );
+		}
+		update_user_meta( $userId, 'favorite_pictures', $favorites );
+	} else {
+		$favorites = json_decode( $_COOKIE['hamovniki_fav'], true );
+		if ( ( $key = array_search( $postId, $favorites ) ) !== false ) {
+			unset( $favorites[ $key ] );
+		}
+		setcookie( 'hamovniki_fav', json_encode( $favorites ), strtotime( '+1 year' ), '/', $_SERVER['HTTP_HOST'] );
 	}
-	$favorites = get_user_meta( $userId, 'favorite_pictures', true );
-	if ( ! $favorites ) {
-		return true;
-	}
-	if ( ( $key = array_search( $postId, $favorites ) ) !== false ) {
-		unset( $favorites[ $key ] );
-	}
-	update_user_meta( $userId, 'favorite_pictures', $favorites );
 
 	return true;
 }
 
 function get_favorites( $userId ) {
-	if ( ! $userId ) {
-		//TODO Get from cookie
-		$favorites = '';
+	if ( $userId == '0' ) {
+		$favorites = json_decode( $_COOKIE['hamovniki_fav'] );
+	} else {
+		$favorites = get_user_meta( $userId, 'favorite_pictures', true );
 	}
-
-	$favorites = get_user_meta( $userId, 'favorite_pictures', true );
 
 	if ( ! $favorites ) {
 		$favorites = [];
@@ -87,10 +97,11 @@ function picture_favorite_ajax_handler() {
 		}
 		wp_reset_query();
 	} else {
-		echo "Ошибка";
+		echo 'Ошибка';
 	}
 
 	die;
 }
 
 add_action( 'wp_ajax_picture_favorite_ajax_handler', 'picture_favorite_ajax_handler' );
+add_action( 'wp_ajax_nopriv_picture_favorite_ajax_handler', 'picture_favorite_ajax_handler' );

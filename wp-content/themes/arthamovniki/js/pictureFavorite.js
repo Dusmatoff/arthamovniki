@@ -32,12 +32,17 @@ jQuery(function ($) { // use jQuery code inside this to avoid "$ is not defined"
             },
             success: function (data) {
                 if (data) {
+                    if (userId == '0'){
+                        location.reload();
+                        return;
+                    }
                     container.html(data);
                     container.trigger('switchFavorite');
                 } else {
                     container.html('Ошибка');
                 }
                 setFavoriteStatusListener(container.find('.add-to-fav'));
+
             },
             error: function () {
                 container.html('Ошибка');

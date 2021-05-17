@@ -181,7 +181,7 @@ $address           = get_field( 'address', 'option' );
 									} ?>
                                 </li>
                                 <li class="header__menu-item">
-                                    <a href="" class="header__menu-link">
+                                    <a href="/favorites/" class="header__menu-link">
                                     <span class="header__menu-link-icon">
                                         <svg width="14" height="12" viewBox="0 0 14 12" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -224,7 +224,7 @@ $address           = get_field( 'address', 'option' );
             <div class="mobile-menu__group">
                 <ul class="mobile-menu__list">
                     <li class="mobile-menu__list-item">
-                        <a href="" class="mobile-menu__list-link">
+                        <a href="/favorites/" class="mobile-menu__list-link">
                         <span class="mobile-menu__list-link-icon">
                             <svg width="14" height="12" viewBox="0 0 14 12" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
