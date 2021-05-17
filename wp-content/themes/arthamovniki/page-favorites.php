@@ -6,6 +6,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+global $current_user;
+
 get_header();
 ?>
     <section class="section-first product">
@@ -23,10 +25,12 @@ get_header();
                 </div>
             </div>
             <div class="row">
+                <p>Напоминаем вам если вы не зарегистрированы на сайте, раздел избранное создаётся с помощью файлов
+                    Cookies Эти файлы позволяют сайту узнавать пользователя без регистрации, но после удаления вами
+                    файлов Cookies на вашем компьютере, добавленные вами в избранное картины могут не сохраниться.</p>
                 <div class="col-12">
 					<?php
-					$user_id = get_current_user_id();
-					$favorite_properties = get_favorites( $user_id );
+					$favorite_properties  = get_favorites( $current_user->ID );
 					$number_of_properties = count( $favorite_properties );
 					$show_favorite        = true;
 

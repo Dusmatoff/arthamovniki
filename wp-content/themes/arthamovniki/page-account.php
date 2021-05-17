@@ -6,15 +6,11 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-$user = wp_get_current_user();
-
-if ( ! wp_get_current_user()->exists() ) {
-	wp_safe_redirect( '/' );
-}
-
 get_header();
 
-$user_id      = $user->ID;
+global $current_user;
+
+$user_id      = $current_user->ID;
 $first_name   = get_user_meta( $user_id, 'first_name', true );
 $last_name    = get_user_meta( $user_id, 'last_name', true );
 $phone_number = get_user_meta( $user_id, 'phone_number', true );
@@ -56,7 +52,7 @@ $user_city    = get_user_meta( $user_id, 'user_city', true );
                                         <input type="text"
                                                name="user_login"
                                                class="form__field-input"
-                                               value="<?php echo $user->data->user_login; ?>"
+                                               value="<?php echo $current_user->data->user_login; ?>"
                                                disabled
                                         >
                                     </div>
@@ -137,7 +133,7 @@ $user_city    = get_user_meta( $user_id, 'user_city', true );
                                         <input type="email"
                                                name="user_email"
                                                class="form__field-input"
-                                               value="<?php echo $user->data->user_email; ?>"
+                                               value="<?php echo $current_user->data->user_email; ?>"
                                                disabled
                                         >
                                     </div>

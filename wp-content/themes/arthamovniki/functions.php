@@ -6,6 +6,9 @@
  *
  * @package Art_Hamovniki
  */
+global $current_user;
+global $is_partner;
+$is_partner = is_current_user_partner($current_user);
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
@@ -290,4 +293,12 @@ function custom_pagination( $pages = '', $range = 2 ) {
 		*/
 		echo "</ul>\n";
 	}
+}
+
+function is_current_user_partner($user = null) {
+	if (!$user){
+		$user = wp_get_current_user();
+	}
+
+	return in_array('um_partner', $user->roles);
 }

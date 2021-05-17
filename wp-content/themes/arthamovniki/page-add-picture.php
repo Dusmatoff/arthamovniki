@@ -6,15 +6,15 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-$user = wp_get_current_user();
+global $current_user;
 
-if ( ! wp_get_current_user()->exists() ) {
+if ( ! $current_user->exists() ) {
 	wp_safe_redirect( '/' );
 }
 
 get_header();
 
-$user_id      = $user->ID;
+$user_id      = $current_user->ID;
 $step_1_text  = get_field( 'step_1_text', 'option' );
 $step_1_video = get_field( 'step_1_video', 'option' );
 $step_2_text  = get_field( 'step_2_text', 'option' );

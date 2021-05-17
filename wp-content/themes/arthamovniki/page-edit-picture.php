@@ -6,17 +6,18 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-$user       = wp_get_current_user();
+
+global $current_user;
 $picture_id = $_GET['id'];
 $hash       = $_GET['hash'];
 
-if ( ! wp_get_current_user()->exists() || empty( $picture_id ) || $hash != md5( 'edit-picture' . $picture_id ) ) {
+if ( ! $current_user->exists() || empty( $picture_id ) || $hash != md5( 'edit-picture' . $picture_id ) ) {
 	wp_safe_redirect( '/' );
 }
 
 get_header();
 
-$user_id      = $user->ID;
+$user_id      = $current_user->ID;
 $picture_data = get_post( $picture_id );
 $artist_id    = get_field( 'artist', $picture_id );
 $price        = get_field( 'price', $picture_id );

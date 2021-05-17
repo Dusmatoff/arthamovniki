@@ -6,15 +6,15 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-$user = wp_get_current_user();
+global $current_user;
 
-if ( ! wp_get_current_user()->exists() ) {
+if ( ! $current_user->exists() ) {
 	wp_safe_redirect( '/' );
 }
 
 get_header();
 
-$user_id    = $user->ID;
+$user_id    = $current_user->ID;
 $first_name = get_user_meta( $user_id, 'first_name', true );
 $last_name  = get_user_meta( $user_id, 'last_name', true );
 
@@ -68,14 +68,18 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
 												<?php echo $picture->post_title; ?>
                                             </div>
                                             <div class="catalog-card__row">
-                                                <div class="catalog-card__col">
-                                                    <a href="<?php echo $picture->guid; ?>"
-                                                       class="btn btn--h-md btn--border"
-                                                       target="_blank"
-                                                    >
-                                                        Посмотреть
-                                                    </a>
-                                                </div>
+                                                <?php if ($picture->post_status == 'publish'): ?>
+                                                    <div class="catalog-card__col">
+                                                        <a href="<?php echo get_permalink($picture->ID); ?>"
+                                                           class="btn btn--h-md btn--border"
+                                                           target="_blank"
+                                                        >
+                                                            Посмотреть
+                                                        </a>
+                                                    </div>
+                                                <?php else: ?>
+                                                    Еще не одобрено админом
+                                                <?php endif; ?>
                                                 <div class="catalog-card__col">
 													<?php if ( $is_active ): ?>
                                                         <a href="#status-popup"

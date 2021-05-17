@@ -8,6 +8,8 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
+global $is_partner;
+
 $title    = get_field( 'title' );
 $subtitle = get_field( 'subtitle' );
 $picture  = get_field( 'picture' );
@@ -27,6 +29,12 @@ $pictures_sea       = get_field( 'pictures_sea' );
                         <h1 class="main-section__title">
 							<?php echo $title; ?>
                         </h1>
+					<?php endif; ?>
+
+					<?php if ( $is_partner ): ?>
+                        <div class="main-section__subtitle">
+                            Парнёрская версия
+                        </div>
 					<?php endif; ?>
 
 					<?php if ( $subtitle ): ?>

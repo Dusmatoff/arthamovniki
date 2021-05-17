@@ -6,15 +6,15 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-$user = wp_get_current_user();
+global $current_user;
 
-if ( ! wp_get_current_user()->exists() ) {
+if ( ! $current_user->exists() ) {
 	wp_safe_redirect( '/' );
 }
 
 get_header();
 
-$user_id      = $user->ID;
+$user_id      = $current_user->ID;
 $first_name   = get_user_meta( $user_id, 'first_name', true );
 $last_name    = get_user_meta( $user_id, 'last_name', true );
 ?>

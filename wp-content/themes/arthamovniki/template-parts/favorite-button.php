@@ -1,6 +1,6 @@
 <?php
-$user    = wp_get_current_user();
-$user_id = $user->ID;
+global $current_user;
+$user_id = $current_user->ID;
 ?>
 <div class="favorite-container">
     <button class="add-to-fav" data-picture="<?php echo $post->ID; ?>" data-user="<?php echo $user_id; ?>">

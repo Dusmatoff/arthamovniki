@@ -43,7 +43,12 @@ $address           = get_field( 'address', 'option' );
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700&display=swap" rel="stylesheet">
-	<?php wp_head(); ?>
+	<?php
+	wp_head();
+
+	global $is_partner;
+	global $current_user;
+	?>
 </head>
 
 <body <?php body_class(); ?>>
@@ -60,7 +65,7 @@ $address           = get_field( 'address', 'option' );
                                 <img src="<?php echo $logo; ?>" alt="">
                             </a>
                             <form class="header__search d-none d-md-block">
-	                            <?php echo do_shortcode('[wpdreams_ajaxsearchlite]'); ?>
+								<?php echo do_shortcode( '[wpdreams_ajaxsearchlite]' ); ?>
                             </form>
                             <ul class="header__info d-none d-lg-block">
                                 <li class="header__info-item">
@@ -174,7 +179,20 @@ $address           = get_field( 'address', 'option' );
                                             <path d="M6.49994 8H5.49995C4.04127 8 2.64234 8.57946 1.6109 9.6109C0.579457 10.6423 0 12.0413 0 13.4999C0 13.6326 0.052678 13.7597 0.146445 13.8535C0.240213 13.9473 0.367388 13.9999 0.499995 13.9999H11.4999C11.6325 13.9999 11.7597 13.9473 11.8534 13.8535C11.9472 13.7597 11.9999 13.6326 11.9999 13.4999C11.9999 12.0413 11.4204 10.6423 10.389 9.6109C9.35755 8.57946 7.95861 8 6.49994 8ZM1.02999 13C1.15294 11.9003 1.67674 10.8845 2.50132 10.1466C3.32589 9.40871 4.39343 9.00052 5.49995 8.99999H6.49994C7.60646 9.00052 8.67399 9.40871 9.49857 10.1466C10.3231 10.8845 10.8469 11.9003 10.9699 13H1.02999Z"/>
                                         </svg>
                                     </span>
-                                        <span class="header__menu-link-text">Личный кабинет</span>
+
+                                        <span class="header__menu-link-text">
+                                            <?php if ( $is_partner ): ?>
+                                                <div>Партнёрская версия</div>
+                                            <?php endif; ?>
+                                        <p>
+                                            <?php echo $is_partner ? $current_user->first_name : 'Личный кабинет'; ?>
+                                            <svg width="9" height="5" viewBox="0 0 9 5" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0.999704 1L4.08721 3.93452C4.12581 3.97121 4.18639 3.97121 4.22499 3.93452L7.3125 1"
+                                                      stroke="white" stroke-width="1.7" stroke-linecap="round"></path>
+                                            </svg>
+                                        </p>
+                                        </span>
                                     </a>
 									<?php if ( $is_user_logged_in ) {
 										header_profile_navigation();
