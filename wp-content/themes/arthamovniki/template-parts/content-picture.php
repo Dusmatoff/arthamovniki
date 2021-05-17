@@ -7,14 +7,25 @@
  * @package Art_Hamovniki
  */
 
-$id               = get_the_ID();
-$picture_data     = get_post( $id );
-$picture_name     = get_the_title();
-$artist_id        = get_field( 'artist' );
-$artist           = get_post( $artist_id );
-$price            = get_field( 'price' );
-$manager_price    = get_field( 'manager_price' );
-$formatted_price  = ! empty( $manager_price ) ? $manager_price : number_format( $price ) . ' ₽';
+global $current_user;
+$user_roles = $current_user->roles;
+
+$id                           = get_the_ID();
+$picture_data                 = get_post( $id );
+$picture_name                 = get_the_title();
+$artist_id                    = get_field( 'artist' );
+$artist                       = get_post( $artist_id );
+$price                        = get_field( 'price' );
+$our_price_in_catalog         = get_field( 'our_price_in_catalog' );
+$our_price_in_partner_catalog = get_field( 'our_price_in_partner_catalog' );
+$formatted_price = ! empty( $our_price_in_catalog ) ? $our_price_in_catalog : number_format( $price ) . ' ₽';
+
+if ( ! empty( $user_roles ) ) {
+	if ( in_array( 'um_partner', $user_roles ) ) {
+		$formatted_price = ! empty( $our_price_in_partner_catalog ) ? $our_price_in_partner_catalog : number_format( $price ) . ' ₽';
+	}
+}
+
 $images           = get_field( 'images' );
 $year             = get_field( 'year' );
 $length           = get_field( 'length' );
@@ -29,10 +40,13 @@ foreach ( $categories as $category ) {
 $manager_description = get_field( 'manager_description' );
 
 $images_url_array = [];
-foreach ( $images as $image_id ) {
-	$url = wp_get_attachment_image_url( $image_id, 'full' );
-	array_push( $images_url_array, $url );
+if ( ! empty( $images ) ) {
+	foreach ( $images as $image_id ) {
+		$url = wp_get_attachment_image_url( $image_id, 'full' );
+		array_push( $images_url_array, $url );
+	}
 }
+
 
 $owner            = get_user_by( 'ID', $picture_data->post_author );
 $show_owner_link  = get_user_meta( $picture_data->post_author, 'show_owner_link', true );
@@ -54,7 +68,7 @@ $owner_modal_info = get_user_meta( $picture_data->post_author, 'owner_modal_info
                     </div>
                 </div>
                 <div class="gallery">
-	                <?php get_template_part('template-parts/favorite-button'); ?>
+					<?php get_template_part( 'template-parts/favorite-button' ); ?>
                     <div class="gallery__images">
 						<?php foreach ( $images_url_array as $url ): ?>
                             <a href="<?php echo $url; ?>" data-fancybox="images" class="gallery__images-item">

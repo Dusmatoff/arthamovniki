@@ -72,6 +72,9 @@ function add_picture() {
 			}
 
 			add_post_meta( $post_id, 'price', $_POST['price'] );
+			add_post_meta( $post_id, 'our_price_in_catalog', $_POST['price'] );
+			add_post_meta( $post_id, 'our_price_in_partner_catalog', $_POST['price'] );
+			add_post_meta( $post_id, 'our_price_in_filter', $_POST['price'] );
 			add_post_meta( $post_id, 'year', $_POST['year'] );
 			add_post_meta( $post_id, 'width', $_POST['width'] );
 			add_post_meta( $post_id, 'length', $_POST['length'] );
