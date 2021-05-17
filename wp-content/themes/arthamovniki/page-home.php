@@ -8,6 +8,7 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
+global $current_user;
 global $is_partner;
 
 $title    = get_field( 'title' );
@@ -20,6 +21,32 @@ $popup_text  = get_field( 'popup_text' );
 $pictures_gallery   = get_field( 'pictures_gallery' );
 $pictures_recommend = get_field( 'pictures_recommend' );
 $pictures_sea       = get_field( 'pictures_sea' );
+
+function generate_wp_query($count, $post_in, $user_roles) {
+	$args = [
+		'post_type'      => 'picture',
+		'posts_per_page' => $count,
+		'post_in'        => [ $post_in ],
+	];
+
+	if ( ! empty( $user_roles ) ) {
+		if ( in_array( 'um_partner', $user_roles ) ) {
+			$args['meta_query'] = [
+				'relation' => 'AND',
+				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
+				[ 'key' => 'is_active', 'value' => '1' ],
+			];
+		}
+	} else {
+		$args['meta_query'] = [
+			'relation' => 'AND',
+			[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
+			[ 'key' => 'is_active', 'value' => '1' ],
+		];
+	}
+
+	return new WP_Query( $args );
+}
 ?>
     <div class="main-section">
         <div class="container">
@@ -68,13 +95,7 @@ $pictures_sea       = get_field( 'pictures_sea' );
                     <div class="product-cards">
                         <div class="row">
 							<?php
-							$args = [
-								'post_type'      => 'picture',
-								'posts_per_page' => 6,
-								'post_in'        => [ $pictures_gallery ],
-							];
-
-							$query = new WP_Query( $args );
+							$query = generate_wp_query(6, $pictures_gallery, $current_user->roles);
 							$index = 0;
 
 							while ( $query->have_posts() ):
@@ -127,13 +148,7 @@ $pictures_sea       = get_field( 'pictures_sea' );
                     <div class="product-cards">
                         <div class="row">
 							<?php
-							$args = [
-								'post_type'      => 'picture',
-								'posts_per_page' => 5,
-								'post_in'        => [ $pictures_recommend ],
-							];
-
-							$query = new WP_Query( $args );
+							$query = generate_wp_query(5, $pictures_recommend, $current_user->roles);
 							$index = 0;
 
 							while ( $query->have_posts() ):
@@ -179,13 +194,7 @@ $pictures_sea       = get_field( 'pictures_sea' );
                     <div class="product-cards">
                         <div class="row">
 							<?php
-							$args = [
-								'post_type'      => 'picture',
-								'posts_per_page' => 6,
-								'post_in'        => [ $pictures_sea ],
-							];
-
-							$query = new WP_Query( $args );
+							$query = generate_wp_query(6, $pictures_sea, $current_user->roles);
 							$index = 0;
 
 							while ( $query->have_posts() ):

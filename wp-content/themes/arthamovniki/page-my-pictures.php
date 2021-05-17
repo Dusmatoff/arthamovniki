@@ -221,42 +221,6 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
         var deleteId = null;
         var statusChangeId = null;
 
-        window.addEventListener('DOMContentLoaded', (event) => {
-            //Form submit
-            $('#change_password_form').validate({
-                errorElement: 'em',
-                submitHandler: function (form) {
-                    let formData = new FormData;
-                    formData.append('current_password', $('input[name=current_password]').val());
-                    formData.append('new_password', $('input[name=new_password]').val());
-                    formData.append('confirm_password', $('input[name=confirm_password]').val());
-                    formData.append('user_id', $('input[name=user_id]').val());
-                    formData.append('nonce', $('input[name=change_password_nonce]').val());
-
-                    const formStatus = $('#form-status');
-
-                    $.ajax({
-                        url: '/wp-admin/admin-ajax.php?action=change_password',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        cache: false,
-                        type: 'POST',
-                        beforeSend: function () {
-                            formStatus.text('Отправка...');
-                        },
-                        success: function (jqXHR) {
-                            formStatus.text('Новый пароль сохранен');
-                            location.reload();
-                        },
-                        error: function (jqXHR) {
-                            formStatus.text(jqXHR.responseJSON.result);
-                        },
-                    });
-                }
-            });
-        });
-
         function deletePicture() {
             const deleteNonce = $('#delete_picture_nonce').val();
 

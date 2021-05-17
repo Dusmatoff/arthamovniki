@@ -8,7 +8,7 @@
  */
 global $current_user;
 global $is_partner;
-$is_partner = is_current_user_partner($current_user);
+$is_partner = is_current_user_partner( $current_user );
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
@@ -148,7 +148,6 @@ add_action( 'widgets_init', 'arthamovniki_widgets_init' );
 function arthamovniki_scripts() {
 	wp_enqueue_style( 'arthamovniki-main-style', get_stylesheet_directory_uri() . '/css/main.min.css', array(), _S_VERSION );
 	wp_enqueue_style( 'arthamovniki-style', get_stylesheet_uri(), array(), _S_VERSION );
-	wp_enqueue_style( 'chosen-css', get_template_directory_uri() . '/css/chosen.css' );
 	//wp_enqueue_style( 'image-uploader-css', get_template_directory_uri() . '/css/image-uploader.min.css' );
 	//wp_style_add_data( 'arthamovniki-style', 'rtl', 'replace' );
 
@@ -163,12 +162,30 @@ function arthamovniki_scripts() {
 	}
 	wp_enqueue_script( 'arthamovniki-jquery', get_template_directory_uri() . '/js/jquery-3.4.1.min.js', [], '3.4.1', true );
 	wp_enqueue_script( 'arthamovniki-plugins', get_template_directory_uri() . '/js/plugins.min.js', [], _S_VERSION, true );
-	wp_enqueue_script( 'arthamovniki-image-uploader', get_template_directory_uri() . '/js/image-uploader.min.js', [], _S_VERSION, true );
 	wp_enqueue_script( 'arthamovniki-main-js', get_template_directory_uri() . '/js/main.min.js', [], _S_VERSION, true );
-	wp_enqueue_script( 'jquery-validate', get_template_directory_uri() . '/js/jquery.validate.min.js', [ 'arthamovniki-jquery' ], '1.19.2', true );
-	wp_enqueue_script( 'jquery-validate-additional-methods', get_template_directory_uri() . '/js/additional-methods.min.js', [ 'arthamovniki-jquery' ], '1.19.2', true );
-	wp_enqueue_script( 'jquery-validation-messages', get_template_directory_uri() . '/js/jquery-validation-messages.js', [ 'jquery-validate' ], '1', true );
-	wp_enqueue_script( 'chosen-script', get_template_directory_uri() . '/js/chosen.jquery.min.js', [ 'arthamovniki-jquery' ], '1.8.7', true );
+
+	if ( is_page_template( 'page-account.php' ) || is_page_template( 'page-add-picture.php' ) || is_page_template( 'page-change-password.php' ) || is_page_template( 'page-edit-picture.php' ) ) {
+		wp_enqueue_script( 'jquery-validate', get_template_directory_uri() . '/js/jquery.validate.min.js', [ 'arthamovniki-jquery' ], '1.19.2', true );
+		wp_enqueue_script( 'jquery-validate-additional-methods', get_template_directory_uri() . '/js/additional-methods.min.js', [ 'arthamovniki-jquery' ], '1.19.2', true );
+		wp_enqueue_script( 'jquery-validation-messages', get_template_directory_uri() . '/js/jquery-validation-messages.js', [ 'jquery-validate' ], '1', true );
+	}
+
+	if ( is_page_template( 'page-add-picture.php' ) || is_page_template( 'page-edit-picture.php' ) ) {
+		wp_enqueue_script( 'chosen-script', get_template_directory_uri() . '/js/chosen.jquery.min.js', [ 'arthamovniki-jquery' ], '1.8.7', true );
+		wp_enqueue_style( 'chosen-css', get_template_directory_uri() . '/css/chosen.css' );
+
+		wp_enqueue_script( 'jquery-ui', get_template_directory_uri() . '/js/jquery.ui.widget.js', [ 'arthamovniki-jquery' ], '1.12.1', true );
+		wp_enqueue_style( 'jquery-fileupload-css', get_template_directory_uri() . '/css/jquery.fileupload.css' );
+		wp_enqueue_style( 'jquery-fileupload-ui-css', get_template_directory_uri() . '/css/jquery.fileupload-ui.css' );
+		wp_enqueue_script( 'tmpl', get_template_directory_uri() . '/js/tmpl.min.js', [ 'arthamovniki-jquery' ], '1' );
+		wp_enqueue_script( 'load-image-all', get_template_directory_uri() . '/js/load-image.all.min.js', [ 'arthamovniki-jquery' ], '1', true );
+		wp_enqueue_script( 'jquery-fileupload', get_template_directory_uri() . '/js/jquery.fileupload.js', [ 'arthamovniki-jquery' ], '1', true );
+		wp_enqueue_script( 'jquery-fileupload-process', get_template_directory_uri() . '/js/jquery.fileupload-process.js', [ 'arthamovniki-jquery' ], '1', true );
+		wp_enqueue_script( 'jquery-fileupload-image', get_template_directory_uri() . '/js/jquery.fileupload-image.js', [ 'arthamovniki-jquery' ], '1', true );
+		//wp_enqueue_script( 'jquery-fileupload-video', get_template_directory_uri() . '/js/jquery.fileupload-video.js', [ 'arthamovniki-jquery' ], '1', true );
+		wp_enqueue_script( 'jquery-fileupload-validate', get_template_directory_uri() . '/js/jquery.fileupload-validate.js', [ 'arthamovniki-jquery' ], '1', true );
+		wp_enqueue_script( 'jquery-fileupload-ui', get_template_directory_uri() . '/js/jquery.fileupload-ui.js', [ 'arthamovniki-jquery' ], '1', true );
+	}
 
 	wp_enqueue_script( 'picture-favorite', get_stylesheet_directory_uri() . '/js/pictureFavorite.js', [], _S_VERSION, true );
 
@@ -295,10 +312,10 @@ function custom_pagination( $pages = '', $range = 2 ) {
 	}
 }
 
-function is_current_user_partner($user = null) {
-	if (!$user){
+function is_current_user_partner( $user = null ) {
+	if ( ! $user ) {
 		$user = wp_get_current_user();
 	}
 
-	return in_array('um_partner', $user->roles);
+	return in_array( 'um_partner', $user->roles );
 }

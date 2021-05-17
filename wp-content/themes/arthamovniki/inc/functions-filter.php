@@ -28,7 +28,7 @@ function render_term_checkboxes( $termName ) {
 function filter_picture_archive_query( $query ) {
 	global $current_user;
 
-	if ( $query->is_main_query() && is_post_type_archive( 'picture' ) ) {
+	if ( $query->is_main_query() && is_post_type_archive( 'picture' ) && !is_admin() ) {
 		$args  = [
 			'meta_query' => (array) $query->get( 'meta_query' ),
 		];
@@ -88,19 +88,28 @@ function get_products_meta_filter( $args, $price, $size, $user_roles ) {
 			$meta_query[] = [ 'key' => 'our_price_in_filter', 'value' => [ '' ], 'compare' => 'NOT IN' ];
 		} else {
 			if ( $price == '50000' ) {
-				$meta_query[] = [ 'key' => 'our_price_in_filter', 'value' => $price, 'compare' => '<=', 'type' => 'numeric' ];
-			}
-
-			if ( $price == '100000' ) {
-				$meta_query[] = [ 'key'     => 'price',
-				                  'value'   => [ '50000', '100000' ],
-				                  'compare' => 'BETWEEN',
+				$meta_query[] = [ 'key'     => 'our_price_in_filter',
+				                  'value'   => $price,
+				                  'compare' => '<=',
 				                  'type'    => 'numeric'
 				];
 			}
 
+			if ( $price == '100000' ) {
+				$meta_query[] = [
+					'key'     => 'price',
+					'value'   => [ '50000', '100000' ],
+					'compare' => 'BETWEEN',
+					'type'    => 'numeric'
+				];
+			}
+
 			if ( $price == '301000' ) {
-				$meta_query[] = [ 'key' => 'our_price_in_filter', 'value' => '300000', 'compare' => '>=', 'type' => 'numeric' ];
+				$meta_query[] = [ 'key'     => 'our_price_in_filter',
+				                  'value'   => '300000',
+				                  'compare' => '>=',
+				                  'type'    => 'numeric'
+				];
 			}
 		}
 	}
@@ -149,24 +158,26 @@ function get_products_meta_filter( $args, $price, $size, $user_roles ) {
 		}
 	}
 
-	if ( !empty($user_roles) ) {
-        if (in_array('um_partner', $user_roles)){
-	        $meta_query[] = [
-		        'relation' => 'AND',
-		        [ 'key' => 'who_can_see', 'value' => ['partners', 'everyone'], 'compare' => 'IN' ],
-	        ];
-        }
-	}else{
+	if ( ! empty( $user_roles ) ) {
+		if ( in_array( 'um_partner', $user_roles ) ) {
+			$meta_query[] = [
+				'relation' => 'AND',
+				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
+				[ 'key' => 'is_active', 'value' => '1' ],
+			];
+		}
+	} else {
 		$meta_query[] = [
 			'relation' => 'AND',
 			[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
+			[ 'key' => 'is_active', 'value' => '1' ],
 		];
-    }
+	}
 
 	//Only active pictures
 	$meta_query[] = [
 		'relation' => 'AND',
-		[ 'key' => 'is_active', 'value' => '1'],
+		[ 'key' => 'is_active', 'value' => '1' ],
 	];
 
 	if ( count( $meta_query ) ) {

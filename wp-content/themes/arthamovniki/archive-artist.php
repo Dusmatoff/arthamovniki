@@ -32,6 +32,7 @@ get_header();
 								the_post();
 								get_template_part( 'loop-templates/content-loop', 'artist' );
 							endwhile;
+							custom_pagination();
 							wp_reset_postdata();
 							?>
                         </div>

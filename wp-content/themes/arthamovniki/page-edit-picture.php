@@ -19,6 +19,7 @@ get_header();
 
 $user_id      = $current_user->ID;
 $picture_data = get_post( $picture_id );
+$images       = get_field( 'images', $picture_id );
 $artist_id    = get_field( 'artist', $picture_id );
 $price        = get_field( 'price', $picture_id );
 $year         = get_field( 'year', $picture_id );
@@ -60,6 +61,9 @@ foreach ( $picture_techniques as $technique ) {
 }
 
 $owner_description = get_field( 'owner_description', $picture_id );
+
+$photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
+$photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
 ?>
     <style>
         .chosen-container {
@@ -85,9 +89,8 @@ $owner_description = get_field( 'owner_description', $picture_id );
                             <div class="form__field-label">Изображения картины*</div>
                             <!--<div class="input-images"></div>-->
 
-                            <div class="upload-field">
+                            <!--<div class="upload-field">
                                 <div class="upload-field__results">
-
                                 </div>
                                 <div class="upload-field__footer">
                                     <label for="files" class="upload">
@@ -98,7 +101,53 @@ $owner_description = get_field( 'owner_description', $picture_id );
                                         </div>
                                     </label>
                                 </div>
+                            </div>-->
+
+                            <div id="photo-upload">
+                                <span class="btn btn--full fileinput-button">
+                                    <span>Добавить изображения</span>
+                                    <input type="file" name="photo" multiple accept="image/*"/>
+                                </span>
+                                <div role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div style="width: 0%;"></div>
+                                </div>
+                                <div class="progress-extended">&nbsp;</div>
+                                <table role="presentation" class="table table-striped" style="width: 100%">
+                                    <tbody class="files memorial-block__loading-block">
+									<?php if ( ! empty( $images ) ): foreach ( $images as $item ):
+										$attachment_url = wp_get_attachment_url( $item );
+										$attached_file = get_attached_file( $item );
+										$file_name = basename( $attached_file );
+										$file_size = filesize( $attached_file );
+										?>
+                                        <tr class="template-download fade image in memorial-block__upload-card-block">
+                                            <td class="memorial-block__upload-card-photo">
+                                                <img src="<?php echo $attachment_url; ?>" style="max-width: 150px;">
+                                            </td>
+                                            <td class="memorial-block__upload-card-name">
+												<?php echo $file_name; ?>
+                                            </td>
+                                            <td class="memorial-block__upload-card-size">
+												<?php echo round( $file_size / 1024 ); ?> KB
+                                            </td>
+                                            <td>
+                                                <a href="javascript:;"
+                                                   class="memorial-block__upload-delete-link delete"
+                                                   data-type="DELETE"
+                                                   data-url="/wp-admin/admin-ajax.php?action=photo_delete&id=<?php echo $item; ?>&nonce=<?php echo $photo_delete_nonce; ?>"
+                                                >
+                                                    <span>Удалить</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+									<?php endforeach; endif; ?>
+                                    </tbody>
+                                </table>
+                                <table role="presentation" class="table table-striped" style="width: 100%">
+                                    <tbody class="files memorial-block__loading-block"></tbody>
+                                </table>
                             </div>
+							<?php require_once 'inc/fileupload-templates.php'; ?>
 
                         </div>
                         <div class="form__row">
@@ -301,23 +350,48 @@ $owner_description = get_field( 'owner_description', $picture_id );
         window.addEventListener('DOMContentLoaded', (event) => {
             $('.chosen-select').chosen({no_results_text: 'Ничего не найдено'});
 
+            //Images
+            let photoJson = <?php echo json_encode( $images ) ?>;
+            window.uploadedPhotosId = photoJson ? photoJson.reduce((acc, curr) => (acc[curr] = curr, acc), {}) : [];
+            let photoUpload = $('#photo-upload');
+            photoUpload.fileupload({
+                url: '/wp-admin/admin-ajax.php?action=photo_upload&photo_upload_nonce=<?php echo $photo_upload_nonce; ?>',
+                maxFileSize: 10485760,// 10 MB
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                autoUpload: true,
+                maxNumberOfFiles: 10,
+            });
+            photoUpload.on('fileuploaddone', function (e, data) {
+                let postId = data.result.files[0].postId;
+                window.uploadedPhotosId[postId] = postId;
+            }).on('fileuploaddestroyed', function (e, data) {
+                    let url = data.url;
+                    let urlArray = url.split('&');
+                    let id = urlArray[1].split('=');
+                    delete window.uploadedPhotosId[id[1]];
+                }
+            ).on('fileuploaddestroy', function (e, data) {
+                    return confirm('Действительно хотите удалить это изображение?');
+                }
+            );
+
             //Form submit
             $('#edit_picture_form').validate({
                 errorElement: 'em',
                 submitHandler: function (form) {
                     //const images = $('.image-uploader input')[0].files;
-                    const images = $('#files')[0].files;
+                    //const images = $('#files')[0].files;
                     const price = $('input[name=price]').val();
                     const pictureName = $('input[name=picture_name]').val();
 
-                    if (images.length > 0 && price !== '' && pictureName !== '') {
+                    if (price !== '' && pictureName !== '') {
                         let formData = new FormData;
 
-                        $.each($('#files'), function (i, obj) {
+                        /*$.each($('#files'), function (i, obj) {
                             $.each(obj.files, function (j, file) {
                                 formData.append('images' + j, file);
                             })
-                        });
+                        });*/
 
                         formData.append('who_can_see', $('input[name=who_can_see]:checked').val());
                         formData.append('price', price);
@@ -332,6 +406,7 @@ $owner_description = get_field( 'owner_description', $picture_id );
                         formData.append('picture_id', $('input[name=picture_id]').val());
                         formData.append('user_id', $('input[name=user_id]').val());
                         formData.append('edit_picture_nonce', $('input[name=edit_picture_nonce]').val());
+                        formData.append('images', Object.keys(window.uploadedPhotosId).join());
 
                         const formStatus = $('#form-status');
 

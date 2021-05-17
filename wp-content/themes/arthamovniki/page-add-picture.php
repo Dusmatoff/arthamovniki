@@ -35,6 +35,8 @@ $artists = get_posts(
 $picture_categories = get_terms( [ 'taxonomy' => 'picture_category', 'hide_empty' => false ] );
 $picture_subjects   = get_terms( [ 'taxonomy' => 'picture_subject', 'hide_empty' => false ] );
 $picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empty' => false ] );
+
+$photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
 ?>
     <style>
         .chosen-container {
@@ -73,7 +75,7 @@ $picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empt
                                         <div class="form__field-label">Изображения картины*</div>
                                         <!--<div class="input-images"></div>-->
 
-                                        <div class="upload-field">
+                                        <!--<div class="upload-field">
                                             <div class="upload-field__results">
 
                                             </div>
@@ -86,7 +88,22 @@ $picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empt
                                                     </div>
                                                 </label>
                                             </div>
+                                        </div>-->
+
+                                        <div id="photo-upload">
+                                            <span class="btn btn--full fileinput-button">
+                                                <span>Добавить изображения</span>
+                                                <input type="file" name="photo" multiple accept="image/*" required/>
+                                            </span>
+                                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                                <div style="width: 0%;"></div>
+                                            </div>
+                                            <div class="progress-extended">&nbsp;</div>
+                                            <table role="presentation" class="table table-striped" style="width: 100%">
+                                                <tbody class="files memorial-block__loading-block"></tbody>
+                                            </table>
                                         </div>
+										<?php require_once 'inc/fileupload-templates.php'; ?>
 
                                     </div>
                                     <div class="form__row">
@@ -443,23 +460,46 @@ $picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empt
         window.addEventListener('DOMContentLoaded', (event) => {
             $('.chosen-select').chosen({no_results_text: 'Ничего не найдено'});
 
+            //Photo/Video upload
+            window.uploadedPhotosId = {};
+            let photoUpload = $('#photo-upload');
+            photoUpload.fileupload({
+                url: '/wp-admin/admin-ajax.php?action=photo_upload&photo_upload_nonce=<?php echo $photo_upload_nonce; ?>',
+                maxFileSize: 10485760,// 10 MB
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                autoUpload: true,
+                maxNumberOfFiles: 10,
+            });
+            photoUpload.on('fileuploaddone', function (e, data) {
+                let postId = data.result.files[0].postId;
+                window.uploadedPhotosId[postId] = postId;
+            }).on('fileuploaddestroyed', function (e, data) {
+                    let url = data.url;
+                    let urlArray = url.split('&');
+                    let id = urlArray[1].split('=');
+                    delete window.uploadedPhotosId[id[1]];
+                }
+            ).on('fileuploaddestroy', function (e, data) {
+                    return confirm('Действительно хотите удалить это изображение?');
+                }
+            );
+
             //Form submit
             $('#add_picture_form').validate({
                 errorElement: 'em',
                 submitHandler: function (form) {
-                    //const images = $('.image-uploader input')[0].files;
-                    const images = $('#files')[0].files;
+                    //const images = $('#files')[0].files;
                     const price = $('input[name=price]').val();
                     const pictureName = $('input[name=picture_name]').val();
 
-                    if (images.length > 0 && price !== '' && pictureName !== '') {
+                    if (price !== '' && pictureName !== '') {
                         let formData = new FormData;
 
-                        $.each($('#files'), function (i, obj) {
+                        /*$.each($('#files'), function (i, obj) {
                             $.each(obj.files, function (j, file) {
                                 formData.append('images' + j, file);
                             })
-                        });
+                        });*/
 
                         formData.append('who_can_see', $('input[name=who_can_see]:checked').val());
                         formData.append('artist', $('select[name=artist] option').filter(":selected").val());
@@ -479,6 +519,7 @@ $picture_techniques = get_terms( [ 'taxonomy' => 'picture_technique', 'hide_empt
                         formData.append('description', $('textarea[name=description]').val().trim());
                         formData.append('user_id', $('input[name=user_id]').val());
                         formData.append('add_picture_nonce', $('input[name=add_picture_nonce]').val());
+                        formData.append('images', Object.keys(window.uploadedPhotosId).join());
 
                         const formStatus = $('#form-status');
 

@@ -8,7 +8,7 @@ function add_picture() {
 		wp_send_json( [ 'result' => 'Bad nonce field' ], 400 );
 	}
 
-	if ( empty( $_FILES ) || empty( $_FILES['images0'] ) ) {
+	if ( empty( $_POST['images'] ) ) {
 		wp_send_json( [ 'result' => 'Добавьте фотографии' ], 400 );
 	}
 
@@ -16,10 +16,10 @@ function add_picture() {
 
 	try {
 		$post_data = [
-			'post_title'   => wp_strip_all_tags( $_POST['picture_name'] ),
-			'post_status'  => 'draft',
-			'post_author'  => $user_id,
-			'post_type'    => 'picture',
+			'post_title'  => wp_strip_all_tags( $_POST['picture_name'] ),
+			'post_status' => 'draft',
+			'post_author' => $user_id,
+			'post_type'   => 'picture',
 		];
 
 		$post_id = wp_insert_post( $post_data );
@@ -34,8 +34,8 @@ function add_picture() {
 			wp_set_object_terms( $post_id, $techniques, 'picture_technique' );
 
 			add_post_meta( $post_id, 'who_can_see', $_POST['who_can_see'] );
-			add_post_meta($post_id, 'owner_description', $_POST['description']);
-			add_post_meta($post_id, 'manager_description', $_POST['description']);
+			add_post_meta( $post_id, 'owner_description', $_POST['description'] );
+			add_post_meta( $post_id, 'manager_description', $_POST['description'] );
 
 			if ( ! empty( $_POST['artist_name'] ) ) {
 				//Add new artist
@@ -80,7 +80,14 @@ function add_picture() {
 			add_post_meta( $post_id, 'length', $_POST['length'] );
 
 			//Галерея
-			$images_array = [];
+			if ( ! empty( $_POST['images'] ) ) {
+				$images = explode( ',', $_POST['images'] );
+				if ( is_array( $images ) ) {
+					set_post_thumbnail( $post_id, $images[0] );
+					add_post_meta( $post_id, 'images', $images );
+				}
+			}
+			/*$images_array = [];
 			foreach ( $_FILES as $key => $value ) {
 				if ( $key != 'artist_picture' ) {
 					//Добавляем фотографии только для картины
@@ -97,7 +104,7 @@ function add_picture() {
 					array_push( $images_array, $attachment_id );
 				}
 			}
-			add_post_meta( $post_id, 'images', $images_array );
+			add_post_meta( $post_id, 'images', $images_array );*/
 		}
 
 		wp_send_json( [ 'result' => 'Картина добавлена' ], 200 );
@@ -119,7 +126,7 @@ function edit_picture() {
 		wp_send_json( [ 'result' => 'Bad nonce field' ], 400 );
 	}
 
-	if ( empty( $_FILES ) || empty( $_FILES['images0'] ) ) {
+	if ( empty( $_POST['images'] ) ) {
 		wp_send_json( [ 'result' => 'Добавьте фотографии' ], 400 );
 	}
 
@@ -128,8 +135,8 @@ function edit_picture() {
 
 	try {
 		$post_id = wp_update_post( [
-			'ID'           => $picture_id,
-			'post_title'   => wp_strip_all_tags( $_POST['picture_name'] ),
+			'ID'         => $picture_id,
+			'post_title' => wp_strip_all_tags( $_POST['picture_name'] ),
 		], true );
 
 
@@ -141,8 +148,7 @@ function edit_picture() {
 			wp_set_object_terms( $post_id, $subjects, 'picture_subject' );
 			wp_set_object_terms( $post_id, $techniques, 'picture_technique' );
 
-			update_post_meta($post_id, 'owner_description', $_POST['description']);
-			//update_post_meta($post_id, 'manager_description', $_POST['description']);
+			update_post_meta( $post_id, 'owner_description', $_POST['description'] );
 			update_post_meta( $post_id, 'who_can_see', $_POST['who_can_see'] );
 			update_post_meta( $post_id, 'price', $_POST['price'] );
 			update_post_meta( $post_id, 'year', $_POST['year'] );
@@ -150,7 +156,15 @@ function edit_picture() {
 			update_post_meta( $post_id, 'length', $_POST['length'] );
 
 			//Галерея
-			$images_array = [];
+			if ( ! empty( $_POST['images'] ) ) {
+				$images = explode( ',', $_POST['images'] );
+				if ( is_array( $images ) ) {
+					set_post_thumbnail( $post_id, $images[0] );
+					update_post_meta( $post_id, 'images', $images );
+				}
+			}
+
+			/*$images_array = [];
 			foreach ( $_FILES as $key => $value ) {
 				$attachment_id = media_handle_upload( $key, 0 );
 
@@ -164,7 +178,7 @@ function edit_picture() {
 
 				array_push( $images_array, $attachment_id );
 			}
-			update_post_meta( $post_id, 'images', $images_array );
+			update_post_meta( $post_id, 'images', $images_array );*/
 		}
 
 		wp_send_json( [ 'result' => 'Картина изменена' ], 200 );
@@ -258,6 +272,100 @@ function change_picture_visibility() {
 		wp_send_json( [ 'result' => $error->getMessage() ], 400 );
 	}
 }
+
 /****************************************************
  * AJAX Change picture visibility
+ *****************************************************/
+
+/****************************************************
+ * AJAX Photo upload/delete
+ *****************************************************/
+add_action( 'wp_ajax_photo_upload', 'photo_upload' );
+function photo_upload() {
+	if ( wp_verify_nonce( $_GET['photo_upload_nonce'], 'photo_upload_action' ) ) {
+		$upload        = wp_upload_bits( $_FILES['photo']['name'], null, file_get_contents( $_FILES['photo']['tmp_name'] ) );
+		$wp_filetype   = wp_check_filetype( basename( $upload['file'] ), null );
+		$wp_upload_dir = wp_upload_dir();
+
+		$attachment = [
+			'guid'           => $wp_upload_dir['baseurl'] . _wp_relative_upload_path( $upload['file'] ),
+			'post_mime_type' => $wp_filetype['type'],
+			'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $upload['file'] ) ),
+			'post_content'   => '',
+			'post_status'    => 'inherit'
+		];
+
+		$attach_id = wp_insert_attachment( $attachment, $upload['file'] );
+
+		if ( is_wp_error( $attach_id ) ) {
+			wp_send_json( [ 'result' => $attach_id ], 400 );
+		}
+
+		//add_unused_media_for_user( $_POST['user_id'], $attach_id );
+
+		$attach_data = wp_generate_attachment_metadata( $attach_id, $upload['file'] );
+
+		wp_update_attachment_metadata( $attach_id, $attach_data );
+
+		$thumbnail_url = $attach_data['sizes']['thumbnail'] ? $wp_upload_dir['url'] . '/' . $attach_data['sizes']['thumbnail']['file'] : $wp_upload_dir['baseurl'] . '/' . $attach_data['file'];
+		$nonce         = wp_create_nonce( 'photo_delete_nonce' );
+		$data          = [
+			'files' => [
+				0 => [
+					'thumbnailUrl' => $thumbnail_url,
+					'name'         => $attachment['post_title'] . '.' . $wp_filetype['ext'],
+					'url'          => $wp_upload_dir['baseurl'] . '/' . $attach_data['file'],
+					'deleteType'   => 'DELETE',
+					'type'         => 'image/jpeg',
+					'deleteUrl'    => "/wp-admin/admin-ajax.php?action=photo_delete&id=$attach_id&nonce=$nonce",
+					'size'         => filesize( get_attached_file( $attach_id ) ),
+					'postId'       => $attach_id,
+				]
+			]
+		];
+		wp_send_json( $data, 200 );
+
+	}
+
+	wp_send_json( [ 'result' => 'Bad nonce' ], 400 );
+}
+
+add_action( 'wp_ajax_photo_delete', 'photo_delete' );
+function photo_delete() {
+	if ( wp_verify_nonce( $_GET['nonce'], 'photo_delete_nonce' ) ) {
+		if ( false !== wp_delete_attachment( $_GET['id'], true ) ) {
+			wp_send_json( [ 'deletedId' => $_GET['id'] ], 200 );
+		}
+	}
+
+	wp_send_json( [ 'result' => 'Bad nonce' ], 400 );
+}
+
+function save_new_unused_media( $user_id, $media_array ) {
+	$unused_media = get_user_meta( $user_id, 'unused_media', true );
+
+	if ( is_array( $unused_media ) ) {
+		$new_unused_media = [];
+		foreach ( $unused_media as $id ) {
+			if ( ! in_array( $id, $media_array ) ) {
+				$new_unused_media[] = $id;
+			}
+		}
+
+		update_user_meta( $user_id, 'unused_media', $new_unused_media );
+	}
+}
+
+function add_unused_media_for_user( $user_id, $attach_id ) {
+	$unused_media = get_user_meta( $user_id, 'unused_media', true );
+
+	if ( $unused_media == '' ) {
+		update_user_meta( $user_id, 'unused_media', [ $attach_id ] );
+	} else {
+		$unused_media[] = $attach_id;
+		update_user_meta( $user_id, 'unused_media', $unused_media );
+	}
+}
+/****************************************************
+ * AJAX Photo delete/delete
  *****************************************************/
