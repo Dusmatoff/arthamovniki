@@ -246,7 +246,7 @@ $photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form__field-label">Длина, см*</div>
+                                    <div class="form__field-label">Высота, см*</div>
                                     <div class="form__field form__field--grey">
                                         <input type="number"
                                                min="1"
@@ -357,9 +357,14 @@ $photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
             photoUpload.fileupload({
                 url: '/wp-admin/admin-ajax.php?action=photo_upload&photo_upload_nonce=<?php echo $photo_upload_nonce; ?>',
                 maxFileSize: 10485760,// 10 MB
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png|tiff)$/i,
                 autoUpload: true,
                 maxNumberOfFiles: 10,
+                messages: {
+                    maxNumberOfFiles: 'Лимит файлов исчерпан',
+                    acceptFileTypes: 'Формат не подходит. Попробуйте другой файл',
+                    maxFileSize: 'Слишком большой размер. Попробуйте другой файл',
+                }
             });
             photoUpload.on('fileuploaddone', function (e, data) {
                 let postId = data.result.files[0].postId;

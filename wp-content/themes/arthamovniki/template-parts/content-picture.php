@@ -18,11 +18,11 @@ $artist                       = get_post( $artist_id );
 $price                        = get_field( 'price' );
 $our_price_in_catalog         = get_field( 'our_price_in_catalog' );
 $our_price_in_partner_catalog = get_field( 'our_price_in_partner_catalog' );
-$formatted_price = ! empty( $our_price_in_catalog ) ? $our_price_in_catalog : number_format( $price ) . ' ₽';
+$formatted_price = ! empty( $our_price_in_catalog ) ? $our_price_in_catalog : number_format( $price );
 
 if ( ! empty( $user_roles ) ) {
 	if ( in_array( 'um_partner', $user_roles ) ) {
-		$formatted_price = ! empty( $our_price_in_partner_catalog ) ? $our_price_in_partner_catalog : number_format( $price ) . ' ₽';
+		$formatted_price = ! empty( $our_price_in_partner_catalog ) ? $our_price_in_partner_catalog : number_format( $price );
 	}
 }
 
@@ -47,7 +47,6 @@ if ( ! empty( $images ) ) {
 	}
 }
 
-
 $owner            = get_user_by( 'ID', $picture_data->post_author );
 $show_owner_link  = get_user_meta( $picture_data->post_author, 'show_owner_link', true );
 $show_modal_info  = get_user_meta( $picture_data->post_author, 'show_modal_info', true );
@@ -64,7 +63,7 @@ $owner_modal_info = get_user_meta( $picture_data->post_author, 'owner_modal_info
 						<?php echo $picture_name; ?>
                     </h1>
                     <div class="product__price">
-						<?php echo $formatted_price; ?>
+						<?php echo $formatted_price; ?> ₽
                     </div>
                 </div>
                 <div class="gallery">
@@ -91,7 +90,7 @@ $owner_modal_info = get_user_meta( $picture_data->post_author, 'owner_modal_info
 						<?php echo $picture_name; ?>
                     </h1>
                     <div class="product__price">
-						<?php echo $formatted_price; ?>
+						<?php echo $formatted_price; ?> ₽
                     </div>
                 </div>
                 <ul class="product__info">
@@ -119,12 +118,12 @@ $owner_modal_info = get_user_meta( $picture_data->post_author, 'owner_modal_info
                             Размер
                         </div>
                         <div class="product__info-item-value">
-							<?php echo "$width*$length"; ?>
+							<?php echo "$width х $length см"; ?>
                         </div>
                     </li>
                     <li class="product__info-item">
                         <div class="product__info-item-title">
-                            Техника
+                            Материалы
                         </div>
                         <div class="product__info-item-value">
 							<?php echo implode( ', ', $categories_names ); ?>

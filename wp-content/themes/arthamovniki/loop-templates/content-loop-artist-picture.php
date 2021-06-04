@@ -61,12 +61,12 @@ $owner_modal_info = get_user_meta( $author_id, 'owner_modal_info', true );
                     Размер
                 </div>
                 <div class="catalog-card__info-item-value">
-					<?php echo "$width*$length"; ?>
+					<?php echo "$width х $length см"; ?>
                 </div>
             </li>
             <li class="catalog-card__info-item">
                 <div class="catalog-card__info-item-title">
-                    Техника
+                    Материалы
                 </div>
                 <div class="catalog-card__info-item-value">
 					<?php echo implode( ', ', $categories_names ); ?>

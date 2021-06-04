@@ -28,7 +28,7 @@ $artists = get_posts(
 	[
 		'post_type'      => 'artist',
 		'posts_per_page' => - 1,
-		'post_status'    => 'publish',
+		'post_status'    => 'any',
 	]
 );
 
@@ -302,8 +302,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                             <div class="col-md-4">
                                                 <div class="form__field-label">Год создания</div>
                                                 <div class="form__field form__field--grey">
-                                                    <input type="number"
-                                                           min="1"
+                                                    <input type="text"
                                                            name="year"
                                                            class="form__field-input"
                                                     >
@@ -321,7 +320,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="form__field-label">Длина, см*</div>
+                                                <div class="form__field-label">Высота, см*</div>
                                                 <div class="form__field form__field--grey">
                                                     <input type="number"
                                                            min="1"
@@ -466,9 +465,14 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
             photoUpload.fileupload({
                 url: '/wp-admin/admin-ajax.php?action=photo_upload&photo_upload_nonce=<?php echo $photo_upload_nonce; ?>',
                 maxFileSize: 10485760,// 10 MB
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png|tiff)$/i,
                 autoUpload: true,
                 maxNumberOfFiles: 10,
+                messages: {
+                    maxNumberOfFiles: 'Лимит файлов исчерпан',
+                    acceptFileTypes: 'Формат не подходит. Попробуйте другой файл',
+                    maxFileSize: 'Слишком большой размер. Попробуйте другой файл',
+                }
             });
             photoUpload.on('fileuploaddone', function (e, data) {
                 let postId = data.result.files[0].postId;

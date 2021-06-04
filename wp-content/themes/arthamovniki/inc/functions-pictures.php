@@ -137,6 +137,7 @@ function edit_picture() {
 		$post_id = wp_update_post( [
 			'ID'         => $picture_id,
 			'post_title' => wp_strip_all_tags( $_POST['picture_name'] ),
+			'post_status' => 'draft',
 		], true );
 
 
