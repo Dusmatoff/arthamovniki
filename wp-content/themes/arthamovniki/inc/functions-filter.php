@@ -82,6 +82,12 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 	$prices_array = [ '0', '50000', '100000', '301000' ];
 	$sizes_array  = [ '0', '50', '100' ];
 
+	//Only active pictures
+	$meta_query[] = [
+		'relation' => 'AND',
+		[ 'key' => 'is_active', 'value' => '1' ],
+	];
+
 	if ( isset( $price ) && in_array( $price, $prices_array ) ) {
 		if ( $price == 0 ) {
 			$meta_query[] = [ 'key' => 'our_price_in_filter', 'value' => [ '' ], 'compare' => 'NOT IN' ];
@@ -160,30 +166,33 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 	}
 
 	if ( ! empty( $user_roles ) ) {
+		//For admin and manager
+		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
+			$args['meta_query'] = $meta_query;
+
+			return $args;
+		}
+
+		//For partners
 		if ( in_array( 'um_partner', $user_roles ) ) {
 			$meta_query[] = [
 				'relation' => 'AND',
 				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
-				[ 'key' => 'is_active', 'value' => '1' ],
 			];
+
+			$args['meta_query'] = $meta_query;
+
+			return $args;
 		}
-	} else {
-		$meta_query[] = [
-			'relation' => 'AND',
-			[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
-			[ 'key' => 'is_active', 'value' => '1' ],
-		];
 	}
 
-	//Only active pictures
+	//For subscribers
 	$meta_query[] = [
 		'relation' => 'AND',
-		[ 'key' => 'is_active', 'value' => '1' ],
+		[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
 	];
 
-	if ( count( $meta_query ) ) {
-		$args['meta_query'] = $meta_query;
-	}
+	$args['meta_query'] = $meta_query;
 
 	return $args;
 }

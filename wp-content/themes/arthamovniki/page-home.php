@@ -22,31 +22,43 @@ $pictures_gallery   = get_field( 'pictures_gallery' );
 $pictures_recommend = get_field( 'pictures_recommend' );
 $pictures_sea       = get_field( 'pictures_sea' );
 
-function generate_wp_query($count, $post_in, $user_roles) {
+function generate_wp_query( $count, $post_in, $user_roles ) {
 	$args = [
 		'post_type'      => 'picture',
 		'posts_per_page' => $count,
-		'post__in'        => $post_in,
+		'post__in'       => $post_in,
+		'meta_query'     => [
+			'relation' => 'AND',
+			[ 'key' => 'is_active', 'value' => '1' ],
+		]
 	];
 
 	if ( ! empty( $user_roles ) ) {
+		//For admin and manager
+		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
+			return new WP_Query( $args );
+		}
+
+		//For partners
 		if ( in_array( 'um_partner', $user_roles ) ) {
 			$args['meta_query'] = [
 				'relation' => 'AND',
 				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
-				[ 'key' => 'is_active', 'value' => '1' ],
 			];
+
+			return new WP_Query( $args );
 		}
-	} else {
-		$args['meta_query'] = [
-			'relation' => 'AND',
-			[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
-			[ 'key' => 'is_active', 'value' => '1' ],
-		];
 	}
+
+	//For subscribers
+	$args['meta_query'] = [
+		'relation' => 'AND',
+		[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
+	];
 
 	return new WP_Query( $args );
 }
+
 ?>
     <div class="main-section">
         <div class="container">
@@ -95,7 +107,7 @@ function generate_wp_query($count, $post_in, $user_roles) {
                     <div class="product-cards">
                         <div class="row">
 							<?php
-							$query = generate_wp_query(6, $pictures_gallery, $current_user->roles);
+							$query = generate_wp_query( 6, $pictures_gallery, $current_user->roles );
 							$index = 0;
 
 							while ( $query->have_posts() ):
@@ -148,7 +160,7 @@ function generate_wp_query($count, $post_in, $user_roles) {
                     <div class="product-cards">
                         <div class="row">
 							<?php
-							$query = generate_wp_query(5, $pictures_recommend, $current_user->roles);
+							$query = generate_wp_query( 5, $pictures_recommend, $current_user->roles );
 							$index = 0;
 
 							while ( $query->have_posts() ):
@@ -194,7 +206,7 @@ function generate_wp_query($count, $post_in, $user_roles) {
                     <div class="product-cards">
                         <div class="row">
 							<?php
-							$query = generate_wp_query(6, $pictures_sea, $current_user->roles);
+							$query = generate_wp_query( 6, $pictures_sea, $current_user->roles );
 							$index = 0;
 
 							while ( $query->have_posts() ):

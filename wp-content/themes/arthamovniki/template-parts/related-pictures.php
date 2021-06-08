@@ -1,32 +1,45 @@
 <?php
+
 global $current_user;
+
 $user_roles = $current_user->roles;
 
-$args = [
-	'post_type'      => 'picture',
-	'posts_per_page' => 6,
-	'post_status'    => 'publish',
-	'orderby'        => 'rand',
-	'post__not_in'   => [ $post->ID ],
-];
+function generate_related_query( $count, $post_not_in, $user_roles ) {
+	$args = [
+		'post_type'      => 'picture',
+		'posts_per_page' => $count,
+		'post_status'    => 'publish',
+		'orderby'        => 'rand',
+		'post__not_in'   => [ $post_not_in ],
+	];
 
-if ( ! empty( $user_roles ) ) {
-	if ( in_array( 'um_partner', $user_roles ) ) {
-		$args['meta_query'] = [
-			'relation' => 'AND',
-			[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
-			[ 'key' => 'is_active', 'value' => '1' ],
-		];
+	if ( ! empty( $user_roles ) ) {
+		//For admin and manager
+		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
+			return new WP_Query( $args );
+		}
+
+		//For partners
+		if ( in_array( 'um_partner', $user_roles ) ) {
+			$args['meta_query'] = [
+				'relation' => 'AND',
+				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
+			];
+
+			return new WP_Query( $args );
+		}
 	}
-} else {
+
+	//For subscribers
 	$args['meta_query'] = [
 		'relation' => 'AND',
 		[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
-		[ 'key' => 'is_active', 'value' => '1' ],
 	];
+
+	return new WP_Query( $args );
 }
 
-$query = new WP_Query( $args );
+$query = generate_related_query( 6, $post->ID, $current_user->roles );
 ?>
 <section class="section section--grey">
     <div class="container">

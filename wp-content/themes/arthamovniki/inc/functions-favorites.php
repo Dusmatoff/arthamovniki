@@ -19,7 +19,7 @@ function add_to_favorites( $postId, $userId ) {
 		if ( ! isset( $_COOKIE['hamovniki_fav'] ) ) {
 			setcookie( 'hamovniki_fav', json_encode( [ $postId ] ), strtotime( '+1 year' ), '/', $_SERVER['HTTP_HOST'] );
 		} else {
-			$old_favorites = json_decode( $_COOKIE['hamovniki_fav'], true );
+			$old_favorites   = json_decode( $_COOKIE['hamovniki_fav'], true );
 			$old_favorites[] = $postId;
 			setcookie( 'hamovniki_fav', json_encode( $old_favorites ), strtotime( '+1 year' ), '/', $_SERVER['HTTP_HOST'] );
 		}
@@ -52,17 +52,15 @@ function delete_from_favorites( $postId, $userId ) {
 }
 
 function get_favorites( $userId ) {
-	$favorites = [];
-
 	if ( $userId == '0' ) {
-		if (isset($_COOKIE['hamovniki_fav'])){
-			$favorites = json_decode( $_COOKIE['hamovniki_fav'] );
+		if ( isset( $_COOKIE['hamovniki_fav'] ) ) {
+			return json_decode( $_COOKIE['hamovniki_fav'] );
 		}
-	} else {
-		$favorites = get_user_meta( $userId, 'favorite_pictures', true );
 	}
 
-	return $favorites;
+	$favorites = get_user_meta( $userId, 'favorite_pictures', true );
+
+	return $favorites == '' ? [] : $favorites;
 }
 
 function picture_in_favorites( $postId, $userId ) {

@@ -10,6 +10,54 @@
 $id                 = get_the_ID();
 $artist_birth_death = get_field( 'artist_birth_death' );
 $artist_address     = get_field( 'artist_address' );
+
+function generate_artist_pictures_query( $artist_id ) {
+	global $current_user;
+	$user_roles = $current_user->roles;
+
+	$args = [
+		'post_type'      => 'picture',
+		'posts_per_page' => - 1,
+		'post_status'    => 'publish',
+		'meta_query'     => [
+			'relation' => 'AND',
+			[
+				'key'   => 'is_active',
+				'value' => 1
+			],
+			[
+				'key'   => 'artist',
+				'value' => $artist_id
+			],
+		]
+	];
+
+	if ( ! empty( $user_roles ) ) {
+		//For admin and manager
+		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
+			return new WP_Query( $args );
+		}
+
+		//For partners
+		if ( in_array( 'um_partner', $user_roles ) ) {
+			$args['meta_query'] = [
+				'relation' => 'AND',
+				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
+			];
+
+			return new WP_Query( $args );
+		}
+	}
+
+	//For subscribers
+	$args['meta_query'] = [
+		'relation' => 'AND',
+		[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
+	];
+
+	return new WP_Query( $args );
+}
+
 ?>
 
 <section class="section-first product">
@@ -48,24 +96,7 @@ $artist_address     = get_field( 'artist_address' );
 
                 <div class="catalog-cards catalog-cards--middle">
 					<?php
-					$args = [
-						'post_type'      => 'picture',
-						'posts_per_page' => - 1,
-						'post_status'    => 'publish',
-						'meta_query'     => [
-							'relation' => 'AND',
-							[
-								'key'   => 'is_active',
-								'value' => 1
-							],
-							[
-								'key'   => 'artist',
-								'value' => $id
-							],
-						]
-					];
-
-					$query = new WP_Query( $args );
+					$query = generate_artist_pictures_query($id);
 
 					while ( $query->have_posts() ) {
 						$query->the_post();
