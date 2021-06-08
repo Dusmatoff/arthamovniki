@@ -64,9 +64,13 @@ $owner_text     = get_user_meta( $owner_id, 'owner_text', true );
 							'posts_per_page' => - 1,
 							'post_status'    => 'publish',
 							'author'         => $owner_id,
+							'meta_query' => [
+								'relation' => 'AND',
+								[ 'key' => 'is_active', 'value' => '1' ],
+                            ]
 						];
 
-						if ( ! empty( $user_roles ) ) {
+						/*if ( ! empty( $user_roles ) ) {
 							if ( in_array( 'um_partner', $user_roles ) ) {
 								$args['meta_query'] = [
 									'relation' => 'AND',
@@ -83,7 +87,7 @@ $owner_text     = get_user_meta( $owner_id, 'owner_text', true );
 								[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
 								[ 'key' => 'is_active', 'value' => '1' ],
 							];
-						}
+						}*/
 
 						$query = new WP_Query( $args );
 
