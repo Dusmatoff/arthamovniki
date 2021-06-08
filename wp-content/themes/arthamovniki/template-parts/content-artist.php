@@ -7,11 +7,11 @@
  * @package Art_Hamovniki
  */
 
-$id                 = get_the_ID();
+$artist_id          = get_the_ID();
 $artist_birth_death = get_field( 'artist_birth_death' );
 $artist_address     = get_field( 'artist_address' );
 
-function generate_artist_pictures_query( $artist_id ) {
+function generate_artist_pictures_query() {
 	global $current_user;
 	$user_roles = $current_user->roles;
 
@@ -24,11 +24,7 @@ function generate_artist_pictures_query( $artist_id ) {
 			[
 				'key'   => 'is_active',
 				'value' => 1
-			],
-			[
-				'key'   => 'artist',
-				'value' => $artist_id
-			],
+			]
 		]
 	];
 
@@ -96,11 +92,14 @@ function generate_artist_pictures_query( $artist_id ) {
 
                 <div class="catalog-cards catalog-cards--middle">
 					<?php
-					$query = generate_artist_pictures_query($id);
+					$query = generate_artist_pictures_query();
 
 					while ( $query->have_posts() ) {
 						$query->the_post();
-						get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+						$picture_artist_id = get_field( 'artist', get_the_ID() );
+						if ( $picture_artist_id == $artist_id ) {
+							get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+						}
 					}
 					wp_reset_postdata();
 					?>
