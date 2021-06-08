@@ -37,7 +37,6 @@ function filter_picture_archive_query( $query ) {
 		$args  = get_products_meta_filter( $args, $price, $size, $current_user->roles );
 		$query->set( 'meta_query', $args['meta_query'] );
 	}
-
 }
 
 add_action( 'pre_get_posts', 'filter_picture_archive_query' );

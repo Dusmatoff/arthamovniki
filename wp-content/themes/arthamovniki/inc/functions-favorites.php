@@ -52,14 +52,14 @@ function delete_from_favorites( $postId, $userId ) {
 }
 
 function get_favorites( $userId ) {
+	$favorites = [];
+
 	if ( $userId == '0' ) {
-		$favorites = json_decode( $_COOKIE['hamovniki_fav'] );
+		if (isset($_COOKIE['hamovniki_fav'])){
+			$favorites = json_decode( $_COOKIE['hamovniki_fav'] );
+		}
 	} else {
 		$favorites = get_user_meta( $userId, 'favorite_pictures', true );
-	}
-
-	if ( ! $favorites ) {
-		$favorites = [];
 	}
 
 	return $favorites;

@@ -13,7 +13,7 @@ $user_roles = $current_user->roles;
 
 $owner_id = $_GET['id'];
 
-if ( empty($owner_id) ) {
+if ( empty( $owner_id ) ) {
 	wp_safe_redirect( '/' );
 }
 
@@ -70,7 +70,10 @@ $owner_text     = get_user_meta( $owner_id, 'owner_text', true );
 							if ( in_array( 'um_partner', $user_roles ) ) {
 								$args['meta_query'] = [
 									'relation' => 'AND',
-									[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
+									[ 'key'     => 'who_can_see',
+									  'value'   => [ 'partners', 'everyone' ],
+									  'compare' => 'IN'
+									],
 									[ 'key' => 'is_active', 'value' => '1' ],
 								];
 							}
