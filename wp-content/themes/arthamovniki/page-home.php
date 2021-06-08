@@ -26,7 +26,7 @@ function generate_wp_query($count, $post_in, $user_roles) {
 	$args = [
 		'post_type'      => 'picture',
 		'posts_per_page' => $count,
-		'post_in'        => [ $post_in ],
+		'post__in'        => $post_in,
 	];
 
 	if ( ! empty( $user_roles ) ) {

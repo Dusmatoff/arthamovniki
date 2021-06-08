@@ -28,12 +28,12 @@ function render_term_checkboxes( $termName ) {
 function filter_picture_archive_query( $query ) {
 	global $current_user;
 
-	if ( $query->is_main_query() && is_post_type_archive( 'picture' ) && !is_admin() ) {
+	if ( $query->is_main_query() && is_post_type_archive( 'picture' ) && ! is_admin() ) {
 		$args  = [
 			'meta_query' => (array) $query->get( 'meta_query' ),
 		];
-		$price = $_GET['price'];
-		$size  = $_GET['size'];
+		$price = isset( $_GET['price'] ) ? $_GET['price'] : 'any';
+		$size  = isset( $_GET['size'] ) ? $_GET['size'] : 'any';
 		$args  = get_products_meta_filter( $args, $price, $size, $current_user->roles );
 		$query->set( 'meta_query', $args['meta_query'] );
 	}
@@ -78,7 +78,7 @@ function pictures_filter_ajax_handler() {
 add_action( 'wp_ajax_pictures_filter_ajax_handler', 'pictures_filter_ajax_handler' );
 add_action( 'wp_ajax_nopriv_pictures_filter_ajax_handler', 'pictures_filter_ajax_handler' );
 
-function get_products_meta_filter( $args, $price, $size, $user_roles ) {
+function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 	$meta_query   = isset( $args['meta_query'] ) ? $args['meta_query'] : [];
 	$prices_array = [ '0', '50000', '100000', '301000' ];
 	$sizes_array  = [ '0', '50', '100' ];
@@ -88,10 +88,11 @@ function get_products_meta_filter( $args, $price, $size, $user_roles ) {
 			$meta_query[] = [ 'key' => 'our_price_in_filter', 'value' => [ '' ], 'compare' => 'NOT IN' ];
 		} else {
 			if ( $price == '50000' ) {
-				$meta_query[] = [ 'key'     => 'our_price_in_filter',
-				                  'value'   => $price,
-				                  'compare' => '<=',
-				                  'type'    => 'numeric'
+				$meta_query[] = [
+					'key'     => 'our_price_in_filter',
+					'value'   => $price,
+					'compare' => '<=',
+					'type'    => 'numeric'
 				];
 			}
 
@@ -105,10 +106,11 @@ function get_products_meta_filter( $args, $price, $size, $user_roles ) {
 			}
 
 			if ( $price == '301000' ) {
-				$meta_query[] = [ 'key'     => 'our_price_in_filter',
-				                  'value'   => '300000',
-				                  'compare' => '>=',
-				                  'type'    => 'numeric'
+				$meta_query[] = [
+					'key'     => 'our_price_in_filter',
+					'value'   => '300000',
+					'compare' => '>=',
+					'type'    => 'numeric'
 				];
 			}
 		}
