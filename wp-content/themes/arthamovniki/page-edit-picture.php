@@ -225,23 +225,11 @@ $photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
                                 <div class="col-md-4">
                                     <div class="form__field-label">Год создания</div>
                                     <div class="form__field form__field--grey">
-                                        <input type="number"
+                                        <input type="text"
                                                min="1"
                                                name="year"
                                                class="form__field-input"
                                                value="<?php echo $year; ?>"
-                                        >
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form__field-label">Ширина, см*</div>
-                                    <div class="form__field form__field--grey">
-                                        <input type="number"
-                                               min="1"
-                                               name="width"
-                                               class="form__field-input"
-                                               value="<?php echo $width; ?>"
-                                               required
                                         >
                                     </div>
                                 </div>
@@ -253,6 +241,18 @@ $photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
                                                class="form__field-input"
                                                name="length"
                                                value="<?php echo $length; ?>"
+                                               required
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form__field-label">Ширина, см*</div>
+                                    <div class="form__field form__field--grey">
+                                        <input type="number"
+                                               min="1"
+                                               name="width"
+                                               class="form__field-input"
+                                               value="<?php echo $width; ?>"
                                                required
                                         >
                                     </div>

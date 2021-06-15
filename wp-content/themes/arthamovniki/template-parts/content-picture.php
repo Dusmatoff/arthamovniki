@@ -51,6 +51,8 @@ $owner            = get_user_by( 'ID', $picture_data->post_author );
 $show_owner_link  = get_user_meta( $picture_data->post_author, 'show_owner_link', true );
 $show_modal_info  = get_user_meta( $picture_data->post_author, 'show_modal_info', true );
 $owner_modal_info = get_user_meta( $picture_data->post_author, 'owner_modal_info', true );
+$first_name   = get_user_meta( $owner->ID, 'first_name', true );
+$last_name    = get_user_meta( $owner->ID, 'last_name', true );
 ?>
 
 <section class="section-first product">
@@ -118,7 +120,7 @@ $owner_modal_info = get_user_meta( $picture_data->post_author, 'owner_modal_info
                             Размер
                         </div>
                         <div class="product__info-item-value">
-							<?php echo "$width х $length см"; ?>
+	                        <?php echo "$length х $width см"; ?>
                         </div>
                     </li>
                     <li class="product__info-item">
@@ -146,15 +148,15 @@ $owner_modal_info = get_user_meta( $picture_data->post_author, 'owner_modal_info
                                class="catalog-card__info-item-value"
                                target="_blank"
                             >
-								<?php echo $owner->data->display_name; ?>
+	                            <?php echo $first_name . ' ' . $last_name; ?>
                             </a>
 						<?php elseif ( $show_modal_info == '' || $show_modal_info == '1' ): ?>
                             <a href="#owner-popup" data-fancybox="" class="catalog-card__info-item-value">
-								<?php echo $owner->data->display_name; ?>
+	                            <?php echo $first_name . ' ' . $last_name; ?>
                             </a>
 						<?php else: ?>
                             <span class="catalog-card__info-item-value">
-								<?php echo $owner->data->display_name; ?>
+								<?php echo $first_name . ' ' . $last_name; ?>
                             </span>
 						<?php endif; ?>
                     </li>

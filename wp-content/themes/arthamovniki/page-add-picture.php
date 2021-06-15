@@ -149,7 +149,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                         </div>
                                     </div>
                                     <div class="form__footer justify-content-end">
-                                        <a href="" class="btn btn--full btn--lg" id="step-next-1">Далле</a>
+                                        <a href="" class="btn btn--full btn--lg" id="step-next-1">Далее</a>
                                     </div>
 
                                 </div>
@@ -220,12 +220,8 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                                 >
                                             </div>
                                             <div class="form__field form__field--grey">
-                                                Описание
-                                                <textarea name="artist_description"
-                                                          class="form__field-input"
-                                                          style="width: 100%"
-                                                >
-                                                </textarea>
+                                                Биография
+                                                <textarea name="artist_description" class="form__field-textarea form__field-textarea--xl" style="width: 100%"></textarea>
                                             </div>
                                         </div>
                                         <a href="" class="remove-link add-author">
@@ -309,23 +305,23 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="form__field-label">Ширина, см*</div>
-                                                <div class="form__field form__field--grey">
-                                                    <input type="number"
-                                                           min="1"
-                                                           name="width"
-                                                           class="form__field-input"
-                                                           required
-                                                    >
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
                                                 <div class="form__field-label">Высота, см*</div>
                                                 <div class="form__field form__field--grey">
                                                     <input type="number"
                                                            min="1"
                                                            class="form__field-input"
                                                            name="length"
+                                                           required
+                                                    >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form__field-label">Ширина, см*</div>
+                                                <div class="form__field form__field--grey">
+                                                    <input type="number"
+                                                           min="1"
+                                                           name="width"
+                                                           class="form__field-input"
                                                            required
                                                     >
                                                 </div>
@@ -395,7 +391,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                             </svg>
                                             Назад
                                         </a>
-                                        <a href="" class="btn btn--full btn--lg" id="step-next-3">Далле</a>
+                                        <a href="" class="btn btn--full btn--lg" id="step-next-3">Далее</a>
                                     </div>
                                 </div>
                             </div>
@@ -423,10 +419,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                     <div class="form__row">
                                         <div class="form__field-label">Описание картины</div>
                                         <div class="form__field form__field--grey">
-                                            <textarea class="form__field-textarea form__field-textarea--xl"
-                                                      name="description"
-                                            >
-                                            </textarea>
+                                            <textarea class="form__field-textarea form__field-textarea--xl" name="description"></textarea>
                                         </div>
                                         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
 										<?php wp_nonce_field( 'add_picture_action', 'add_picture_nonce' ); ?>
