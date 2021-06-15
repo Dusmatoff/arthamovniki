@@ -171,7 +171,7 @@ $address           = get_field( 'address', 'option' );
                             <ul class="header__menu">
                                 <li class="header__menu-item">
                                     <a href="<?php echo $is_user_logged_in ? '/account/' : '/login/'; ?>"
-                                       class="header__menu-link">
+                                       class="header__menu-link" style="text-transform: lowercase;">
                                     <span class="header__menu-link-icon">
                                         <svg width="12" height="14" viewBox="0 0 12 14" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">

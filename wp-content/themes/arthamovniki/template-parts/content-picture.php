@@ -65,7 +65,7 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
 						<?php echo $picture_name; ?>
                     </h1>
                     <div class="product__price">
-						<?php echo $formatted_price; ?> ₽
+						<?php echo $formatted_price; ?>
                     </div>
                 </div>
                 <div class="gallery">
@@ -92,7 +92,7 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
 						<?php echo $picture_name; ?>
                     </h1>
                     <div class="product__price">
-						<?php echo $formatted_price; ?> ₽
+						<?php echo $formatted_price; ?>
                     </div>
                 </div>
                 <ul class="product__info">
@@ -172,7 +172,7 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
     </div>
 </section>
 
-<?php get_template_part( 'template-parts/related-pictures' ); ?>
+<?php //get_template_part( 'template-parts/related-pictures' ); ?>
 
 <div class="d-none">
     <div class="author-popup" id="owner-popup">
