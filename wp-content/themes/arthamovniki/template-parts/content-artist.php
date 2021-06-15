@@ -49,7 +49,7 @@ function generate_artist_pictures_query() {
 	//For subscribers
 	$args['meta_query'] = [
 		'relation' => 'AND',
-		[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
+		[ 'key' => 'who_can_see', 'value' => [ 'hide_from_catalog', 'everyone' ], 'compare' => 'IN' ],
 		[ 'key' => 'is_active', 'value' => '1' ],
 	];
 
