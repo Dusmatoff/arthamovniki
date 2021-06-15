@@ -39,6 +39,7 @@ function generate_artist_pictures_query() {
 			$args['meta_query'] = [
 				'relation' => 'AND',
 				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
+				[ 'key' => 'is_active', 'value' => '1' ],
 			];
 
 			return new WP_Query( $args );
@@ -49,6 +50,7 @@ function generate_artist_pictures_query() {
 	$args['meta_query'] = [
 		'relation' => 'AND',
 		[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
+		[ 'key' => 'is_active', 'value' => '1' ],
 	];
 
 	return new WP_Query( $args );

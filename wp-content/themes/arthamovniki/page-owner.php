@@ -46,6 +46,7 @@ function generate_owner_pictures_query( $owner_id, $user_roles ) {
 	$args['meta_query'] = [
 		'relation' => 'AND',
 		[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
+		[ 'key' => 'is_active', 'value' => '1' ],
 	];
 
 	return new WP_Query( $args );

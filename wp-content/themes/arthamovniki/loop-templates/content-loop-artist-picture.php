@@ -14,7 +14,7 @@ $artist           = get_post( $artist_id );
 $year             = get_field( 'year' );
 $length           = get_field( 'length' );
 $width            = get_field( 'width' );
-$categories       = get_the_terms( $id, 'picture_category' );
+$categories       = get_the_terms( $id, 'picture_technique' );
 $categories_names = [];
 foreach ( $categories as $category ) {
 	$name = get_term( $category->term_id )->name;
