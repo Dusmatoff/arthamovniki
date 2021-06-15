@@ -5,10 +5,11 @@ $user_roles = $current_user->roles;
 $id                 = get_the_ID();
 $artist_birth_death = get_field( 'artist_birth_death' );
 $artist_address     = get_field( 'artist_address' );
+$image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/img/ava-default.png';
 ?>
 <div class="authors__item">
     <a href="<?php the_permalink( $id ); ?>" class="authors__item-ava">
-        <img src="<?php echo get_the_post_thumbnail_url(); ?>">
+        <img src="<?php echo $image_src; ?>">
     </a>
     <div class="authors__item-info">
         <a href="<?php the_permalink( $id ); ?>" class="authors__item-name">
