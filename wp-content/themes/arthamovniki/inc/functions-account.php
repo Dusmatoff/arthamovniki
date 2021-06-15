@@ -13,6 +13,7 @@ function save_account() {
 	$phone_number = $_POST['phone_number'];
 	$user_country = $_POST['user_country'];
 	$user_city    = $_POST['user_city'];
+	$user_description    = $_POST['user_description'];
 	$user_id      = $_POST['user_id'];
 
 	try {
@@ -21,6 +22,8 @@ function save_account() {
 		update_user_meta( $user_id, 'phone_number', $phone_number );
 		update_user_meta( $user_id, 'user_country', $user_country );
 		update_user_meta( $user_id, 'user_city', $user_city );
+		update_user_meta( $user_id, 'description', $user_description );
+		update_user_meta( $user_id, 'owner_text', $user_description );
 
 		wp_send_json( [ 'result' => 'Данные сохранены' ], 200 );
 	} catch ( Error $error ) {

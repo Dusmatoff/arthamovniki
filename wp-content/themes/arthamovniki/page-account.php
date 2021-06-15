@@ -16,6 +16,7 @@ $last_name    = get_user_meta( $user_id, 'last_name', true );
 $phone_number = get_user_meta( $user_id, 'phone_number', true );
 $user_country = get_user_meta( $user_id, 'user_country', true );
 $user_city    = get_user_meta( $user_id, 'user_city', true );
+$description    = get_user_meta( $user_id, 'description', true );
 ?>
 
     <section class="section-first product">
@@ -166,6 +167,20 @@ $user_city    = get_user_meta( $user_id, 'user_city', true );
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form__row">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form__field-label">
+                                                Расскажите немного о себе
+                                            </div>
+                                            <div class="form__field form__field--grey">
+                                                <textarea name="user_description" class="form__field-textarea form__field-textarea--xl" style="width: 100%"><?php echo $description; ?></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
 
                                 <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
 								<?php wp_nonce_field( 'save_account_action', 'save_account_nonce' ); ?>
@@ -195,6 +210,7 @@ $user_city    = get_user_meta( $user_id, 'user_city', true );
                     formData.append('phone_number', $('input[name=phone_number]').val());
                     formData.append('user_country', $('input[name=user_country]').val());
                     formData.append('user_city', $('input[name=user_city]').val());
+                    formData.append('user_description', $('textarea[name=user_description]').val());
                     formData.append('user_id', $('input[name=user_id]').val());
                     formData.append('save_account_nonce', $('input[name=save_account_nonce]').val());
 
