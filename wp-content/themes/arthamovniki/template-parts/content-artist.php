@@ -10,6 +10,7 @@
 $artist_id          = get_the_ID();
 $artist_birth_death = get_field( 'artist_birth_death' );
 $artist_address     = get_field( 'artist_address' );
+$image_src          = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/img/ava-default.png';
 
 function generate_artist_pictures_query() {
 	global $current_user;
@@ -66,7 +67,7 @@ function generate_artist_pictures_query() {
                 <div class="author">
                     <div class="author__data">
                         <div class="author__data-ava">
-                            <img src="<?php echo get_the_post_thumbnail_url(); ?>">
+                            <img src="<?php echo $image_src; ?>">
                         </div>
                         <div class="author__data-content">
                             <div class="author__data-name">
