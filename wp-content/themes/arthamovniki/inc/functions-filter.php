@@ -47,9 +47,10 @@ function pictures_filter_ajax_handler() {
 		'post_type'   => 'picture',
 		'post_status' => 'publish',
 	];
+	global $current_user;
 	//$args = get_products_title_filter($args, $_POST['title']);
 	//$args = get_products_authors_filter($args, $_POST['author']);
-	$args = get_products_meta_filter( $args, $_POST['price'], $_POST['size'] );
+	$args = get_products_meta_filter( $args, $_POST['price'], $_POST['size'], $current_user->roles );
 	$args = get_products_taxonomy_filter( $args, $_POST['picture_category'], $_POST['picture_subject'] );
 
 	query_posts( $args );
