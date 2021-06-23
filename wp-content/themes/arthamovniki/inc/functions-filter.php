@@ -68,7 +68,13 @@ function pictures_filter_ajax_handler() {
 		the_post();
 		get_template_part( 'loop-templates/content-loop', 'artist-picture' );
 	endwhile;
-	custom_pagination();
+
+	the_posts_pagination( [
+		'show_all'           => true,
+		'prev_text'          => __( '<' ),
+		'next_text'          => __( '>' ),
+		'screen_reader_text' => __( 'Навигация' ),
+	] );
 
 	//get_template_part('loop-templates/loop-pictures');
 

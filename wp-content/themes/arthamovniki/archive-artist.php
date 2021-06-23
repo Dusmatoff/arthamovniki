@@ -32,7 +32,12 @@ get_header();
 								the_post();
 								get_template_part( 'loop-templates/content-loop', 'artist' );
 							endwhile;
-							custom_pagination();
+							the_posts_pagination( [
+								'show_all'           => true,
+								'prev_text'          => __( '<' ),
+								'next_text'          => __( '>' ),
+								'screen_reader_text' => __( 'Навигация' ),
+							] );
 							wp_reset_postdata();
 							?>
                         </div>

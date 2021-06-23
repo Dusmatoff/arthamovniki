@@ -4,7 +4,7 @@ Theme URI: http://underscores.me/
 Author: Dusmatoff
 Author URI: http://dusmatoff.ru/
 Description: Московский клуб коллекционеров «Хамовники»
-Version: 1.0.6
+Version: 1.0.7
 Tested up to: 5.4
 Requires PHP: 5.6
 License: GNU General Public License v2 or later
@@ -32,4 +32,34 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 
 .author__text a {
     color: blue;
+}
+
+.page-numbers {
+    margin-right: 7px;
+}
+
+.prev.page-numbers,
+.next.page-numbers {
+    font-size: 20px;
+}
+
+.page-numbers:not(.prev):not(.next):not(.dots) {
+    width: 26px;
+    height: 26px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: #AAAAAA;
+    border: 1px solid #AAAAAA;
+    border-radius: 50%;
+    transition: 0.3s;
+    stroke: #AAAAAA;
+}
+
+.page-numbers.current {
+    background: #343A40;
+    color: #fff!important;
 }

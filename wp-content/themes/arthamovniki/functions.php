@@ -12,7 +12,7 @@ $is_partner = is_current_user_partner( $current_user );
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.6' );
+	define( '_S_VERSION', '1.0.7' );
 }
 
 if ( ! function_exists( 'arthamovniki_setup' ) ) :
@@ -266,50 +266,14 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 //Disable Gutenberg
 //add_filter('use_block_editor_for_post', '__return_false', 10);
 
-// Custom pagination
-function custom_pagination( $pages = '', $range = 2 ) {
-	$showitems = ( $range * 2 ) + 1;
-
-	global $paged;
-	if ( empty( $paged ) ) {
-		$paged = 1;
-	}
-
-	if ( $pages == '' ) {
-		global $wp_query;
-		$pages = $wp_query->max_num_pages;
-		if ( ! $pages ) {
-			$pages = 1;
-		}
-	}
-
-	if ( 1 != $pages ) {
-		echo "<ul class='pagenavi'>";
-		/*
-		if ( $paged > 2 && $paged > $range + 1 && $showitems < $pages ) {
-			echo "<a href='" . get_pagenum_link( 1 ) . "' class='pagenavi__link'>&laquo;</a>";
-		}
-		if ( $paged > 1 && $showitems < $pages ) {
-			echo "<a href='" . get_pagenum_link( $paged - 1 ) . "' class='pagenavi__link'>&lsaquo;</a>";
-		}
-		*/
-
-		for ( $i = 1; $i <= $pages; $i ++ ) {
-			if ( 1 != $pages && ( ! ( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $showitems ) ) {
-				$current = $paged == $i ? 'current' : '';
-				echo "<li class='pagenavi__item $current'><a href='" . get_pagenum_link( $i ) . "' class='pagenavi__link' >" . $i . "</a></li>";
-			}
-		}
-		/*
-		if ( $paged < $pages && $showitems < $pages ) {
-			echo "<a href='" . get_pagenum_link( $paged + 1 ) . "' class='pagenavi__link'>&rsaquo;</a>";
-		}
-		if ( $paged < $pages - 1 && $paged + $range - 1 < $pages && $showitems < $pages ) {
-			echo "<a href='" . get_pagenum_link( $pages ) . "' class='pagenavi__link'>&raquo;</a>";
-		}
-		*/
-		echo "</ul>\n";
-	}
+// Remove H2 from pagination template
+add_filter('navigation_markup_template', 'my_navigation_template', 10, 2 );
+function my_navigation_template( $template, $class ){
+	return '
+	<nav class="navigation %1$s" role="navigation">
+		<div class="nav-links pagenavi">%3$s</div>
+	</nav>    
+	';
 }
 
 function is_current_user_partner( $user = null ) {
