@@ -267,13 +267,57 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 //add_filter('use_block_editor_for_post', '__return_false', 10);
 
 // Remove H2 from pagination template
-add_filter('navigation_markup_template', 'my_navigation_template', 10, 2 );
-function my_navigation_template( $template, $class ){
+add_filter( 'navigation_markup_template', 'my_navigation_template', 10, 2 );
+function my_navigation_template( $template, $class ) {
 	return '
 	<nav class="navigation %1$s" role="navigation">
 		<div class="nav-links pagenavi">%3$s</div>
 	</nav>    
 	';
+}
+
+function hamovniki_pagination( $args = array(), $class = 'pagination' ) {
+	if ( $GLOBALS['wp_query']->max_num_pages <= 1 ) {
+		return;
+	}
+
+	$args = wp_parse_args(
+		$args,
+		array(
+			'show_all'           => true,
+			'mid_size'           => 2,
+			'prev_next'          => true,
+			'prev_text'          => '<',
+			'next_text'          => '>',
+			'screen_reader_text' => 'Навигация',
+			'type'               => 'array',
+			'current'            => max( 1, get_query_var( 'paged' ) ),
+		)
+	);
+
+	$links = paginate_links( $args );
+
+	?>
+
+    <nav aria-label="<?php echo $args['screen_reader_text']; ?>">
+
+        <ul class="pagenavi">
+
+			<?php
+			foreach ( $links as $key => $link ) {
+				?>
+                <li class="pagenavi__item <?php echo strpos( $link, 'current' ) ? 'current' : ''; ?>">
+					<?php echo str_replace( 'page-numbers', 'pagenavi__link', $link ); ?>
+                </li>
+				<?php
+			}
+			?>
+
+        </ul>
+
+    </nav>
+
+	<?php
 }
 
 function is_current_user_partner( $user = null ) {

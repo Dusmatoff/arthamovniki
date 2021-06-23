@@ -43,49 +43,28 @@ add_action( 'pre_get_posts', 'filter_picture_archive_query' );
 
 function pictures_filter_ajax_handler() {
 	check_ajax_referer( 'ajax_nonce' );
+
+	global $current_user;
+
 	$args = [
 		'post_type'   => 'picture',
 		'post_status' => 'publish',
 	];
-	global $current_user;
 	//$args = get_products_title_filter($args, $_POST['title']);
 	//$args = get_products_authors_filter($args, $_POST['author']);
 	$args = get_products_meta_filter( $args, $_POST['price'], $_POST['size'], $current_user->roles );
 	$args = get_products_taxonomy_filter( $args, $_POST['picture_category'], $_POST['picture_subject'] );
 
-	query_posts( $args );
+	$result      = query_posts( $args );
 	$allowedArgs = [
-		'title',
-		'author',
 		'size',
 		'price',
 		'picture_category',
 		'picture_subject',
 	];
 	set_query_var( 'paginationArgs', array_filter( array_intersect_key( $_POST, array_flip( $allowedArgs ) ) ) );
-
-	the_posts_pagination( [
-		'show_all'           => true,
-		'prev_text'          => __( '<' ),
-		'next_text'          => __( '>' ),
-		'screen_reader_text' => __( 'Навигация' ),
-	] );
-
-	while ( have_posts() ) :
-		the_post();
-		get_template_part( 'loop-templates/content-loop', 'artist-picture' );
-	endwhile;
-
-	the_posts_pagination( [
-		'show_all'           => true,
-		'prev_text'          => __( '<' ),
-		'next_text'          => __( '>' ),
-		'screen_reader_text' => __( 'Навигация' ),
-	] );
-
-	//get_template_part('loop-templates/loop-pictures');
-
-	die;
+	get_template_part('loop-templates/loop-pictures');
+	die();
 }
 
 add_action( 'wp_ajax_pictures_filter_ajax_handler', 'pictures_filter_ajax_handler' );
