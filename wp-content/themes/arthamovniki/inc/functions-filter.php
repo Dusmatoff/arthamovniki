@@ -167,13 +167,6 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 	}
 
 	if ( ! empty( $user_roles ) ) {
-		//For admin and manager
-		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
-			$args['meta_query'] = $meta_query;
-
-			return $args;
-		}
-
 		//For partners
 		if ( in_array( 'um_partner', $user_roles ) ) {
 			$meta_query[] = [

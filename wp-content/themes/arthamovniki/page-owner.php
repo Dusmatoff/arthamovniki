@@ -36,8 +36,8 @@ function generate_owner_pictures_query( $owner_id, $user_roles ) {
 	];
 
 	if ( ! empty( $user_roles ) ) {
-		//For admin, manager, partner
-		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) || in_array( 'um_partner', $user_roles ) ) {
+		//For partner
+		if ( in_array( 'um_partner', $user_roles ) ) {
 			return new WP_Query( $args );
 		}
 	}

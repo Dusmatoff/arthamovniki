@@ -11,7 +11,7 @@
 
 $is_user_logged_in = is_user_logged_in();
 $theme_uri         = get_stylesheet_directory_uri();
-$logo              = get_field( 'logo', 'option' );
+//$logo              = get_field( 'logo', 'option' );
 $phone             = get_field( 'phone', 'option' );
 $email             = get_field( 'email', 'option' );
 $country           = get_field( 'country', 'option' );
@@ -62,7 +62,7 @@ $address           = get_field( 'address', 'option' );
                     <div class="row">
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <a href="/" class="header__logo">
-                                <img src="<?php echo $logo; ?>" alt="">
+                                <img src="<?php echo get_stylesheet_directory_uri() . '/img/logo.svg' ?>">
                             </a>
                             <form class="header__search d-none d-md-block">
 								<?php echo do_shortcode( '[wpdreams_ajaxsearchlite]' ); ?>

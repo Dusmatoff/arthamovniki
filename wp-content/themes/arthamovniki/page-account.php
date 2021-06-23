@@ -36,11 +36,6 @@ $description    = get_user_meta( $user_id, 'description', true );
                             <div class="lk__user">
 								<?php echo "$first_name $last_name"; ?>
                             </div>
-                            <a href="" class="lk__link">
-							<span>
-								Просмотр профиля
-							</span>
-                            </a>
 							<?php profile_navigation( 3 ); ?>
                         </div>
                         <div class="col-lg-8">
@@ -82,7 +77,6 @@ $description    = get_user_meta( $user_id, 'description', true );
                                                        name="last_name"
                                                        class="form__field-input"
                                                        value="<?php echo $last_name; ?>"
-                                                       required
                                                 >
                                             </div>
                                         </div>
@@ -171,10 +165,10 @@ $description    = get_user_meta( $user_id, 'description', true );
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form__field-label">
-                                                Расскажите немного о себе
+                                                Дополнительная информация
                                             </div>
                                             <div class="form__field form__field--grey">
-                                                <textarea name="user_description" class="form__field-textarea form__field-textarea--xl" style="width: 100%"><?php echo $description; ?></textarea>
+                                                <textarea name="user_description" class="form__field-textarea form__field-textarea--lg" style="width: 100%"><?php echo $description; ?></textarea>
                                             </div>
                                         </div>
                                     </div>
