@@ -64,6 +64,13 @@ function pictures_filter_ajax_handler() {
 	];
 	set_query_var( 'paginationArgs', array_filter( array_intersect_key( $_POST, array_flip( $allowedArgs ) ) ) );
 
+	the_posts_pagination( [
+		'show_all'           => true,
+		'prev_text'          => __( '<' ),
+		'next_text'          => __( '>' ),
+		'screen_reader_text' => __( 'Навигация' ),
+	] );
+
 	while ( have_posts() ) :
 		the_post();
 		get_template_part( 'loop-templates/content-loop', 'artist-picture' );

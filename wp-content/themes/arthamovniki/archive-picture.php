@@ -31,16 +31,25 @@ get_header();
                     <div class="col-9">
                         <div class="catalog-cards">
 							<?php
-							while ( have_posts() ) :
-								the_post();
-								get_template_part( 'loop-templates/content-loop', 'artist-picture' );
-							endwhile;
 							the_posts_pagination( [
 								'show_all'           => true,
 								'prev_text'          => __( '<' ),
 								'next_text'          => __( '>' ),
 								'screen_reader_text' => __( 'Навигация' ),
 							] );
+
+							while ( have_posts() ) :
+								the_post();
+								get_template_part( 'loop-templates/content-loop', 'artist-picture' );
+							endwhile;
+
+							the_posts_pagination( [
+								'show_all'           => true,
+								'prev_text'          => __( '<' ),
+								'next_text'          => __( '>' ),
+								'screen_reader_text' => __( 'Навигация' ),
+							] );
+
 							wp_reset_postdata();
 							?>
                         </div>

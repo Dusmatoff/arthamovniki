@@ -1,4 +1,10 @@
 <?php
+the_posts_pagination( [
+	'show_all'           => true,
+	'prev_text'          => __( '<' ),
+	'next_text'          => __( '>' ),
+	'screen_reader_text' => __( 'Навигация' ),
+] );
 
 while ( have_posts() ) :
 	the_post();
