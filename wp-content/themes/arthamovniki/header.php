@@ -16,6 +16,8 @@ $phone             = get_field( 'phone', 'option' );
 $email             = get_field( 'email', 'option' );
 $country           = get_field( 'country', 'option' );
 $address           = get_field( 'address', 'option' );
+
+$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -43,7 +45,14 @@ $address           = get_field( 'address', 'option' );
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700&display=swap" rel="stylesheet">
-	<?php
+
+    <!-- OPEN GRAPH -->
+    <meta property="og:title" content="<?php bloginfo( 'name' ); ?>">
+    <meta property="og:url" content="<?php echo $actual_link; ?>">
+    <!--<meta property="og:description" content="">-->
+    <meta property="og:image" content="<?php echo get_stylesheet_directory_uri() . '/img/logo-png.png' ?>">
+
+    <?php
 	wp_head();
 
 	global $is_partner;

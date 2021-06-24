@@ -12,7 +12,7 @@ $is_partner = is_current_user_partner( $current_user );
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.8' );
+	define( '_S_VERSION', '1.0.9' );
 }
 
 if ( ! function_exists( 'arthamovniki_setup' ) ) :
@@ -266,44 +266,33 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 //Disable Gutenberg
 //add_filter('use_block_editor_for_post', '__return_false', 10);
 
-// Remove H2 from pagination template
-add_filter( 'navigation_markup_template', 'my_navigation_template', 10, 2 );
-function my_navigation_template( $template, $class ) {
-	return '
-	<nav class="navigation %1$s" role="navigation">
-		<div class="nav-links pagenavi">%3$s</div>
-	</nav>    
-	';
-}
-
-function hamovniki_pagination( $args = array(), $class = 'pagination' ) {
+// Custom pagination template
+function hamovniki_pagination( $args = [], $class = 'pagination' ) {
 	if ( $GLOBALS['wp_query']->max_num_pages <= 1 ) {
 		return;
 	}
 
 	$args = wp_parse_args(
 		$args,
-		array(
-			'show_all'           => true,
-			'mid_size'           => 2,
+		[
+			'end_size'           => 5,
+			'mid_size'           => 5,
 			'prev_next'          => true,
 			'prev_text'          => '<',
 			'next_text'          => '>',
 			'screen_reader_text' => 'Навигация',
 			'type'               => 'array',
 			'current'            => max( 1, get_query_var( 'paged' ) ),
-		)
+		]
 	);
 
 	$links = paginate_links( $args );
-
 	?>
-
     <nav aria-label="<?php echo $args['screen_reader_text']; ?>">
-
         <ul class="pagenavi">
-
 			<?php
+			echo '<li class="pagenavi__item"><a href=' . get_pagenum_link( 1 ) . '><<</a></li>';
+
 			foreach ( $links as $key => $link ) {
 				?>
                 <li class="pagenavi__item <?php echo strpos( $link, 'current' ) ? 'current' : ''; ?>">
@@ -311,12 +300,11 @@ function hamovniki_pagination( $args = array(), $class = 'pagination' ) {
                 </li>
 				<?php
 			}
+
+			echo '<li class="pagenavi__item"><a href=' . get_pagenum_link( $GLOBALS['wp_query']->max_num_pages ) . '>>></a></li>';
 			?>
-
         </ul>
-
     </nav>
-
 	<?php
 }
 
