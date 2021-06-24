@@ -21,7 +21,7 @@ $our_price_in_partner_catalog = get_field( 'our_price_in_partner_catalog' );
 $formatted_price = ! empty( $our_price_in_catalog ) ? $our_price_in_catalog : number_format( $price );
 
 if ( ! empty( $user_roles ) ) {
-	if ( in_array( 'um_partner', $user_roles ) ) {
+	if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) || in_array( 'um_partner', $user_roles ) ) {
 		$formatted_price = ! empty( $our_price_in_partner_catalog ) ? $our_price_in_partner_catalog : number_format( $price );
 	}
 }

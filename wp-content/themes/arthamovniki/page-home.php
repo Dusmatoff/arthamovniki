@@ -34,8 +34,7 @@ function generate_wp_query( $count, $post_in, $user_roles ) {
 	];
 
 	if ( ! empty( $user_roles ) ) {
-		//For partners
-		if ( in_array( 'um_partner', $user_roles ) ) {
+		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) || in_array( 'um_partner', $user_roles ) ) {
 			$args['meta_query'] = [
 				'relation' => 'AND',
 				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
