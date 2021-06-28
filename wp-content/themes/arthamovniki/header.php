@@ -12,12 +12,12 @@
 $is_user_logged_in = is_user_logged_in();
 $theme_uri         = get_stylesheet_directory_uri();
 //$logo              = get_field( 'logo', 'option' );
-$phone             = get_field( 'phone', 'option' );
-$email             = get_field( 'email', 'option' );
-$country           = get_field( 'country', 'option' );
-$address           = get_field( 'address', 'option' );
+$phone = get_field( 'phone', 'option' );
+$email = get_field( 'email', 'option' );
+$country = get_field( 'country', 'option' );
+$address = get_field( 'address', 'option' );
 
-$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$logo_url = get_stylesheet_directory_uri() . '/img/logo-png.png';
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -47,12 +47,83 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- OPEN GRAPH -->
-    <meta property="og:title" content="<?php bloginfo( 'name' ); ?>">
-    <meta property="og:url" content="<?php echo $actual_link; ?>">
-    <!--<meta property="og:description" content="">-->
-    <meta property="og:image" content="<?php echo get_stylesheet_directory_uri() . '/img/logo-png.png' ?>">
+    <meta property="og:locale" content="ru_RU"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Московская галерея «Хамовники»"/>
+    <meta property="og:url" content="https://arthamovniki.ru/"/>
+    <meta property="og:site_name" content="Московская галерея «Хамовники»"/>
+    <meta property="og:image:secure_url" content="<?php echo $logo_url; ?>">
+    <meta property="og:image" content="<?php echo $logo_url; ?>">
+    <meta name="twitter:card" content="summary_large_image"/>
+    <script type="application/ld+json" class="yoast-schema-graph">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "Organization",
+                    "@id": "https://arthamovniki.ru/#organization",
+                    "name": "Московская галерея «Хамовники»",
+                    "url": "https://arthamovniki.ru/",
+                    "sameAs": [],
+                    "logo": {
+                        "@type": "ImageObject",
+                        "@id": "https://arthamovniki.ru/#logo",
+                        "inLanguage": "ru-RU",
+                        "url": "<?php echo $logo_url; ?>",
+                        "contentUrl": "<?php echo $logo_url; ?>",
+                        "caption": "Московская галерея «Хамовники»"
+                    },
+                    "image": {
+                        "@id": "https://arthamovniki.ru/#logo"
+                    }
+                },
+                {
+                    "@type": "WebSite",
+                    "@id": "https://arthamovniki.ru/#website",
+                    "url": "https://arthamovniki.ru/",
+                    "name": "Московская галерея «Хамовники»",
+                    "description": "",
+                    "publisher": {
+                        "@id": "https://arthamovniki.ru/#organization"
+                    },
+                    "potentialAction": [
+                        {
+                            "@type": "SearchAction",
+                            "target": "https://arthamovniki.ru/?s={search_term_string}",
+                            "query-input": "required name=search_term_string"
+                        }
+                    ],
+                    "inLanguage": "ru-RU"
+                },
+                {
+                    "@type": "WebPage",
+                    "@id": "https://arthamovniki.ru/#webpage",
+                    "url": "https://arthamovniki.ru/",
+                    "name": "Московская галерея «Хамовники»",
+                    "isPartOf": {
+                        "@id": "https://arthamovniki.ru/#website"
+                    },
+                    "about": {
+                        "@id": "https://arthamovniki.ru/#organization"
+                    },
+                    "breadcrumb": {
+                        "@id": "https://arthamovniki.ru/#breadcrumb"
+                    },
+                    "inLanguage": "ru-RU",
+                    "potentialAction": [
+                        {
+                            "@type": "ReadAction",
+                            "target": [
+                                "https://arthamovniki.ru/"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }</script>
+    <!-- OPEN GRAPH -->
 
-    <?php
+	<?php
 	wp_head();
 
 	global $is_partner;
@@ -62,6 +133,11 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<link itemprop="thumbnailUrl" href="<?php echo $logo_url; ?>">
+<span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
+    <link itemprop="url" href="<?php echo $logo_url; ?>">
+</span>
+
 <div id="page" class="site">
     <div class="wrapper">
         <div class="overlay"></div>
@@ -250,7 +326,7 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
             </div>
             <div class="mobile-menu__group">
                 <ul class="mobile-menu__list">
-	                <?php if ( !$is_user_logged_in ): ?>
+					<?php if ( ! $is_user_logged_in ): ?>
                         <li class="mobile-menu__list-item">
                             <a href="/login/" class="mobile-menu__list-link">
                                 <div class="header__acc-btn">
@@ -267,10 +343,11 @@ $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
                                               stroke-width="1.3"
                                               stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                </div>Вход/Регистрация
+                                </div>
+                                Вход/Регистрация
                             </a>
                         </li>
-	                <?php endif; ?>
+					<?php endif; ?>
                     <li class="mobile-menu__list-item">
                         <a href="/favorites/" class="mobile-menu__list-link">
                         <span class="mobile-menu__list-link-icon">
