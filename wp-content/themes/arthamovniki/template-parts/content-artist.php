@@ -33,7 +33,7 @@ function generate_artist_pictures_query() {
 		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) || in_array( 'um_partner', $user_roles ) ) {
 			$args['meta_query'] = [
 				'relation' => 'AND',
-				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
+				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone', 'hide_from_catalog' ], 'compare' => 'IN' ],
 				[ 'key' => 'is_active', 'value' => '1' ],
 			];
 

@@ -47,6 +47,21 @@ $logo_url = get_stylesheet_directory_uri() . '/img/logo-png.png';
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- OPEN GRAPH -->
+    <link rel="apple-touch-icon" sizes="57x57" href="<?php echo $logo_url; ?>">
+    <link rel="apple-touch-icon" sizes="60x60" href="<?php echo $logo_url; ?>">
+    <link rel="apple-touch-icon" sizes="72x72" href="<?php echo $logo_url; ?>">
+    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo $logo_url; ?>">
+    <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $logo_url; ?>">
+    <link rel="apple-touch-icon" sizes="120x120" href="<?php echo $logo_url; ?>">
+    <link rel="apple-touch-icon" sizes="144x144" href="<?php echo $logo_url; ?>">
+    <link rel="apple-touch-icon" sizes="152x152" href="<?php echo $logo_url; ?>">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $logo_url; ?>">
+    <link rel="icon" type="image/png" sizes="192x192"  href="<?php echo $logo_url; ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo $logo_url; ?>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo $logo_url; ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo $logo_url; ?>">
+    <!--<link rel="manifest" href="/manifest.json">-->
+
     <meta property="og:locale" content="ru_RU"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Московская галерея «Хамовники»"/>
