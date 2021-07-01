@@ -178,7 +178,11 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                     <div class="form__row">
                                         <div class="form__field-label">Художник (выберите из списка)</div>
                                         <div class="form__field">
-                                            <select class="form__field-select chosen-select" name="artist">
+                                            <select data-placeholder="Наберите фамилию художника"
+                                                    class="form__field-select chosen-select"
+                                                    name="artist"
+                                            >
+                                                <option> </option>
 												<?php foreach ( $artists as $artist ): ?>
                                                     <option value="<?php echo $artist->ID; ?>">
 														<?php echo $artist->post_title; ?>
@@ -206,21 +210,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                                 >
                                             </div>
                                             <div class="form__field form__field--grey">
-                                                <input type="text"
-                                                       name="artist_birth_death"
-                                                       class="form__field-input"
-                                                       placeholder="Дата рождения или годы жизни"
-                                                >
-                                            </div>
-                                            <div class="form__field form__field--grey">
-                                                <input type="text"
-                                                       name="artist_address"
-                                                       class="form__field-input"
-                                                       placeholder="Адрес"
-                                                >
-                                            </div>
-                                            <div class="form__field form__field--grey">
-                                                Биография
+                                                Информация о художнике, дата рождения или годы жизни, биография и т.д
                                                 <textarea name="artist_description" class="form__field-textarea form__field-textarea--xl" style="width: 100%"></textarea>
                                             </div>
                                         </div>
@@ -231,9 +221,9 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                                       stroke="#AAAAAA" stroke-width="2" stroke-linecap="round"
                                                       stroke-linejoin="round"/>
                                             </svg>
-                                            <span>
-											Добавить нового художника
-										</span>
+                                            <span style="color: #111;">
+											    Добавить нового художника (если нет в списке)
+										    </span>
                                         </a>
                                     </div>
                                     <div class="form__row">
@@ -485,25 +475,18 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
             $('#add_picture_form').validate({
                 errorElement: 'em',
                 submitHandler: function (form) {
-                    //const images = $('#files')[0].files;
                     const price = $('input[name=price]').val();
                     const pictureName = $('input[name=picture_name]').val();
+                    const artist = $('select[name=artist] option').filter(':selected').val();
+                    const artistName = $('input[name=artist_name]').val();
 
-                    if (price !== '' && pictureName !== '') {
+                    if (price !== '' && pictureName !== '' && (artist !== '' || artistName !== '')) {
                         let formData = new FormData;
 
-                        /*$.each($('#files'), function (i, obj) {
-                            $.each(obj.files, function (j, file) {
-                                formData.append('images' + j, file);
-                            })
-                        });*/
-
                         formData.append('who_can_see', $('input[name=who_can_see]:checked').val());
-                        formData.append('artist', $('select[name=artist] option').filter(":selected").val());
+                        formData.append('artist', artist);
                         formData.append('artist_picture', $('input[name=artist_picture]')[0].files[0]);
-                        formData.append('artist_name', $('input[name=artist_name]').val());
-                        formData.append('artist_birth_death', $('input[name=artist_birth_death]').val());
-                        formData.append('artist_address', $('input[name=artist_address]').val());
+                        formData.append('artist_name', artistName);
                         formData.append('artist_description', $('textarea[name=artist_description]').val().trim());
                         formData.append('price', price);
                         formData.append('picture_name', pictureName);

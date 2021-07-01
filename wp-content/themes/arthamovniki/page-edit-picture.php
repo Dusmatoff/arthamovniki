@@ -85,24 +85,13 @@ $photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
                 <div class="col-12">
                     <form class="form lk-form" id="edit_picture_form" action="" type="POST"
                           enctype="multipart/form-data">
+                        <div class="form_row right" style="display: flex; justify-content: flex-end;">
+                            <button class="btn btn--full btn--lg" type="submit" style="width: 250px;">
+                                Сохранить
+                            </button>
+                        </div>
                         <div class="form__row">
                             <div class="form__field-label">Изображения картины*</div>
-                            <!--<div class="input-images"></div>-->
-
-                            <!--<div class="upload-field">
-                                <div class="upload-field__results">
-                                </div>
-                                <div class="upload-field__footer">
-                                    <label for="files" class="upload">
-                                        <input id="files" type="file" required name="images[]" multiple
-                                               class="upload__input">
-                                        <div class="upload__text">
-                                            Добавить изображения
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>-->
-
                             <div id="photo-upload">
                                 <span class="btn btn--full fileinput-button">
                                     <span>Добавить изображения</span>
@@ -142,9 +131,6 @@ $photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
                                         </tr>
 									<?php endforeach; endif; ?>
                                     </tbody>
-                                </table>
-                                <table role="presentation" class="table table-striped" style="width: 100%">
-                                    <tbody class="files memorial-block__loading-block"></tbody>
                                 </table>
                             </div>
 							<?php require_once 'inc/fileupload-templates.php'; ?>
@@ -335,7 +321,7 @@ $photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
                             <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
 							<?php wp_nonce_field( 'edit_picture_action', 'edit_picture_nonce' ); ?>
                         </div>
-                        <button class="btn btn--full btn--lg" type="submit">
+                        <button class="btn btn--full btn--lg" type="submit" style="width: 250px;">
                             Сохранить
                         </button>
                         <p id="form-status" style="text-align: center"></p>

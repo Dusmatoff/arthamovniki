@@ -60,9 +60,6 @@ function add_picture() {
 						}
 					}
 
-					add_post_meta( $artist_id, 'artist_birth_death', $_POST['artist_birth_death'] );
-					add_post_meta( $artist_id, 'artist_address', $_POST['artist_address'] );
-
 					add_post_meta( $post_id, 'artist', $artist_id );
 				} else {
 					wp_send_json( [ 'result' => 'Ошибка добавления художника.' ], 400 );
