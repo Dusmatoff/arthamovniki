@@ -132,9 +132,10 @@ function edit_picture() {
 
 	try {
 		$post_id = wp_update_post( [
-			'ID'         => $picture_id,
-			'post_title' => wp_strip_all_tags( $_POST['picture_name'] ),
+			'ID'          => $picture_id,
+			'post_title'  => wp_strip_all_tags( $_POST['picture_name'] ),
 			'post_status' => 'draft',
+			'post_date'   => date( 'Y-m-d H:i:s' ),
 		], true );
 
 

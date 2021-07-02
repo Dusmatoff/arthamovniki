@@ -29,8 +29,14 @@ $artists = get_posts(
 		'post_type'      => 'artist',
 		'posts_per_page' => - 1,
 		'post_status'    => 'any',
+        'orderby' => 'date',
+        'order' => 'DESC',
 	]
 );
+usort($artists, function($a, $b) {
+	return strtotime($a->post_date) - strtotime($b->post_date);
+});
+$artists = array_reverse($artists);
 
 $picture_categories = get_terms( [ 'taxonomy' => 'picture_category', 'hide_empty' => false ] );
 $picture_subjects   = get_terms( [ 'taxonomy' => 'picture_subject', 'hide_empty' => false ] );
@@ -194,12 +200,16 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                             <div class="form__field-label">
                                                 Добавьте информацию о новом художнике
                                             </div>
-                                            <div class="form__field">
-                                                Фото
-                                                <input type="file"
-                                                       name="artist_picture"
-                                                       class="form__field-input"
-                                                >
+                                            <div class="form__row">
+                                                <div class="form__field-label">
+                                                    Фото
+                                                </div>
+                                                <div class="form__field">
+                                                    <input type="file"
+                                                           name="artist_picture"
+                                                           class="form__field-input"
+                                                    >
+                                                </div>
                                             </div>
                                             <div class="form__field form__field--grey">
                                                 <input type="text"
@@ -209,9 +219,13 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                                        required
                                                 >
                                             </div>
-                                            <div class="form__field form__field--grey">
-                                                Информация о художнике, дата рождения или годы жизни, биография и т.д
-                                                <textarea name="artist_description" class="form__field-textarea form__field-textarea--xl" style="width: 100%"></textarea>
+                                            <div class="form__row">
+                                                <div class="form__field-label">
+                                                    Информация о художнике, дата рождения или годы жизни, биография и т.д
+                                                </div>
+                                                <div class="form__field form__field--grey">
+                                                    <textarea name="artist_description" class="form__field-textarea form__field-textarea--xl" style="width: 100%"></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                         <a href="" class="remove-link add-author">
