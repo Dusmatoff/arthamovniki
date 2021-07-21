@@ -72,7 +72,7 @@ add_action( 'wp_ajax_nopriv_pictures_filter_ajax_handler', 'pictures_filter_ajax
 
 function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 	$meta_query   = isset( $args['meta_query'] ) ? $args['meta_query'] : [];
-	$prices_array = [ '0', '50000', '100000', '301000' ];
+	$prices_array = [ '0', '50000', '300000', '301000' ];
 	$sizes_array  = [ '0', '50', '100' ];
 
 	//Only active pictures
@@ -94,10 +94,10 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 				];
 			}
 
-			if ( $price == '100000' ) {
+			if ( $price == '300000' ) {
 				$meta_query[] = [
-					'key'     => 'price',
-					'value'   => [ '50000', '100000' ],
+					'key'     => 'our_price_in_filter',
+					'value'   => [ '50000', '300000' ],
 					'compare' => 'BETWEEN',
 					'type'    => 'numeric'
 				];
