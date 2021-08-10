@@ -22,7 +22,11 @@
 <script id="template-download" type="text/x-tmpl">
 	{% for (var i=0, file; file=o.files[i]; i++) { %}
 		<tr class="template-download fade{%=file.thumbnailUrl?' image':''%} memorial-block__upload-card-block">
-			<td class="memorial-block__upload-card-photo"><img src="{%=file.thumbnailUrl%}" style="max-width: 150px;"></td>
+			<td class="memorial-block__upload-card-photo">
+			    <a href="{%=file.url%}" data-fancybox="images">
+			        <img src="{%=file.thumbnailUrl%}" style="max-width: 150px;">
+			    </a>
+			</td>
 			<td class="memorial-block__upload-card-name">
 				{%=file.name%}
                 {% if (file.error) { %}

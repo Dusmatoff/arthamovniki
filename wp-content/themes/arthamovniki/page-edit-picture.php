@@ -111,7 +111,9 @@ $photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
 										?>
                                         <tr class="template-download fade image in memorial-block__upload-card-block">
                                             <td class="memorial-block__upload-card-photo">
-                                                <img src="<?php echo $attachment_url; ?>" style="max-width: 150px;">
+                                                <a href="<?php echo $attachment_url; ?>" data-fancybox="images">
+                                                    <img src="<?php echo $attachment_url; ?>" style="max-width: 150px;">
+                                                </a>
                                             </td>
                                             <td class="memorial-block__upload-card-name">
 												<?php echo $file_name; ?>
