@@ -46,10 +46,8 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
                             <div class="lk__user">
 								<?php echo "$first_name $last_name"; ?>
                             </div>
-                            <a href="" class="lk__link">
-							<span>
-								Просмотр профиля
-							</span>
+                            <a href="/owner/?id=<?php echo $user_id; ?>" class="lk__link">
+							    <span>Просмотр профиля</span>
                             </a>
 							<?php profile_navigation( 1 ); ?>
                         </div>
@@ -58,11 +56,12 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
 								<?php foreach ( $user_pictures as $picture ):
 									$is_active = get_field( 'is_active', $picture->ID );
 									$who_can_see = get_field( 'who_can_see', $picture->ID );
+									$permalink = get_permalink($picture->ID);
 									?>
                                     <div class="catalog-card">
-                                        <div class="catalog-card__img">
+                                        <a href="<?php echo $permalink; ?>" class="catalog-card__img">
                                             <img src="<?php echo get_the_post_thumbnail_url( $picture->ID ); ?>">
-                                        </div>
+                                        </a>
                                         <div class="catalog-card__content">
                                             <div class="catalog-card__title">
 												<?php echo $picture->post_title; ?>
@@ -70,7 +69,7 @@ wp_nonce_field( 'status_picture_action', 'status_picture_nonce' );
                                             <div class="catalog-card__row">
                                                 <?php if ($picture->post_status == 'publish'): ?>
                                                     <div class="catalog-card__col">
-                                                        <a href="<?php echo get_permalink($picture->ID); ?>"
+                                                        <a href="<?php echo $permalink; ?>"
                                                            class="btn btn--h-md btn--border"
                                                            target="_blank"
                                                         >
