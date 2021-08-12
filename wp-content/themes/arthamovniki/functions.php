@@ -315,3 +315,17 @@ function is_current_user_partner( $user = null ) {
 
 	return in_array( 'um_partner', $user->roles );
 }
+
+//Custom admin column for pictures
+add_filter( 'manage_picture_posts_columns', function ( $columns ) {
+	return array_slice( $columns, 0, 1 ) + $columns + [ 'artist' => 'Художник' ];
+} );
+
+add_action( 'manage_picture_posts_custom_column', function ( $column_name ) {
+	$artist_id = get_field( 'artist' );
+	$artist    = get_post( $artist_id );
+
+	if ( $column_name === 'artist' ) {
+		echo "<a href='/artist/$artist->post_name/' target='_blank'>$artist->post_title</a>";
+	}
+} );
