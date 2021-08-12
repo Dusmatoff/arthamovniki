@@ -123,7 +123,7 @@ function generate_wp_query( $count, $post_in, $user_roles ) {
                                             <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="">
                                         </a>
                                         <p class="product-card__title">
-                                            <a href="/artist/<?php echo $artist->post_name; ?>/" target="_blank">
+                                            <a href="/artist/<?php echo $artist->post_name; ?>/">
 												<?php echo $artist->post_title; ?>
                                             </a>
                                         </p>
@@ -169,7 +169,7 @@ function generate_wp_query( $count, $post_in, $user_roles ) {
                                             <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="">
                                         </a>
                                         <p class="product-card__title">
-                                            <a href="/artist/<?php echo $artist->post_name; ?>/" target="_blank">
+                                            <a href="/artist/<?php echo $artist->post_name; ?>/">
 												<?php echo $artist->post_title; ?>
                                             </a>
                                         </p>
@@ -222,7 +222,7 @@ function generate_wp_query( $count, $post_in, $user_roles ) {
                                             <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="">
                                         </a>
                                         <p class="product-card__title">
-                                            <a href="/artist/<?php echo $artist->post_name; ?>/" target="_blank">
+                                            <a href="/artist/<?php echo $artist->post_name; ?>/">
 												<?php echo $artist->post_title; ?>
                                             </a>
                                         </p>

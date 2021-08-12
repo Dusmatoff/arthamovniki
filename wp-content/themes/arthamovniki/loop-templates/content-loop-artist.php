@@ -45,7 +45,7 @@ $image_src          = get_the_post_thumbnail_url() ?: '/wp-content/themes/artham
 			$title = get_the_title();
 			?>
             <div class="authors__item-pictures-item">
-                <a href="<?php the_permalink(); ?>" target="_blank">
+                <a href="<?php the_permalink(); ?>">
                     <img src="<?php the_post_thumbnail_url(); ?>"
                          alt="<?php echo $title; ?>"
                          title="<?php echo $title; ?>"

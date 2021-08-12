@@ -81,7 +81,6 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
 				<?php if ( $show_owner_link == '' || $show_owner_link == '1' ): ?>
                     <a href="/owner/?id=<?php echo $owner->ID; ?>"
                        class="catalog-card__info-item-value"
-                       target="_blank"
                     >
 	                    <?php echo $first_name . ' ' . $last_name; ?>
                     </a>
