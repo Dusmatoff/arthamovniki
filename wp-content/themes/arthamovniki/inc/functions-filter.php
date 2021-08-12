@@ -72,7 +72,7 @@ add_action( 'wp_ajax_nopriv_pictures_filter_ajax_handler', 'pictures_filter_ajax
 
 function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 	$meta_query   = isset( $args['meta_query'] ) ? $args['meta_query'] : [];
-	$prices_array = [ '0', '50000', '300000', '301000' ];
+	$prices_array = [ '0', '50000', '50000_150000', '150000_400000', '400000_1000000', '1000001' ];
 	$sizes_array  = [ '0', '50', '100' ];
 
 	//Only active pictures
@@ -94,20 +94,38 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 				];
 			}
 
-			if ( $price == '300000' ) {
+			if ( $price == '50000_150000' ) {
 				$meta_query[] = [
 					'key'     => 'our_price_in_filter',
-					'value'   => [ '50000', '300000' ],
+					'value'   => [ '50000', '150000' ],
 					'compare' => 'BETWEEN',
 					'type'    => 'numeric'
 				];
 			}
 
-			if ( $price == '301000' ) {
+			if ( $price == '150000_400000' ) {
 				$meta_query[] = [
 					'key'     => 'our_price_in_filter',
-					'value'   => '300000',
-					'compare' => '>=',
+					'value'   => [ '150000', '400000' ],
+					'compare' => 'BETWEEN',
+					'type'    => 'numeric'
+				];
+			}
+
+			if ( $price == '400000_1000000' ) {
+				$meta_query[] = [
+					'key'     => 'our_price_in_filter',
+					'value'   => [ '400000', '1000000' ],
+					'compare' => 'BETWEEN',
+					'type'    => 'numeric'
+				];
+			}
+
+			if ( $price == '1000001' ) {
+				$meta_query[] = [
+					'key'     => 'our_price_in_filter',
+					'value'   => '1000000',
+					'compare' => '>',
 					'type'    => 'numeric'
 				];
 			}

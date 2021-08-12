@@ -1,7 +1,13 @@
 <label>Размер (по большей стороне)</label>
 
 <div class="form-check">
-    <input class="form-check-input" type="radio" value="any" name="size" id="size-any">
+    <input class="form-check-input"
+           type="radio"
+           value="any"
+           name="size"
+           id="size-any"
+		<?php echo ! empty( $_GET['size'] ) && $_GET['size'] === 'any' ? 'checked' : ''; ?>
+    >
     <label class="form-check-label" for="size-any">
         Любой
     </label>

@@ -1,11 +1,10 @@
-<label>Цена</label>
-
 <div class="form-check">
     <input class="form-check-input" type="radio" value="any" name="price" id="price-any">
     <label class="form-check-label" for="price-any">
         Любая
     </label>
 </div>
+
 <div class="form-check">
     <input class="form-check-input"
            type="radio"
@@ -18,31 +17,58 @@
         До 50 тыс руб
     </label>
 </div>
+
 <div class="form-check">
     <input class="form-check-input"
            type="radio"
            name="price"
-           value="300000"
-           id="price-300"
-		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '300000' ? 'checked' : ''; ?>
+           value="50000_150000"
+           id="price-51"
+		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '50000_150000' ? 'checked' : ''; ?>
     >
-    <label class="form-check-label" for="price-300">
-        От 50 до 300 тыс руб
-    </label>
-</div>
-<div class="form-check">
-    <input class="form-check-input"
-           type="radio"
-           name="price"
-           value="301000"
-           id="price-301"
-		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '301000' ? 'checked' : ''; ?>
-    >
-    <label class="form-check-label" for="price-300">
-        Свыше  300 тыс руб
+    <label class="form-check-label" for="price-51">
+        От 50 до 150 тыс руб
     </label>
 </div>
 
+<div class="form-check">
+    <input class="form-check-input"
+           type="radio"
+           name="price"
+           value="150000_400000"
+           id="price-150"
+		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '150000_400000' ? 'checked' : ''; ?>
+    >
+    <label class="form-check-label" for="price-150">
+        От 150 до 400 тыс руб
+    </label>
+</div>
+
+<div class="form-check">
+    <input class="form-check-input"
+           type="radio"
+           name="price"
+           value="400000_1000000"
+           id="price-400"
+		<?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '400000_1000000' ? 'checked' : ''; ?>
+    >
+    <label class="form-check-label" for="price-400">
+        От 400 тыс руб до 1 млн руб
+    </label>
+</div>
+
+<div class="form-check">
+    <input class="form-check-input"
+           type="radio"
+           name="price"
+           value="1000001"
+           id="price-mln"
+            <?php echo ! empty( $_GET['price'] ) && $_GET['price'] === '1000001' ? 'checked' : ''; ?>
+    >
+    <label class="form-check-label" for="price-mln">
+        Свыше 1 млн руб
+    </label>
+</div>
 
 <!--<div class="form-check">
     <input class="form-check-input"
