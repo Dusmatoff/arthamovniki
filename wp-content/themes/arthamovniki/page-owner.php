@@ -24,19 +24,32 @@ $owner_subtitle = get_user_meta( $owner_id, 'owner_subtitle', true );
 $owner_text     = get_user_meta( $owner_id, 'owner_text', true );
 
 function generate_owner_pictures_query( $owner_id, $user_roles ) {
+	if ( ! empty( $user_roles ) ) {
+		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
+			$args = [
+				'post_type'      => 'picture',
+				'posts_per_page' => - 1,
+				'post_status'    => 'any',
+				'author'         => $owner_id,
+			];
+
+			return new WP_Query( $args );
+		}
+	}
+
 	$args = [
 		'post_type'      => 'picture',
 		'posts_per_page' => - 1,
 		'post_status'    => 'publish',
 		'author'         => $owner_id,
-		'meta_query' => [
+		'meta_query'     => [
 			'relation' => 'AND',
 			[ 'key' => 'is_active', 'value' => '1' ],
 		]
 	];
 
 	if ( ! empty( $user_roles ) ) {
-		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) || in_array( 'um_partner', $user_roles ) ) {
+		if ( in_array( 'um_partner', $user_roles ) ) {
 			return new WP_Query( $args );
 		}
 	}
@@ -50,6 +63,7 @@ function generate_owner_pictures_query( $owner_id, $user_roles ) {
 
 	return new WP_Query( $args );
 }
+
 ?>
     <section class="section-first product">
         <div class="container">
@@ -87,7 +101,7 @@ function generate_owner_pictures_query( $owner_id, $user_roles ) {
 
                     <div class="catalog-cards catalog-cards--middle">
 						<?php
-						$query = generate_owner_pictures_query($owner_id, $user_roles);
+						$query = generate_owner_pictures_query( $owner_id, $user_roles );
 
 						while ( $query->have_posts() ) {
 							$query->the_post();

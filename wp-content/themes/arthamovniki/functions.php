@@ -318,10 +318,34 @@ function is_current_user_partner( $user = null ) {
 
 //Custom admin column for pictures
 add_filter( 'manage_picture_posts_columns', function ( $columns ) {
-	return array_slice( $columns, 0, 1 ) + $columns + [ 'artist' => 'Художник' ];
+	$new_columns = [ 'artist' => 'Художник', 'who_can_see' => 'Кому видна' ];
+
+	return array_slice( $columns, 0, 1 ) + $columns + $new_columns;
 } );
 
 add_action( 'manage_picture_posts_custom_column', function ( $column_name ) {
+	$theme_uri   = get_stylesheet_directory_uri();
+	$who_can_see = get_field( 'who_can_see' );
+	$is_active   = get_field( 'is_active' );
+
+	if ( $column_name === 'who_can_see' ) {
+		if ( ! $is_active ) {
+			echo "<img src='$theme_uri/img/ban.png' width='48'>";
+		} else {
+			switch ( $who_can_see ) {
+				case 'everyone':
+					echo "<span>Видна всем</span>";
+					break;
+				case 'partners':
+					echo "<img src='$theme_uri/img/handshake.png' width='48'>";
+					break;
+				case 'hide_from_catalog':
+					echo "<img src='$theme_uri/img/lock.png' width='48'>";
+					break;
+			}
+		}
+	}
+
 	$artist_id = get_field( 'artist' );
 	$artist    = get_post( $artist_id );
 
@@ -331,11 +355,39 @@ add_action( 'manage_picture_posts_custom_column', function ( $column_name ) {
 } );
 
 //Allow tiff
+//add_filter( 'upload_mimes', 'allow_myme_types', 1, 1 );
 function allow_myme_types( $mime_types ) {
-	$mime_types['tiff'] = 'image/tiff';
+	$mime_types['tiff']   = 'image/tiff';
 	$mime_types['x-tiff'] = 'image/x-tiff';
 
 	return $mime_types;
 }
 
-//add_filter( 'upload_mimes', 'allow_myme_types', 1, 1 );
+//Show icons for admin (picture status and who can see)
+function show_icon_for_admin( $post_id ) {
+	$picture   = get_post( $post_id );
+	$theme_uri = get_stylesheet_directory_uri();
+
+	if ( $picture->post_status == 'draft' ) {
+		echo "<img src='$theme_uri/img/pencil.png' width='48'>";
+	} else {
+		$who_can_see = get_field( 'who_can_see', $post_id );
+		$is_active   = get_field( 'is_active', $post_id );
+
+		if ( ! $is_active ) {
+			echo "<img src='$theme_uri/img/ban.png' width='48'>";
+		} else {
+			switch ( $who_can_see ) {
+				case 'everyone':
+					echo "<span>Видна всем</span>";
+					break;
+				case 'partners':
+					echo "<img src='$theme_uri/img/handshake.png' width='48'>";
+					break;
+				case 'hide_from_catalog':
+					echo "<img src='$theme_uri/img/lock.png' width='48'>";
+					break;
+			}
+		}
+	}
+}

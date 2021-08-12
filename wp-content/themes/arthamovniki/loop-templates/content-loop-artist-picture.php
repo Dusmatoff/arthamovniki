@@ -8,6 +8,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+global $current_user;
 $id               = get_the_ID();
 $artist_id        = get_field( 'artist' );
 $artist           = get_post( $artist_id );
@@ -25,12 +26,12 @@ $owner            = get_user_by( 'ID', $author_id );
 $show_owner_link  = get_user_meta( $author_id, 'show_owner_link', true );
 $show_modal_info  = get_user_meta( $author_id, 'show_modal_info', true );
 $owner_modal_info = get_user_meta( $author_id, 'owner_modal_info', true );
-$first_name   = get_user_meta( $owner->ID, 'first_name', true );
-$last_name    = get_user_meta( $owner->ID, 'last_name', true );
+$first_name       = get_user_meta( $owner->ID, 'first_name', true );
+$last_name        = get_user_meta( $owner->ID, 'last_name', true );
 ?>
 <div class="catalog-card">
     <div class="catalog-card__img">
-	    <?php get_template_part('template-parts/favorite-button'); ?>
+		<?php get_template_part( 'template-parts/favorite-button' ); ?>
         <a href="<?php echo get_permalink(); ?>">
             <img src="<?php echo get_the_post_thumbnail_url(); ?>" alt="<?php echo get_the_title(); ?>">
         </a>
@@ -82,14 +83,14 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
                     <a href="/owner/?id=<?php echo $owner->ID; ?>"
                        class="catalog-card__info-item-value"
                     >
-	                    <?php echo $first_name . ' ' . $last_name; ?>
+						<?php echo $first_name . ' ' . $last_name; ?>
                     </a>
 				<?php elseif ( $show_modal_info == '' || $show_modal_info == '1' ): ?>
                     <a href="#owner-popup-<?php echo $author_id; ?>"
                        data-fancybox=""
                        class="catalog-card__info-item-value"
                     >
-	                    <?php echo $first_name . ' ' . $last_name; ?>
+						<?php echo $first_name . ' ' . $last_name; ?>
                     </a>
 				<?php else: ?>
                     <span class="catalog-card__info-item-value">
@@ -97,6 +98,16 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
                     </span>
 				<?php endif; ?>
             </li>
+			<?php if ( in_array( 'administrator', $current_user->roles ) ): ?>
+                <li class="catalog-card__info-item">
+                    <div class="catalog-card__info-item-title">
+                        Доступность
+                    </div>
+                    <div class="catalog-card__info-item-value">
+						<?php show_icon_for_admin($id); ?>
+                    </div>
+                </li>
+			<?php endif; ?>
         </ul>
     </div>
 </div>
@@ -104,10 +115,10 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
 <div class="d-none">
     <div class="author-popup" id="owner-popup-<?php echo $author_id; ?>">
         <div class="author-popup__title">
-	        <?php echo $owner->data->display_name; ?>
+			<?php echo $owner->data->display_name; ?>
         </div>
         <div class="author-popup__text">
-	        <?php echo $owner_modal_info; ?>
+			<?php echo $owner_modal_info; ?>
         </div>
     </div>
 </div>

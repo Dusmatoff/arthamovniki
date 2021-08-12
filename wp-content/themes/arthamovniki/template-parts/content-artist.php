@@ -7,32 +7,39 @@
  * @package Art_Hamovniki
  */
 
-$artist_id          = get_the_ID();
-$image_src          = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/img/ava-default.png';
+$artist_id = get_the_ID();
+$theme_uri = get_stylesheet_directory_uri();
+$image_src = get_the_post_thumbnail_url() ?: $theme_uri . '/img/ava-default.png';
 
 function generate_artist_pictures_query() {
 	global $current_user;
 	$user_roles = $current_user->roles;
 
-	$args = [
-		'post_type'      => 'picture',
-		'posts_per_page' => - 1,
-		'post_status'    => 'publish',
-		'meta_query'     => [
-			'relation' => 'AND',
-			[
-				'key'   => 'is_active',
-				'value' => 1
-			]
-		]
-	];
-
 	if ( ! empty( $user_roles ) ) {
-		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) || in_array( 'um_partner', $user_roles ) ) {
-			$args['meta_query'] = [
-				'relation' => 'AND',
-				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone', 'hide_from_catalog' ], 'compare' => 'IN' ],
-				[ 'key' => 'is_active', 'value' => '1' ],
+		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
+			$args = [
+				'post_type'      => 'picture',
+				'posts_per_page' => - 1,
+				'post_status'    => 'any',
+			];
+
+			return new WP_Query( $args );
+		}
+
+		if ( in_array( 'um_partner', $user_roles ) ) {
+			$args = [
+				'post_type'      => 'picture',
+				'posts_per_page' => - 1,
+				'post_status'    => 'publish',
+				'meta_query'     => [
+					'relation' => 'AND',
+					[
+						'key'     => 'who_can_see',
+						'value'   => [ 'partners', 'everyone', 'hide_from_catalog' ],
+						'compare' => 'IN'
+					],
+					[ 'key' => 'is_active', 'value' => '1' ],
+				]
 			];
 
 			return new WP_Query( $args );
@@ -40,10 +47,15 @@ function generate_artist_pictures_query() {
 	}
 
 	//For subscribers
-	$args['meta_query'] = [
-		'relation' => 'AND',
-		[ 'key' => 'who_can_see', 'value' => [ 'hide_from_catalog', 'everyone' ], 'compare' => 'IN' ],
-		[ 'key' => 'is_active', 'value' => '1' ],
+	$args = [
+		'post_type'      => 'picture',
+		'posts_per_page' => - 1,
+		'post_status'    => 'publish',
+		'meta_query'     => [
+			'relation' => 'AND',
+			[ 'key' => 'who_can_see', 'value' => [ 'hide_from_catalog', 'everyone' ], 'compare' => 'IN' ],
+			[ 'key' => 'is_active', 'value' => '1' ],
+		]
 	];
 
 	return new WP_Query( $args );

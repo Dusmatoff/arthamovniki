@@ -2,8 +2,8 @@
 global $current_user;
 $user_roles = $current_user->roles;
 
-$id                 = get_the_ID();
-$image_src          = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/img/ava-default.png';
+$id        = get_the_ID();
+$image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/img/ava-default.png';
 ?>
 <div class="authors__item">
     <a href="<?php the_permalink( $id ); ?>" class="authors__item-ava">
@@ -16,27 +16,43 @@ $image_src          = get_the_post_thumbnail_url() ?: '/wp-content/themes/artham
     </div>
     <div class="authors__item-pictures">
 		<?php
+		if ( ! empty( $user_roles ) ) {
+			if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
+				$args = [
+					'post_type'      => 'picture',
+					'posts_per_page' => - 1,
+					'post_status'    => 'any',
+					'meta_query'     => [
+						'relation' => 'AND',
+						[ 'key' => 'artist', 'value' => $id ],
+					]
+				];
+			}
+
+			if ( in_array( 'um_partner', $user_roles ) ) {
+				$args = [
+					'post_type'      => 'picture',
+					'posts_per_page' => - 1,
+					'meta_query'     => [
+						'relation' => 'AND',
+						[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
+						[ 'key' => 'is_active', 'value' => '1' ],
+						[ 'key' => 'artist', 'value' => $id ]
+					]
+				];
+			}
+		}
+
 		$args = [
 			'post_type'      => 'picture',
 			'posts_per_page' => - 1,
-			'post_status'    => 'publish'
+			'meta_query'     => [
+				'relation' => 'AND',
+				[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => 'IN' ],
+				[ 'key' => 'is_active', 'value' => '1' ],
+				[ 'key' => 'artist', 'value' => $id ]
+			]
 		];
-
-		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ||  in_array( 'um_partner', $user_roles ) ) {
-			$args['meta_query'] = [
-				'relation' => 'AND',
-				[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
-				[ 'key' => 'is_active', 'value' => '1' ],
-				[ 'key' => 'artist', 'value' => $id ]
-			];
-		} else {
-			$args['meta_query'] = [
-				'relation' => 'AND',
-				[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ],
-				[ 'key' => 'is_active', 'value' => '1' ],
-				[ 'key' => 'artist', 'value' => $id ]
-			];
-		}
 
 		$query = new WP_Query( $args );
 
