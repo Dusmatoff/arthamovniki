@@ -354,15 +354,6 @@ add_action( 'manage_picture_posts_custom_column', function ( $column_name ) {
 	}
 } );
 
-//Allow tiff
-//add_filter( 'upload_mimes', 'allow_myme_types', 1, 1 );
-function allow_myme_types( $mime_types ) {
-	$mime_types['tiff']   = 'image/tiff';
-	$mime_types['x-tiff'] = 'image/x-tiff';
-
-	return $mime_types;
-}
-
 //Show icons for admin (picture status and who can see)
 function show_icon_for_admin( $post_id ) {
 	$picture   = get_post( $post_id );

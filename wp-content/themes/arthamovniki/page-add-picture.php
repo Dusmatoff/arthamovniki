@@ -462,12 +462,12 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
             photoUpload.fileupload({
                 url: '/wp-admin/admin-ajax.php?action=photo_upload&photo_upload_nonce=<?php echo $photo_upload_nonce; ?>',
                 maxFileSize: 20971520,// 20 MB
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png|tiff)$/i,
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
                 autoUpload: true,
                 maxNumberOfFiles: 10,
                 messages: {
                     maxNumberOfFiles: 'Лимит файлов исчерпан',
-                    acceptFileTypes: 'Формат не подходит. Попробуйте другой файл',
+                    acceptFileTypes: 'Формат не подходит. Разрещенные форматы: gif,jpg,png',
                     maxFileSize: 'Слишком большой размер. Попробуйте другой файл',
                 }
             });
