@@ -344,7 +344,7 @@ $photo_delete_nonce = wp_create_nonce( 'photo_delete_nonce' );
             let photoUpload = $('#photo-upload');
             photoUpload.fileupload({
                 url: '/wp-admin/admin-ajax.php?action=photo_upload&photo_upload_nonce=<?php echo $photo_upload_nonce; ?>',
-                maxFileSize: 10485760,// 10 MB
+                maxFileSize: 20971520,// 20 MB
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png|tiff)$/i,
                 autoUpload: true,
                 maxNumberOfFiles: 10,

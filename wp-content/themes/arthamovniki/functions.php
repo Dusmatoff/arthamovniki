@@ -329,3 +329,13 @@ add_action( 'manage_picture_posts_custom_column', function ( $column_name ) {
 		echo "<a href='/artist/$artist->post_name/' target='_blank'>$artist->post_title</a>";
 	}
 } );
+
+//Allow tiff
+function allow_myme_types( $mime_types ) {
+	$mime_types['tiff'] = 'image/tiff';
+	$mime_types['x-tiff'] = 'image/x-tiff';
+
+	return $mime_types;
+}
+
+//add_filter( 'upload_mimes', 'allow_myme_types', 1, 1 );
