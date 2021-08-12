@@ -17,7 +17,7 @@ function add_picture() {
 	try {
 		$post_data = [
 			'post_title'  => wp_strip_all_tags( $_POST['picture_name'] ),
-			'post_status' => 'draft',
+			'post_status' => 'publish',
 			'post_author' => $user_id,
 			'post_type'   => 'picture',
 		];
