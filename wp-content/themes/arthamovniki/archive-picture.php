@@ -28,7 +28,7 @@ get_header();
                     <div class="col-lg-3">
 						<?php get_template_part( 'template-parts/picture-filter' ); ?>
                     </div>
-                    <div class="col-9">
+                    <div class="col-9 catalog-col-xs-12">
                         <div class="catalog-cards">
 							<?php
 							$url = home_url('picture');

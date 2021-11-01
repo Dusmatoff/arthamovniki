@@ -77,7 +77,7 @@ $last_name        = get_user_meta( $owner->ID, 'last_name', true );
             </li>
             <li class="catalog-card__info-item">
                 <div class="catalog-card__info-item-title">
-                    Владелец / Представитель
+                    Владелец (Представитель)
                 </div>
 				<?php if ( $show_owner_link == '' || $show_owner_link == '1' ): ?>
                     <a href="/owner/?id=<?php echo $owner->ID; ?>"

@@ -55,3 +55,14 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
     background-color: #BA884D;
     color: #fff;
 }
+
+.pagenavi {
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px){
+    .catalog-col-xs-12 {
+        flex: 0 0 100%;
+        max-width: 100%!important;
+    }
+}
