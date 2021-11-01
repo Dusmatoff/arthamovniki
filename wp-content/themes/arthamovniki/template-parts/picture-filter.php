@@ -12,7 +12,7 @@
         <div class="filter">
             <div class="filter__group active">
                 <div class="filter__group-header">
-                    <div class="filter__group-title">Тема</div>
+                    <div class="filter__group-title">Раздел</div>
                     <div class="filter__group-arr">
                         <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M13.0831 1L6.76019 7L1 1" stroke-width="1.5" stroke-linecap="round"
@@ -26,7 +26,7 @@
             </div>
             <div class="filter__group <?php echo ! empty( $_GET['subject'] ) ? 'active' : ''; ?>">
                 <div class="filter__group-header">
-                    <div class="filter__group-title">Сюжет</div>
+                    <div class="filter__group-title">Жанр/Тема</div>
                     <div class="filter__group-arr">
                         <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M13.0831 1L6.76019 7L1 1" stroke-width="1.5" stroke-linecap="round"

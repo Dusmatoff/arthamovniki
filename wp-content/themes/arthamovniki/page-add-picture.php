@@ -333,7 +333,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                         </div>
                                     </div>
                                     <div class="form__row">
-                                        <div class="form__field-label">Темы</div>
+                                        <div class="form__field-label">Разделы</div>
                                         <div class="form__field-group">
                                             <div class="form__field form__field--grey">
                                                 <select class="form__field-select chosen-select"
@@ -351,7 +351,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                         </div>
                                     </div>
                                     <div class="form__row">
-                                        <div class="form__field-label">Сюжеты</div>
+                                        <div class="form__field-label">Жанр/Тема</div>
                                         <div class="form__field-group">
                                             <div class="form__field form__field--grey">
                                                 <select class="form__field-select chosen-select"
