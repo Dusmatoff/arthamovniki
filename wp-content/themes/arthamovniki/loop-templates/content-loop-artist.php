@@ -3,7 +3,7 @@ global $current_user;
 $user_roles = $current_user->roles;
 
 $id        = get_the_ID();
-$image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/img/ava-default.png';
+$image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/img/ava-default.jpg';
 ?>
 <div class="authors__item">
     <a href="<?php the_permalink( $id ); ?>" class="authors__item-ava">

@@ -9,7 +9,7 @@
 
 $artist_id = get_the_ID();
 $theme_uri = get_stylesheet_directory_uri();
-$image_src = get_the_post_thumbnail_url() ?: $theme_uri . '/img/ava-default.png';
+$image_src = get_the_post_thumbnail_url() ?: $theme_uri . '/img/ava-default.jpg';
 
 function generate_artist_pictures_query() {
 	global $current_user;
