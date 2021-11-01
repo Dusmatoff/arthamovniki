@@ -17,7 +17,7 @@ function add_picture() {
 	try {
 		$post_data = [
 			'post_title'  => wp_strip_all_tags( $_POST['picture_name'] ),
-			'post_status' => 'publish',
+			'post_status' => 'draft',
 			'post_author' => $user_id,
 			'post_type'   => 'picture',
 		];
@@ -75,6 +75,7 @@ function add_picture() {
 			add_post_meta( $post_id, 'year', $_POST['year'] );
 			add_post_meta( $post_id, 'width', $_POST['width'] );
 			add_post_meta( $post_id, 'length', $_POST['length'] );
+			add_post_meta( $post_id, 'is_active', 1 );
 
 			//Галерея
 			if ( ! empty( $_POST['images'] ) ) {
