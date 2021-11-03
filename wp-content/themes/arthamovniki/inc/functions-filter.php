@@ -15,7 +15,7 @@ function render_term_checkboxes( $termName ) {
                        name="<?php echo $termName ?>[]"
                        value="<?php echo $term->slug ?>"
                        id="<?php echo $termName . '-' . $term->slug ?>"
-					<?php echo ! empty( $_GET ) && in_array( $term->slug, $_GET[ $termName ] ) ? 'checked' : ''; ?>
+					<?php echo ! empty( $_GET ) && isset($_GET[ $termName ]) && in_array( $term->slug, $_GET[ $termName ] ) ? 'checked' : ''; ?>
                 >
                 <div class="filter__label-text">
 					<?php echo $term->name ?>

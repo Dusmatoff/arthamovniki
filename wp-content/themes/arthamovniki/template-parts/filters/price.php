@@ -1,11 +1,4 @@
 <div class="form-check">
-    <input class="form-check-input" type="radio" value="any" name="price" id="price-any">
-    <label class="form-check-label" for="price-any">
-        Любая
-    </label>
-</div>
-
-<div class="form-check">
     <input class="form-check-input"
            type="radio"
            name="price"
