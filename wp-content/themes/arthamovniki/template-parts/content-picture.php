@@ -140,7 +140,7 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
                     </li>
                     <li class="product__info-item">
                         <div class="product__info-item-title">
-                            Владелец (Представитель)
+                            Владелец или представитель
                         </div>
 						<?php if ( $show_owner_link == '' || $show_owner_link == '1' ): ?>
                             <a href="/owner/?id=<?php echo $owner->ID; ?>"

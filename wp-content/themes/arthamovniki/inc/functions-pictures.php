@@ -76,6 +76,8 @@ function add_picture() {
 			add_post_meta( $post_id, 'width', $_POST['width'] );
 			add_post_meta( $post_id, 'length', $_POST['length'] );
 			add_post_meta( $post_id, 'is_active', 1 );
+			$price_history_change = date('Y-m-d h:i:s') . '-' . $_POST['price'] . '₽';
+			add_post_meta( $post_id, 'price_history_change', $price_history_change );
 
 			//Галерея
 			if ( ! empty( $_POST['images'] ) ) {
@@ -154,6 +156,11 @@ function edit_picture() {
 			update_post_meta( $post_id, 'year', $_POST['year'] );
 			update_post_meta( $post_id, 'width', $_POST['width'] );
 			update_post_meta( $post_id, 'length', $_POST['length'] );
+
+			$old_price_history_change = get_post_meta($post_id, 'price_history_change', true);
+
+			$price_history_change = $old_price_history_change . '' . date('Y-m-d h:i:s') . '-' . $_POST['price'] . '₽<br>';
+			update_post_meta( $post_id, 'price_history_change', $price_history_change );
 
 			//Галерея
 			if ( ! empty( $_POST['images'] ) ) {
