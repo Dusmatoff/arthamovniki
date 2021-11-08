@@ -67,7 +67,9 @@ jQuery(function ($) { // use jQuery code inside this to avoid "$ is not defined"
                     if ($.isArray(data[obj.name])) {
                         data[obj.name].push(obj.value);
                     } else {
+                        let oldValue = data[obj.name];
                         data[obj.name] = [];
+                        data[obj.name].push(oldValue);
                         data[obj.name].push(obj.value);
                     }
                 } else {

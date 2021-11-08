@@ -2,19 +2,19 @@
 
 <div class="form-check">
     <input class="form-check-input"
-           type="radio"
-           value="0"
+           type="checkbox"
+           value="1"
            name="size"
-           id="size-0"
-		<?php echo ! empty( $_GET['size'] ) && $_GET['size'] === '0' ? 'checked' : ''; ?>
+           id="size-1"
+		<?php echo ! empty( $_GET['size'] ) && $_GET['size'] === '1' ? 'checked' : ''; ?>
     >
-    <label class="form-check-label" for="size-0">
+    <label class="form-check-label" for="size-1">
         До 50 см
     </label>
 </div>
 <div class="form-check">
     <input class="form-check-input"
-           type="radio"
+           type="checkbox"
            value="50"
            name="size"
            id="size-50"
@@ -26,7 +26,7 @@
 </div>
 <div class="form-check">
     <input class="form-check-input"
-           type="radio"
+           type="checkbox"
            value="100"
            name="size"
            id="size-100"

@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="filter__group-body">
-					<?php render_term_checkboxes( 'picture_category' ); ?>
+					<?php render_term_radio( 'picture_category' ); ?>
                 </div>
             </div>
             <div class="filter__group <?php echo ! empty( $_GET['picture_subject'] ) ? 'active' : ''; ?>">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="filter__group-body">
-					<?php render_term_checkboxes( 'picture_subject' ); ?>
+					<?php render_term_radio( 'picture_subject' ); ?>
                 </div>
             </div>
             <div class="filter__group <?php echo ! empty( $_GET['size'] ) ? 'active' : ''; ?>">
