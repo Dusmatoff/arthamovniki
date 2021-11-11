@@ -60,7 +60,15 @@ function filter_picture_archive_query( $query ) {
 		$size  = isset( $_GET['size'] ) ? $_GET['size'] : null;
 		$args  = get_products_meta_filter( $args, $price, $size, $current_user->roles );
 		$query->set( 'meta_query', $args['meta_query'] );
+		$query->set( 'meta_key', 'order_number' );
+		$query->set( 'orderby', [ 'meta_value' => 'ASC' ] );
 	}
+
+	if ( $query->is_main_query() && is_post_type_archive( 'artist' ) && ! is_admin() ) {
+		$query->set( 'meta_key', 'order_number' );
+		$query->set( 'orderby', [ 'meta_value' => 'ASC' ] );
+	}
+
 }
 
 add_action( 'pre_get_posts', 'filter_picture_archive_query' );
@@ -73,6 +81,9 @@ function pictures_filter_ajax_handler() {
 	$args = [
 		'post_type'   => 'picture',
 		'post_status' => 'publish',
+		'meta_key' => 'order_number',
+		'orderby' => 'meta_value_num',
+		'order' => 'ASC',
 	];
 	//$args = get_products_title_filter($args, $_POST['title']);
 	//$args = get_products_authors_filter($args, $_POST['author']);
@@ -148,45 +159,45 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 
 			//$meta_query[] = [ 'key' => 'our_price_in_filter', 'value' => [ '' ], 'compare' => 'NOT IN' ];
 		} else {
-			$between_array = ['relation' => 'OR'];
+			$between_array = [ 'relation' => 'OR' ];
 
 			foreach ( $price as $item ) {
 				switch ( $item ) {
 					case '50':
-                        $result = [
-	                        'key'     => 'our_price_in_filter',
-	                        'value'   => 50000,
-	                        'compare' => '<=',
-	                        'type'    => 'numeric'
-                        ];
-						array_push($between_array, $result);
+						$result = [
+							'key'     => 'our_price_in_filter',
+							'value'   => 50000,
+							'compare' => '<=',
+							'type'    => 'numeric'
+						];
+						array_push( $between_array, $result );
 						break;
 					case '50_150':
 						$result = [
 							'key'     => 'our_price_in_filter',
-							'value'   => [50000, 150000],
+							'value'   => [ 50000, 150000 ],
 							'compare' => 'BETWEEN',
 							'type'    => 'numeric'
 						];
-						array_push($between_array, $result);
+						array_push( $between_array, $result );
 						break;
 					case '150_400':
 						$result = [
 							'key'     => 'our_price_in_filter',
-							'value'   => [150000, 400000],
+							'value'   => [ 150000, 400000 ],
 							'compare' => 'BETWEEN',
 							'type'    => 'numeric'
 						];
-						array_push($between_array, $result);
+						array_push( $between_array, $result );
 						break;
 					case '400_1m':
 						$result = [
 							'key'     => 'our_price_in_filter',
-							'value'   => [400000, 1000000],
+							'value'   => [ 400000, 1000000 ],
 							'compare' => 'BETWEEN',
 							'type'    => 'numeric'
 						];
-						array_push($between_array, $result);
+						array_push( $between_array, $result );
 						break;
 					case '1m':
 						$result = [
@@ -195,12 +206,12 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 							'compare' => '>',
 							'type'    => 'numeric'
 						];
-						array_push($between_array, $result);
+						array_push( $between_array, $result );
 						break;
 				}
 			}
 
-			array_push($meta_query, $between_array);
+			array_push( $meta_query, $between_array );
 		}
 	}
 
