@@ -56,7 +56,7 @@ function filter_picture_archive_query( $query ) {
 
 	if ( $query->is_main_query() && is_post_type_archive( 'picture' ) && ! is_admin() ) {
 		$args  = [ 'meta_query' => (array) $query->get( 'meta_query' ) ];
-		$price = isset( $_GET['price'] ) ? $_GET['price'] : 'any';
+		$price = isset( $_GET['price'] ) ? $_GET['price'] : null;
 		$size  = isset( $_GET['size'] ) ? $_GET['size'] : null;
 		$args  = get_products_meta_filter( $args, $price, $size, $current_user->roles );
 		$query->set( 'meta_query', $args['meta_query'] );
@@ -81,9 +81,9 @@ function pictures_filter_ajax_handler() {
 	$args = [
 		'post_type'   => 'picture',
 		'post_status' => 'publish',
-		'meta_key' => 'order_number',
-		'orderby' => 'meta_value_num',
-		'order' => 'ASC',
+		'meta_key'    => 'order_number',
+		'orderby'     => 'meta_value_num',
+		'order'       => 'ASC',
 	];
 	//$args = get_products_title_filter($args, $_POST['title']);
 	//$args = get_products_authors_filter($args, $_POST['author']);
@@ -381,7 +381,7 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 function get_products_taxonomy_filter( $args, $pictureCategories, $pictureSubjs ) {
 	$tax = isset( $args['tax_query'] ) ? $args['tax_query'] : [];
 
-	if ( $pictureCategories && is_array( $pictureCategories ) ) {
+	if ( $pictureCategories && is_array( $pictureCategories ) && ! in_array( 'any', $pictureCategories ) ) {
 		$tax[] = [
 			'taxonomy' => 'picture_category',
 			'field'    => 'slug',
@@ -389,7 +389,7 @@ function get_products_taxonomy_filter( $args, $pictureCategories, $pictureSubjs 
 		];
 	}
 
-	if ( $pictureSubjs && is_array( $pictureSubjs ) ) {
+	if ( $pictureSubjs && is_array( $pictureSubjs ) && ! in_array( 'any', $pictureSubjs ) ) {
 		$tax[] = [
 			'taxonomy' => 'picture_subject',
 			'field'    => 'slug',
