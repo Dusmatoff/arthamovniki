@@ -53,6 +53,7 @@ function render_term_radio( $termName ) {
 
 function filter_picture_archive_query( $query ) {
 	global $current_user;
+    $enable_numeric_sort = get_option('options_enable_numeric_sort');
 
 	if ( $query->is_main_query() && is_post_type_archive( 'picture' ) && ! is_admin() ) {
 		$args  = [ 'meta_query' => (array) $query->get( 'meta_query' ) ];
@@ -60,13 +61,20 @@ function filter_picture_archive_query( $query ) {
 		$size  = isset( $_GET['size'] ) ? $_GET['size'] : null;
 		$args  = get_products_meta_filter( $args, $price, $size, $current_user->roles );
 		$query->set( 'meta_query', $args['meta_query'] );
-		$query->set( 'meta_key', 'order_number' );
-		$query->set( 'orderby', [ 'meta_value' => 'ASC' ] );
+
+        if ($enable_numeric_sort) {
+	        $query->set('orderby', 'meta_value_num');
+	        $query->set('meta_key', 'order_number');
+	        $query->set('order', 'ASC');
+        }
 	}
 
 	if ( $query->is_main_query() && is_post_type_archive( 'artist' ) && ! is_admin() ) {
-		$query->set( 'meta_key', 'order_number' );
-		$query->set( 'orderby', [ 'meta_value' => 'ASC' ] );
+		if ($enable_numeric_sort) {
+			$query->set('orderby', 'meta_value_num');
+			$query->set('meta_key', 'order_number');
+			$query->set('order', 'ASC');
+		}
 	}
 
 }
