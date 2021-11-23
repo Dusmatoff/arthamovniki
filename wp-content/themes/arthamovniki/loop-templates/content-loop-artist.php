@@ -20,7 +20,7 @@ $image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/im
 			if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
 				$args = [
 					'post_type'      => 'picture',
-					'posts_per_page' => - 1,
+					'posts_per_page' => 5,
 					'post_status'    => 'any',
 					'meta_query'     => [
 						'relation' => 'AND',
@@ -32,7 +32,7 @@ $image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/im
 			if ( in_array( 'um_partner', $user_roles ) ) {
 				$args = [
 					'post_type'      => 'picture',
-					'posts_per_page' => - 1,
+					'posts_per_page' => 5,
 					'meta_query'     => [
 						'relation' => 'AND',
 						[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
@@ -45,13 +45,15 @@ $image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/im
 
 		$args = [
 			'post_type'      => 'picture',
-			'posts_per_page' => - 1,
+			'posts_per_page' => 5,
 			'meta_query'     => [
 				'relation' => 'AND',
 				[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => 'IN' ],
 				[ 'key' => 'is_active', 'value' => '1' ],
 				[ 'key' => 'artist', 'value' => $id ]
-			]
+			],
+			'meta_key'       => 'order_number',
+			'orderby'        => [ 'meta_value_num' => 'ASC' ],
 		];
 
 		$query = new WP_Query( $args );

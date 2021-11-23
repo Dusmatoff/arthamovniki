@@ -384,4 +384,4 @@ function show_icon_for_admin( $post_id ) {
 }
 
 //Disable Gutenberg
-add_filter('use_block_editor_for_post', '__return_false', 10);
+//add_filter('use_block_editor_for_post', '__return_false', 10);

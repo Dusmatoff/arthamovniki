@@ -21,6 +21,8 @@ function generate_artist_pictures_query() {
 				'post_type'      => 'picture',
 				'posts_per_page' => - 1,
 				'post_status'    => 'any',
+				'meta_key'       => 'order_number',
+				'orderby'        => [ 'meta_value_num' => 'ASC' ],
 			];
 
 			return new WP_Query( $args );
@@ -39,7 +41,9 @@ function generate_artist_pictures_query() {
 						'compare' => 'IN'
 					],
 					[ 'key' => 'is_active', 'value' => '1' ],
-				]
+				],
+				'meta_key'       => 'order_number',
+				'orderby'        => [ 'meta_value_num' => 'ASC' ],
 			];
 
 			return new WP_Query( $args );
@@ -55,7 +59,9 @@ function generate_artist_pictures_query() {
 			'relation' => 'AND',
 			[ 'key' => 'who_can_see', 'value' => [ 'hide_from_catalog', 'everyone' ], 'compare' => 'IN' ],
 			[ 'key' => 'is_active', 'value' => '1' ],
-		]
+		],
+		'meta_key'       => 'order_number',
+		'orderby'        => [ 'meta_value_num' => 'ASC' ],
 	];
 
 	return new WP_Query( $args );

@@ -31,6 +31,8 @@ function generate_owner_pictures_query( $owner_id, $user_roles ) {
 				'posts_per_page' => - 1,
 				'post_status'    => 'any',
 				'author'         => $owner_id,
+				'meta_key'       => 'order_number',
+				'orderby'        => [ 'meta_value_num' => 'ASC' ],
 			];
 
 			return new WP_Query( $args );
