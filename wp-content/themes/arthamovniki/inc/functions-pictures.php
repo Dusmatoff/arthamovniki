@@ -69,8 +69,8 @@ function add_picture() {
 			}
 
 			add_post_meta( $post_id, 'price', $_POST['price'] );
-			add_post_meta( $post_id, 'our_price_in_catalog', $_POST['price'] );
-			add_post_meta( $post_id, 'our_price_in_partner_catalog', $_POST['price'] );
+			add_post_meta( $post_id, 'our_price_in_catalog', 'Свой текст' );
+			add_post_meta( $post_id, 'custom_price', $_POST['price'] );
 			add_post_meta( $post_id, 'our_price_in_filter', $_POST['price'] );
 			add_post_meta( $post_id, 'year', $_POST['year'] );
 			add_post_meta( $post_id, 'width', $_POST['width'] );
@@ -87,24 +87,6 @@ function add_picture() {
 					add_post_meta( $post_id, 'images', $images );
 				}
 			}
-			/*$images_array = [];
-			foreach ( $_FILES as $key => $value ) {
-				if ( $key != 'artist_picture' ) {
-					//Добавляем фотографии только для картины
-					$attachment_id = media_handle_upload( $key, 0 );
-
-					if ( $key == 'images0' ) {
-						set_post_thumbnail( $post_id, $attachment_id );
-					}
-
-					if ( is_wp_error( $attachment_id ) ) {
-						wp_send_json( [ 'result' => 'Ошибка добавления фото картины' ], 400 );
-					}
-
-					array_push( $images_array, $attachment_id );
-				}
-			}
-			add_post_meta( $post_id, 'images', $images_array );*/
 		}
 
 		wp_send_json( [ 'result' => 'Картина добавлена' ], 200 );
@@ -153,6 +135,8 @@ function edit_picture() {
 			update_post_meta( $post_id, 'owner_description', $_POST['description'] );
 			update_post_meta( $post_id, 'who_can_see', $_POST['who_can_see'] );
 			update_post_meta( $post_id, 'price', $_POST['price'] );
+			update_post_meta( $post_id, 'our_price_in_catalog', 'Свой текст' );
+			update_post_meta( $post_id, 'custom_price', $_POST['price'] );
 			update_post_meta( $post_id, 'year', $_POST['year'] );
 			update_post_meta( $post_id, 'width', $_POST['width'] );
 			update_post_meta( $post_id, 'length', $_POST['length'] );

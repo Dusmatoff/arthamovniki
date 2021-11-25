@@ -10,21 +10,21 @@
 global $current_user;
 $user_roles = $current_user->roles;
 
-$id                           = get_the_ID();
-$picture_data                 = get_post( $id );
-$picture_name                 = get_the_title();
-$artist_id                    = get_field( 'artist' );
-$artist                       = get_post( $artist_id );
-$price                        = get_field( 'price' );
-$our_price_in_catalog         = get_field( 'our_price_in_catalog' );
-$our_price_in_partner_catalog = get_field( 'our_price_in_partner_catalog' );
-$formatted_price = ! empty( $our_price_in_catalog ) ? $our_price_in_catalog : number_format( $price );
+$id                   = get_the_ID();
+$picture_data         = get_post( $id );
+$picture_name         = get_the_title();
+$artist_id            = get_field( 'artist' );
+$artist               = get_post( $artist_id );
+//$price                = get_field( 'price' );
+$our_price_in_catalog = get_field( 'our_price_in_catalog' );
+$custom_price         = get_field( 'custom_price' );
+$formatted_price = $our_price_in_catalog === 'Свой текст' ? $custom_price : $our_price_in_catalog;
 
-if ( ! empty( $user_roles ) ) {
+/*if ( ! empty( $user_roles ) ) {
 	if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) || in_array( 'um_partner', $user_roles ) ) {
-		$formatted_price = ! empty( $our_price_in_partner_catalog ) ? $our_price_in_partner_catalog : number_format( $price );
+		$formatted_price = $our_price_in_catalog === 'Свой текст' ? $custom_price : number_format( $price );
 	}
-}
+}*/
 
 $images           = get_field( 'images' );
 $year             = get_field( 'year' );
@@ -51,8 +51,8 @@ $owner            = get_user_by( 'ID', $picture_data->post_author );
 $show_owner_link  = get_user_meta( $picture_data->post_author, 'show_owner_link', true );
 $show_modal_info  = get_user_meta( $picture_data->post_author, 'show_modal_info', true );
 $owner_modal_info = get_user_meta( $picture_data->post_author, 'owner_modal_info', true );
-$first_name   = get_user_meta( $owner->ID, 'first_name', true );
-$last_name    = get_user_meta( $owner->ID, 'last_name', true );
+$first_name       = get_user_meta( $owner->ID, 'first_name', true );
+$last_name        = get_user_meta( $owner->ID, 'last_name', true );
 ?>
 
 <section class="section-first product">
@@ -119,7 +119,7 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
                             Размер
                         </div>
                         <div class="product__info-item-value">
-	                        <?php echo "$length х $width см"; ?>
+							<?php echo "$length х $width см"; ?>
                         </div>
                     </li>
                     <li class="product__info-item">
@@ -146,11 +146,11 @@ $last_name    = get_user_meta( $owner->ID, 'last_name', true );
                             <a href="/owner/?id=<?php echo $owner->ID; ?>"
                                class="catalog-card__info-item-value"
                             >
-	                            <?php echo $first_name . ' ' . $last_name; ?>
+								<?php echo $first_name . ' ' . $last_name; ?>
                             </a>
 						<?php elseif ( $show_modal_info == '' || $show_modal_info == '1' ): ?>
                             <a href="#owner-popup" data-fancybox="" class="catalog-card__info-item-value">
-	                            <?php echo $first_name . ' ' . $last_name; ?>
+								<?php echo $first_name . ' ' . $last_name; ?>
                             </a>
 						<?php else: ?>
                             <span class="catalog-card__info-item-value">
