@@ -275,8 +275,8 @@ function hamovniki_pagination( $args = [], $class = 'pagination' ) {
 	$args = wp_parse_args(
 		$args,
 		[
-			'end_size'           => 5,
-			'mid_size'           => 5,
+			'end_size'           => 3,
+			'mid_size'           => 1,
 			'prev_next'          => true,
 			'prev_text'          => '<',
 			'next_text'          => '>',
