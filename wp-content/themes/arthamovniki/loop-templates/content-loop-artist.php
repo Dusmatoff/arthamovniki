@@ -73,8 +73,5 @@ $image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/im
 		<?php endwhile;
 		wp_reset_postdata(); ?>
     </div>
-    <a href="<?php the_permalink( $id ); ?>" class="btn btn--border btn--lg">
-        Смотреть
-    </a>
 </div>
 
