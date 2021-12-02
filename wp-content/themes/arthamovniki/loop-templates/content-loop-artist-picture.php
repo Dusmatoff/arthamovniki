@@ -104,8 +104,7 @@ $last_name        = get_user_meta( $owner->ID, 'last_name', true );
                         Доступность
                     </div>
                     <div class="catalog-card__info-item-value">
-						<?php show_icon_for_admin( $id ); ?> (<?php the_field( 'order_number' );
-	                    ; ?>)
+						<?php show_icon_for_admin( $id ); ?> (<?php the_field( 'order_number' ); ?>)
                     </div>
                 </li>
 			<?php endif; ?>
