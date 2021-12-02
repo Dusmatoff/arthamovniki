@@ -263,10 +263,9 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
-//Disable Gutenberg
-//add_filter('use_block_editor_for_post', '__return_false', 10);
-
-// Custom pagination template
+/**
+ * Custom pagination template
+ */
 function hamovniki_pagination( $args = [], $class = 'pagination' ) {
 	if ( $GLOBALS['wp_query']->max_num_pages <= 1 ) {
 		return;
@@ -308,6 +307,9 @@ function hamovniki_pagination( $args = [], $class = 'pagination' ) {
 	<?php
 }
 
+/**
+ * Check current user role
+ */
 function is_current_user_partner( $user = null ) {
 	if ( ! $user ) {
 		$user = wp_get_current_user();
@@ -316,7 +318,9 @@ function is_current_user_partner( $user = null ) {
 	return in_array( 'um_partner', $user->roles );
 }
 
-//Custom admin column for pictures
+/**
+ * Custom admin column for pictures
+ */
 add_filter( 'manage_picture_posts_columns', function ( $columns ) {
 	$new_columns = [ 'artist' => 'Художник', 'who_can_see' => 'Кому видна' ];
 
@@ -354,7 +358,9 @@ add_action( 'manage_picture_posts_custom_column', function ( $column_name ) {
 	}
 } );
 
-//Show icons for admin (picture status and who can see)
+/**
+ * Show icons for admin (picture status and who can see)
+ */
 function show_icon_for_admin( $post_id ) {
 	$picture   = get_post( $post_id );
 	$theme_uri = get_stylesheet_directory_uri();
@@ -383,5 +389,25 @@ function show_icon_for_admin( $post_id ) {
 	}
 }
 
-//Disable Gutenberg
-//add_filter('use_block_editor_for_post', '__return_false', 10);
+/**
+ * Fix order numbers for all pictures
+ */
+add_action( 'wp_ajax_fix_order_numbers', 'fix_order_numbers' );
+function fix_order_numbers() {
+	$pictures = get_posts( [
+		'post_type'      => 'picture',
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
+		'meta_key'       => 'order_number',
+		'orderby'        => [ 'meta_value_num' => 'ASC' ],
+	] );
+
+    for ($i = 0; $i < count($pictures); $i++) {
+        $post_title = $pictures[$i]->post_title;
+	    $num = $i + 1;
+	    update_post_meta($pictures[$i]->ID, 'order_number', $num);
+	    echo "<p>Порядковый номер для $post_title обновлен на $num<p>";
+    }
+
+    wp_die();
+}
