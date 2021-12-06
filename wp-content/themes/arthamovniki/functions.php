@@ -390,10 +390,10 @@ function show_icon_for_admin( $post_id ) {
 }
 
 /**
- * Fix order numbers for all pictures
+ * Fix order numbers for all pictures & authors
  */
-add_action( 'wp_ajax_fix_order_numbers', 'fix_order_numbers' );
-function fix_order_numbers() {
+add_action( 'wp_ajax_fix_pictures_order_numbers', 'fix_pictures_order_numbers' );
+function fix_pictures_order_numbers() {
 	$pictures = get_posts( [
 		'post_type'      => 'picture',
 		'posts_per_page' => -1,
@@ -410,4 +410,24 @@ function fix_order_numbers() {
     }
 
     wp_die();
+}
+
+add_action( 'wp_ajax_fix_authors_order_numbers', 'fix_authors_order_numbers' );
+function fix_authors_order_numbers() {
+	$artists = get_posts( [
+		'post_type'      => 'artist',
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
+		'meta_key'       => 'order_number',
+		'orderby'        => [ 'meta_value_num' => 'ASC' ],
+	] );
+
+	for ($i = 0; $i < count($artists); $i++) {
+		$post_title = $artists[$i]->post_title;
+		$num = $i + 1;
+		update_post_meta($artists[$i]->ID, 'order_number', $num);
+		echo "<p>Порядковый номер для $post_title обновлен на $num<p>";
+	}
+
+	wp_die();
 }
