@@ -13,6 +13,9 @@ $image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/im
         <a href="<?php the_permalink( $id ); ?>" class="authors__item-name">
 			<?php the_title(); ?>
         </a>
+	    <?php if ( in_array( 'administrator', $user_roles ) ): ?>
+            <span>(№<?php the_field( 'order_number' ); ?>)</span>
+        <?php endif; ?>
     </div>
     <div class="authors__item-pictures">
 		<?php
