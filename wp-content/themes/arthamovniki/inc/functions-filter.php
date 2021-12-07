@@ -389,7 +389,7 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 function get_products_taxonomy_filter( $args, $pictureCategories, $pictureSubjs ) {
 	$tax = isset( $args['tax_query'] ) ? $args['tax_query'] : [];
 
-	if ( $pictureCategories && is_array( $pictureCategories ) && ! in_array( 'any', $pictureCategories ) ) {
+	if ( $pictureCategories && is_array( $pictureCategories ) ) {
 		$tax[] = [
 			'taxonomy' => 'picture_category',
 			'field'    => 'slug',
@@ -397,7 +397,7 @@ function get_products_taxonomy_filter( $args, $pictureCategories, $pictureSubjs 
 		];
 	}
 
-	if ( $pictureSubjs && is_array( $pictureSubjs ) && ! in_array( 'any', $pictureSubjs ) ) {
+	if ( $pictureSubjs && is_array( $pictureSubjs ) ) {
 		$tax[] = [
 			'taxonomy' => 'picture_subject',
 			'field'    => 'slug',

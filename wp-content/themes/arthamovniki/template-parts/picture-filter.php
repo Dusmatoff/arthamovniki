@@ -23,18 +23,6 @@
                     </div>
                 </div>
                 <div class="filter__group-body">
-                    <label for="picture_category-any" class="filter__label">
-                        <input class="filter__label-input"
-                               type="radio"
-                               name="picture_category[]"
-                               value="any"
-                               id="picture_category-any"
-			                <?php echo ! empty( $_GET ) && isset( $_GET[ 'picture_category' ] ) && in_array( 'any', $_GET[ 'picture_category' ] ) ? 'checked' : ''; ?>
-                        >
-                        <div class="filter__label-text">
-			                Все разделы
-                        </div>
-                    </label>
 					<?php render_term_radio( 'picture_category' ); ?>
                 </div>
             </div>
@@ -52,18 +40,6 @@
                     </div>
                 </div>
                 <div class="filter__group-body">
-                    <label for="picture_subject-any" class="filter__label">
-                        <input class="filter__label-input"
-                               type="radio"
-                               name="picture_subject[]"
-                               value="any"
-                               id="picture_subject-any"
-			                <?php echo ! empty( $_GET ) && isset( $_GET[ 'picture_subject' ] ) && in_array( 'any', $_GET[ 'picture_subject' ] ) ? 'checked' : ''; ?>
-                        >
-                        <div class="filter__label-text">
-                            Все жанры и темы
-                        </div>
-                    </label>
 					<?php render_term_radio( 'picture_subject' ); ?>
                 </div>
             </div>
