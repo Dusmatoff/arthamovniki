@@ -1,0 +1,9 @@
+/* Hide Все разделы */
+div[aria-label="Разделы"] > .editor-post-taxonomies__hierarchical-terms-choice:nth-child(1) {
+    display: none!important;
+}
+
+/* Hide Все жанры и темы */
+div[aria-label="Жанр/Тема"] > .editor-post-taxonomies__hierarchical-terms-choice:nth-child(1) {
+    display: none!important;
+}

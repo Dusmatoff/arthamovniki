@@ -402,14 +402,14 @@ function fix_pictures_order_numbers() {
 		'orderby'        => [ 'meta_value_num' => 'ASC' ],
 	] );
 
-    for ($i = 0; $i < count($pictures); $i++) {
-        $post_title = $pictures[$i]->post_title;
-	    $num = $i + 1;
-	    update_post_meta($pictures[$i]->ID, 'order_number', $num);
-	    echo "<p>Порядковый номер для $post_title обновлен на $num<p>";
-    }
+	for ($i = 0; $i < count($pictures); $i++) {
+		$post_title = $pictures[$i]->post_title;
+		$num = $i + 1;
+		update_post_meta($pictures[$i]->ID, 'order_number', $num);
+		echo "<p>Порядковый номер для $post_title обновлен на $num<p>";
+	}
 
-    wp_die();
+	wp_die();
 }
 
 add_action( 'wp_ajax_fix_authors_order_numbers', 'fix_authors_order_numbers' );
@@ -430,4 +430,16 @@ function fix_authors_order_numbers() {
 	}
 
 	wp_die();
+}
+
+/**
+ * Admin styles
+ */
+add_action( 'admin_enqueue_scripts', 'arthamovniki_admin_styles' );
+function arthamovniki_admin_styles() {
+	global $pagenow;
+
+	if ( 'post.php' === $pagenow && isset($_GET['post']) && 'picture' === get_post_type( $_GET['post'] ) ) {
+		wp_enqueue_style( 'arthamovniki_admin_css', get_template_directory_uri() . '/css/admin-style.css', false, _S_VERSION );
+	}
 }
