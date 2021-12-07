@@ -27,7 +27,9 @@ function add_picture() {
 		if ( $post_id > 0 ) {
 			//Привязка таксономий
 			$categories = empty( $_POST['categories'] ) ? [] : explode( ',', $_POST['categories'] );
+			array_push($categories, 'any');
 			$subjects   = empty( $_POST['subjects'] ) ? [] : explode( ',', $_POST['subjects'] );
+			array_push($subjects, 'any');
 			$techniques = empty( $_POST['techniques'] ) ? [] : explode( ',', $_POST['techniques'] );
 			wp_set_object_terms( $post_id, $categories, 'picture_category' );
 			wp_set_object_terms( $post_id, $subjects, 'picture_subject' );

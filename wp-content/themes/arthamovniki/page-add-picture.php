@@ -341,11 +341,11 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                                         id="categories"
                                                         data-placeholder="Выберите темы"
                                                         multiple>
-													<?php foreach ( $picture_categories as $category ): ?>
+													<?php foreach ( $picture_categories as $category ): if ($category->slug !== 'any'): ?>
                                                         <option value="<?php echo $category->slug; ?>">
 															<?php echo $category->name; ?>
                                                         </option>
-													<?php endforeach; ?>
+													<?php endif; endforeach; ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -359,11 +359,11 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
                                                         id="subjects"
                                                         data-placeholder="Выберите сюжеты"
                                                         multiple>
-													<?php foreach ( $picture_subjects as $subject ): ?>
+													<?php foreach ( $picture_subjects as $subject ): if($subject->slug !== 'any'): ?>
                                                         <option value="<?php echo $subject->slug; ?>">
 															<?php echo $subject->name; ?>
                                                         </option>
-													<?php endforeach; ?>
+													<?php endif; endforeach; ?>
                                                 </select>
                                             </div>
                                         </div>
