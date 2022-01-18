@@ -400,13 +400,19 @@ function show_icon_for_admin( $post_id ) {
  */
 add_action( 'wp_ajax_fix_pictures_order_numbers', 'fix_pictures_order_numbers' );
 function fix_pictures_order_numbers() {
-	$pictures = get_posts( [
+    $catalog_type = $_GET['type'];
+
+	$query = new WP_Query;
+
+	$args = [
 		'post_type'      => 'picture',
 		'posts_per_page' => -1,
-		'post_status'    => 'publish',
-		'meta_key'       => 'order_number',
-		'orderby'        => [ 'meta_value_num' => 'ASC' ],
-	] );
+		'meta_query'     => [
+			[ 'key' => 'who_can_see', 'value' => $catalog_type ],
+		]
+	];
+
+	$pictures = $query->query($args);
 
 	for ($i = 0; $i < count($pictures); $i++) {
 		$post_title = $pictures[$i]->post_title;
