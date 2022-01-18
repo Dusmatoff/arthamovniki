@@ -24,6 +24,8 @@ $step_3_video = get_field( 'step_3_video', 'option' );
 $step_4_text  = get_field( 'step_4_text', 'option' );
 $step_4_video = get_field( 'step_4_video', 'option' );
 
+$video_text_placeholder = 'Скоро будет доступна видеоинструкция';
+
 $artists = get_posts(
 	[
 		'post_type'      => 'artist',
@@ -72,7 +74,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
 											<?php echo $step_1_text; ?>
                                         </div>
                                         <div class="instraction__video">
-											<?php echo $step_1_video; ?>
+											<?php echo $video_text_placeholder; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +178,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
 											<?php echo $step_2_text; ?>
                                         </div>
                                         <div class="instraction__video">
-											<?php echo $step_2_video; ?>
+	                                        <?php echo $video_text_placeholder; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -282,7 +284,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
 											<?php echo $step_3_text; ?>
                                         </div>
                                         <div class="instraction__video">
-											<?php echo $step_3_video; ?>
+	                                        <?php echo $video_text_placeholder; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -415,7 +417,7 @@ $photo_upload_nonce = wp_create_nonce( 'photo_upload_action' );
 											<?php echo $step_4_text; ?>
                                         </div>
                                         <div class="instraction__video">
-											<?php echo $step_4_video; ?>
+	                                        <?php echo $video_text_placeholder; ?>
                                         </div>
                                     </div>
                                 </div>
