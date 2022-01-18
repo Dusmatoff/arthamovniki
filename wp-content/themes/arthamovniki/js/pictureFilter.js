@@ -3,9 +3,13 @@ jQuery(function ($) { // use jQuery code inside this to avoid "$ is not defined"
     filterForm.submit(function (e) {
         e.preventDefault();
         let data = filterForm.serializeAssoc();
+
+        const urlString = new URL(window.location.href);
+        const see = urlString.searchParams.get('see');
         data['action'] = 'pictures_filter_ajax_handler';
         data['_ajax_nonce'] = Ajax.nonce;
         data['Whatever'] = 1234;
+        data['see'] = see ?? 'everyone';
         let catalogCards = $('.catalog-cards');
 
         $.ajax({
@@ -19,9 +23,9 @@ jQuery(function ($) { // use jQuery code inside this to avoid "$ is not defined"
                 if (data) {
                     catalogCards.html(data);
                     catalogCards.trigger('contentUpdate');
-                    let pathname = document.location.pathname;
+                    let pathname = document.location.pathname + document.location.search;
                     pathname = pathname.replace(/page.+/, '');
-                    window.history.pushState({}, "", pathname + '?' + filterForm.serialize());
+                    window.history.pushState({}, "", pathname + '&' + filterForm.serialize());
                 } else {
                     catalogCards.html('Нет результатов');
                 }

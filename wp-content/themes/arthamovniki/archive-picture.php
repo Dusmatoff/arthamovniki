@@ -32,8 +32,10 @@ get_header();
                         <div class="catalog-cards">
 							<?php
 							$url = home_url('picture');
+							$see = isset($_GET['see']) ? $_GET['see'] : 'everyone';
+
 							hamovniki_pagination([
-								'base' => $url . '/%_%',
+								'base' => $url . '?see=' . $see . '/%_%',
 								'add_args' => get_query_var('paginationArgs')
 							]);
 
@@ -43,7 +45,7 @@ get_header();
 							endwhile;
 
 							hamovniki_pagination([
-								'base' => $url . '/%_%',
+								'base' => $url . '?see=' . $see . '/%_%',
 								'add_args' => get_query_var('paginationArgs')
 							]);
 

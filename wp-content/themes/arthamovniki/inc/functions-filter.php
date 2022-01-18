@@ -60,7 +60,7 @@ function filter_picture_archive_query( $query ) {
 		$price = isset( $_GET['price'] ) ? $_GET['price'] : null;
 		$size  = isset( $_GET['size'] ) ? $_GET['size'] : null;
 		$see = isset($_GET['see']) ? $_GET['see'] : 'everyone';
-		$args  = get_products_meta_filter( $args, $price, $size, $current_user->roles );
+		$args  = get_products_meta_filter( $args, $price, $size, $see, $current_user->roles );
 		$query->set( 'meta_query', $args['meta_query'] );
 
         if ($enable_numeric_sort) {
@@ -96,7 +96,7 @@ function pictures_filter_ajax_handler() {
 	];
 	//$args = get_products_title_filter($args, $_POST['title']);
 	//$args = get_products_authors_filter($args, $_POST['author']);
-	$args = get_products_meta_filter( $args, $_POST['price'], $_POST['size'], $current_user->roles );
+	$args = get_products_meta_filter( $args, $_POST['price'], $_POST['size'], $_POST['see'], $current_user->roles );
 	$args = get_products_taxonomy_filter( $args, $_POST['picture_category'], $_POST['picture_subject'] );
 
 	$result      = query_posts( $args );
@@ -114,7 +114,7 @@ function pictures_filter_ajax_handler() {
 add_action( 'wp_ajax_pictures_filter_ajax_handler', 'pictures_filter_ajax_handler' );
 add_action( 'wp_ajax_nopriv_pictures_filter_ajax_handler', 'pictures_filter_ajax_handler' );
 
-function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
+function get_products_meta_filter( $args, $price, $size, $see, $user_roles = [] ) {
 	$meta_query = isset( $args['meta_query'] ) ? $args['meta_query'] : [];
 	//Only active pictures
 	$meta_query[] = [ 'relation' => 'AND', [ 'key' => 'is_active', 'value' => '1' ] ];
@@ -366,7 +366,7 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 		}
 	}
 
-	if ( ! empty( $user_roles ) ) {
+	/*if ( ! empty( $user_roles ) ) {
 		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) || in_array( 'um_partner', $user_roles ) ) {
 			$meta_query[] = [
 				'relation' => 'AND',
@@ -377,10 +377,10 @@ function get_products_meta_filter( $args, $price, $size, $user_roles = [] ) {
 
 			return $args;
 		}
-	}
+	}*/
 
 	//For subscribers
-	$meta_query[] = [ 'relation' => 'AND', [ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => '=' ] ];
+	$meta_query[] = [ 'relation' => 'AND', [ 'key' => 'who_can_see', 'value' => $see, 'compare' => '=' ] ];
 
 	$args['meta_query'] = $meta_query;
 
