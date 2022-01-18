@@ -78,7 +78,7 @@ function add_picture() {
 			add_post_meta( $post_id, 'width', $_POST['width'] );
 			add_post_meta( $post_id, 'length', $_POST['length'] );
 			add_post_meta( $post_id, 'is_active', 1 );
-			$price_history_change = date('Y-m-d h:i:s') . '-' . $_POST['price'] . '₽';
+			$price_history_change = date('Y-m-d h:i:s') . '-' . $_POST['price'] . '₽<br>';
 			add_post_meta( $post_id, 'price_history_change', $price_history_change );
 
 			//Галерея
