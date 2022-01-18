@@ -99,5 +99,17 @@ $copyright   = get_field( 'copyright', 'option' );
 
 <?php wp_footer(); ?>
 
+<script>
+    const pageLink = document.querySelector(`a[href="${window.location.href}"]`);
+    if (pageLink) {
+        pageLink.style.color = '#BA884D'
+    }
+
+    const catalogLink = document.querySelector(`a[href="${document.location.pathname}${document.location.search}"]`);
+    if (catalogLink) {
+        catalogLink.style.color = '#BA884D';
+    }
+</script>
+
 </body>
 </html>
