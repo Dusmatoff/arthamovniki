@@ -51,7 +51,7 @@ $image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/im
 			'posts_per_page' => 5,
 			'meta_query'     => [
 				'relation' => 'AND',
-				[ 'key' => 'who_can_see', 'value' => 'everyone', 'compare' => 'IN' ],
+				[ 'key' => 'who_can_see', 'value' => [ 'museum', 'everyone' ], 'compare' => 'IN' ],
 				[ 'key' => 'is_active', 'value' => '1' ],
 				[ 'key' => 'artist', 'value' => $id ]
 			],
