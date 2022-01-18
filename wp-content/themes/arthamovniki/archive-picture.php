@@ -9,6 +9,20 @@
 
 get_header();
 $see = isset( $_GET['see'] ) ? $_GET['see'] : 'everyone';
+$heading = '';
+
+switch ( $see ) {
+	case 'museum':
+		$heading = 'Музейный каталог';
+		break;
+	case 'partners':
+		$heading = 'Партнерский каталог';
+		break;
+	case 'everyone':
+	default:
+		$heading = 'Общий каталог';
+		break;
+}
 ?>
     <section class="section-first product">
         <div class="container">
@@ -22,6 +36,9 @@ $see = isset( $_GET['see'] ) ? $_GET['see'] : 'everyone';
                             <span class="breadcrumbs__link">Картины</span>
                         </li>
                     </ul>
+                    <h1 class="text-center mb-4">
+                        <?php echo $heading; ?>
+                    </h1>
                 </div>
             </div>
 			<?php if ( have_posts() ) : ?>
@@ -58,23 +75,7 @@ $see = isset( $_GET['see'] ) ? $_GET['see'] : 'everyone';
         </div>
     </section>
     <script>
-        const see = '<?php echo $see; ?>';
-        let breadcrumbTitle;
-
-        switch (see) {
-            case 'museum':
-                breadcrumbTitle = 'Музейный каталог';
-                break;
-            case 'partners':
-                breadcrumbTitle = 'Партнерский каталог';
-                break;
-            case 'everyone':
-            default:
-                breadcrumbTitle = 'Общий каталог';
-                break;
-        }
-
-        document.querySelectorAll('.breadcrumbs__link')[1].innerText = breadcrumbTitle;
+        document.querySelectorAll('.breadcrumbs__link')[1].innerText = '<?php echo $heading; ?>';
     </script>
 <?php
 get_footer();
