@@ -59,6 +59,7 @@ function filter_picture_archive_query( $query ) {
 		$args  = [ 'meta_query' => (array) $query->get( 'meta_query' ) ];
 		$price = isset( $_GET['price'] ) ? $_GET['price'] : null;
 		$size  = isset( $_GET['size'] ) ? $_GET['size'] : null;
+		$see = isset($_GET['see']) ? $_GET['see'] : 'everyone';
 		$args  = get_products_meta_filter( $args, $price, $size, $current_user->roles );
 		$query->set( 'meta_query', $args['meta_query'] );
 

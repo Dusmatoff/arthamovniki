@@ -12,7 +12,7 @@ $is_partner = is_current_user_partner( $current_user );
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.15' );
+	define( '_S_VERSION', '1.0.16' );
 }
 
 if ( ! function_exists( 'arthamovniki_setup' ) ) :
@@ -338,7 +338,10 @@ add_action( 'manage_picture_posts_custom_column', function ( $column_name ) {
 		} else {
 			switch ( $who_can_see ) {
 				case 'everyone':
-					echo "<span>Видна всем</span>";
+					echo "<span>Общий каталог</span>";
+					break;
+				case 'museum':
+					echo "<span>Музейный каталог</span>";
 					break;
 				case 'partners':
 					echo "<img src='$theme_uri/img/handshake.png' width='48'>";
@@ -377,6 +380,9 @@ function show_icon_for_admin( $post_id ) {
 			switch ( $who_can_see ) {
 				case 'everyone':
 					echo "<span>Видна всем</span>";
+					break;
+				case 'museum':
+					echo "<span>Музейный каталог</span>";
 					break;
 				case 'partners':
 					echo "<img src='$theme_uri/img/handshake.png' width='48'>";
