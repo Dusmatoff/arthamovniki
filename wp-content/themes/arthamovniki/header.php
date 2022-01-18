@@ -248,8 +248,8 @@ $logo_url = get_stylesheet_directory_uri() . '/img/logo-png.png';
                     </div>
                 </div>
             </div>
-            <div class="header__bot" id="header-bot">
-                <div class="container">
+            <div class="header__bot" id="header-bot" style="justify-content: center;">
+                <div class="<?php echo $is_partner ? '' : 'container'; ?>">
                     <div class="row">
                         <div class="col-12 d-flex align-items-center justify-content-between">
 							<?php
