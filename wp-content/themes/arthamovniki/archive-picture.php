@@ -35,7 +35,7 @@ $see = isset( $_GET['see'] ) ? $_GET['see'] : 'everyone';
 							$url = home_url( 'picture' );
 
 							hamovniki_pagination( [
-								'base'     => $url . '?see=' . $see . '/%_%',
+								'base'     => $url . '/%_%' . '?see=' . $see,
 								'add_args' => get_query_var( 'paginationArgs' )
 							] );
 
@@ -45,7 +45,7 @@ $see = isset( $_GET['see'] ) ? $_GET['see'] : 'everyone';
 							endwhile;
 
 							hamovniki_pagination( [
-								'base'     => $url . '?see=' . $see . '/%_%',
+								'base'     => $url . '/%_%' . '?see=' . $see,
 								'add_args' => get_query_var( 'paginationArgs' )
 							] );
 
