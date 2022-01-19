@@ -267,6 +267,8 @@ if ( defined( 'JETPACK__VERSION' ) ) {
  * Custom pagination template
  */
 function hamovniki_pagination( $args = [], $class = 'pagination' ) {
+	$see = isset( $_GET['see'] ) ? $_GET['see'] : 'everyone';
+
 	if ( $GLOBALS['wp_query']->max_num_pages <= 1 ) {
 		return;
 	}

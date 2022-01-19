@@ -1,6 +1,3 @@
-<?php
-
-?>
 <form action="<?php echo admin_url( 'admin-ajax.php' ) ?>" id="pictures-filter-form">
     <div class="filter-wrap">
         <div class="filter-show-btn btn btn--border">
@@ -78,6 +75,6 @@
         </div>
     </div>
 </form>
-<span class="filter-btn" onclick="location.href = '/picture/';">
+<span class="filter-btn" onclick="location.href = '/picture/?see=<?php echo $_GET['see']; ?>';">
     Очистить фильтр
 </span>

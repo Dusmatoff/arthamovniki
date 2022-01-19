@@ -52,7 +52,7 @@ switch ( $see ) {
 							$url = home_url( 'picture' );
 
 							hamovniki_pagination( [
-								'base'     => $url . '/%_%' . '?see=' . $see,
+								'base'     => $url . '/%_%',
 								'add_args' => get_query_var( 'paginationArgs' )
 							] );
 
@@ -62,7 +62,7 @@ switch ( $see ) {
 							endwhile;
 
 							hamovniki_pagination( [
-								'base'     => $url . '/%_%' . '?see=' . $see,
+								'base'     => $url . '/%_%',
 								'add_args' => get_query_var( 'paginationArgs' )
 							] );
 
