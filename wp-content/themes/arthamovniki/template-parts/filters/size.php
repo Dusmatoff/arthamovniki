@@ -3,7 +3,7 @@
 <div class="form-check">
     <input class="form-check-input"
            type="checkbox"
-           value="1"
+           value="small"
            name="size"
            id="size-1"
 		<?php echo ! empty( $_GET['size'] ) && $_GET['size'] === '1' ? 'checked' : ''; ?>
@@ -15,7 +15,7 @@
 <div class="form-check">
     <input class="form-check-input"
            type="checkbox"
-           value="50"
+           value="medium"
            name="size"
            id="size-50"
 		<?php echo ! empty( $_GET['size'] ) && $_GET['size'] === '50' ? 'checked' : ''; ?>
@@ -27,7 +27,7 @@
 <div class="form-check">
     <input class="form-check-input"
            type="checkbox"
-           value="100"
+           value="large"
            name="size"
            id="size-100"
 		<?php echo ! empty( $_GET['size'] ) && $_GET['size'] === '100' ? 'checked' : ''; ?>

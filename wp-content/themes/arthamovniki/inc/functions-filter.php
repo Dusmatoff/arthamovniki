@@ -226,143 +226,23 @@ function get_products_meta_filter( $args, $price, $size, $see, $user_roles = [] 
 
 	if ( $size !== null ) {
 		if ( ! is_array( $size ) ) {
-			if ( $size == 1 ) {
-				$meta_query[] = [
-					'relation' => 'OR',
-					[
-						'key'     => 'width',
-						'value'   => [ 1, 50 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-					[
-						'key'     => 'length',
-						'value'   => [ 1, 50 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-				];
-			}
-
-			if ( $size == 50 ) {
-				$meta_query[] = [
-					'relation' => 'OR',
-					[
-						'key'     => 'width',
-						'value'   => [ 50, 100 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-					[
-						'key'     => 'length',
-						'value'   => [ 50, 100 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-				];
-			}
-
-			if ( $size == 100 ) {
-				$meta_query[] = [
-					'relation' => 'OR',
-					[
-						'key'     => 'width',
-						'value'   => [ 100, 1000 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-					[
-						'key'     => 'length',
-						'value'   => [ 100, 1000 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-				];
-			}
+			$meta_query[] = [
+				'relation' => 'AND',
+				[
+					'key'     => 'size',
+					'value'   => $size,
+					'compare' => '=',
+				],
+			];
 		} else {
-			if ( count( $size ) === 3 && in_array( 1, $size ) && in_array( 50, $size ) && in_array( 100, $size ) ) {
-				$meta_query[] = [
-					'relation' => 'OR',
-					[
-						'key'     => 'width',
-						'value'   => [ 1, 1000 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-					[
-						'key'     => 'length',
-						'value'   => [ 1, 1000 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-				];
-			}
-
-			if ( count( $size ) === 2 && in_array( 1, $size ) && in_array( 50, $size ) ) {
-				$meta_query[] = [
-					'relation' => 'OR',
-					[
-						'key'     => 'width',
-						'value'   => [ 1, 100 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-					[
-						'key'     => 'length',
-						'value'   => [ 1, 100 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-				];
-			}
-
-			if ( count( $size ) === 2 && in_array( 1, $size ) && in_array( 100, $size ) ) {
-				$meta_query[] = [
-					'relation' => 'OR',
-					[
-						'key'     => 'width',
-						'value'   => [ 1, 50 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-					[
-						'key'     => 'length',
-						'value'   => [ 1, 50 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-					[
-						'key'     => 'width',
-						'value'   => [ 100, 1000 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-					[
-						'key'     => 'length',
-						'value'   => [ 100, 1000 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-				];
-			}
-
-			if ( count( $size ) === 2 && in_array( 50, $size ) && in_array( 100, $size ) ) {
-				$meta_query[] = [
-					'relation' => 'OR',
-					[
-						'key'     => 'width',
-						'value'   => [ 50, 1000 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-					[
-						'key'     => 'length',
-						'value'   => [ 50, 1000 ],
-						'compare' => 'BETWEEN',
-						'type'    => 'numeric',
-					],
-				];
-			}
+			$meta_query[] = [
+				'relation' => 'AND',
+				[
+					'key'     => 'size',
+					'value'   => $size,
+					'compare' => 'IN',
+				],
+			];
 		}
 	}
 

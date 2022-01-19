@@ -27,9 +27,9 @@ function add_picture() {
 		if ( $post_id > 0 ) {
 			//Привязка таксономий
 			$categories = empty( $_POST['categories'] ) ? [] : explode( ',', $_POST['categories'] );
-			array_push($categories, 'any');
-			$subjects   = empty( $_POST['subjects'] ) ? [] : explode( ',', $_POST['subjects'] );
-			array_push($subjects, 'any');
+			array_push( $categories, 'any' );
+			$subjects = empty( $_POST['subjects'] ) ? [] : explode( ',', $_POST['subjects'] );
+			array_push( $subjects, 'any' );
 			$techniques = empty( $_POST['techniques'] ) ? [] : explode( ',', $_POST['techniques'] );
 			wp_set_object_terms( $post_id, $categories, 'picture_category' );
 			wp_set_object_terms( $post_id, $subjects, 'picture_subject' );
@@ -78,8 +78,11 @@ function add_picture() {
 			add_post_meta( $post_id, 'width', $_POST['width'] );
 			add_post_meta( $post_id, 'length', $_POST['length'] );
 			add_post_meta( $post_id, 'is_active', 1 );
-			$price_history_change = date('Y-m-d h:i:s') . '-' . $_POST['price'] . '₽<br>';
+			$price_history_change = date( 'Y-m-d h:i:s' ) . '-' . $_POST['price'] . '₽<br>';
 			add_post_meta( $post_id, 'price_history_change', $price_history_change );
+
+			$size = generate_picture_size($_POST['width'], $_POST['length']);
+			add_post_meta( $post_id, 'size', $size );
 
 			//Галерея
 			if ( ! empty( $_POST['images'] ) ) {
@@ -143,9 +146,12 @@ function edit_picture() {
 			update_post_meta( $post_id, 'width', $_POST['width'] );
 			update_post_meta( $post_id, 'length', $_POST['length'] );
 
-			$old_price_history_change = get_post_meta($post_id, 'price_history_change', true);
+			$size = generate_picture_size($_POST['width'], $_POST['length']);
+			update_post_meta( $post_id, 'size', $size );
 
-			$price_history_change = $old_price_history_change . '' . date('Y-m-d h:i:s') . '-' . $_POST['price'] . '₽<br>';
+			$old_price_history_change = get_post_meta( $post_id, 'price_history_change', true );
+
+			$price_history_change = $old_price_history_change . '' . date( 'Y-m-d h:i:s' ) . '-' . $_POST['price'] . '₽<br>';
 			update_post_meta( $post_id, 'price_history_change', $price_history_change );
 
 			//Галерея
@@ -359,6 +365,21 @@ function add_unused_media_for_user( $user_id, $attach_id ) {
 		update_user_meta( $user_id, 'unused_media', $unused_media );
 	}
 }
+
 /****************************************************
  * AJAX Photo delete/delete
  *****************************************************/
+
+function generate_picture_size( $width, $length ) {
+	$width = intval($width);
+	$length = intval($length);
+
+	if ( $width < 50 || $length < 50 ) {
+		return 'small';
+	}
+	if ( $width >= 100 || $length >= 100 ) {
+		return 'large';
+	}
+
+	return 'medium';
+}

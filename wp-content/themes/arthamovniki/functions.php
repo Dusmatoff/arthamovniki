@@ -400,24 +400,24 @@ function show_icon_for_admin( $post_id ) {
  */
 add_action( 'wp_ajax_fix_pictures_order_numbers', 'fix_pictures_order_numbers' );
 function fix_pictures_order_numbers() {
-    $catalog_type = $_GET['type'];
+	$catalog_type = $_GET['type'];
 
 	$query = new WP_Query;
 
 	$args = [
 		'post_type'      => 'picture',
-		'posts_per_page' => -1,
+		'posts_per_page' => - 1,
 		'meta_query'     => [
 			[ 'key' => 'who_can_see', 'value' => $catalog_type ],
 		]
 	];
 
-	$pictures = $query->query($args);
+	$pictures = $query->query( $args );
 
-	for ($i = 0; $i < count($pictures); $i++) {
-		$post_title = $pictures[$i]->post_title;
-		$num = $i + 1;
-		update_post_meta($pictures[$i]->ID, 'order_number', $num);
+	for ( $i = 0; $i < count( $pictures ); $i ++ ) {
+		$post_title = $pictures[ $i ]->post_title;
+		$num        = $i + 1;
+		update_post_meta( $pictures[ $i ]->ID, 'order_number', $num );
 		echo "<p>Порядковый номер для $post_title обновлен на $num<p>";
 	}
 
@@ -428,16 +428,16 @@ add_action( 'wp_ajax_fix_authors_order_numbers', 'fix_authors_order_numbers' );
 function fix_authors_order_numbers() {
 	$artists = get_posts( [
 		'post_type'      => 'artist',
-		'posts_per_page' => -1,
+		'posts_per_page' => - 1,
 		'post_status'    => 'publish',
 		'meta_key'       => 'order_number',
 		'orderby'        => [ 'meta_value_num' => 'ASC' ],
 	] );
 
-	for ($i = 0; $i < count($artists); $i++) {
-		$post_title = $artists[$i]->post_title;
-		$num = $i + 1;
-		update_post_meta($artists[$i]->ID, 'order_number', $num);
+	for ( $i = 0; $i < count( $artists ); $i ++ ) {
+		$post_title = $artists[ $i ]->post_title;
+		$num        = $i + 1;
+		update_post_meta( $artists[ $i ]->ID, 'order_number', $num );
 		echo "<p>Порядковый номер для $post_title обновлен на $num<p>";
 	}
 
@@ -451,7 +451,50 @@ add_action( 'admin_enqueue_scripts', 'arthamovniki_admin_styles' );
 function arthamovniki_admin_styles() {
 	global $pagenow;
 
-	if ( 'post.php' === $pagenow && isset($_GET['post']) && 'picture' === get_post_type( $_GET['post'] ) ) {
+	if ( 'post.php' === $pagenow && isset( $_GET['post'] ) && 'picture' === get_post_type( $_GET['post'] ) ) {
 		wp_enqueue_style( 'arthamovniki_admin_css', get_template_directory_uri() . '/css/admin-style.css', false, _S_VERSION );
 	}
+}
+
+/**
+ * Picture save
+ */
+add_action( 'acf/save_post', 'picture_save_postmeta' );
+function picture_save_postmeta( $post_id ) {
+	if ( 'picture' !== $_POST['post_type'] ) {
+		return;
+	}
+
+	$width  = get_field( 'width', $post_id );
+	$length = get_field( 'length', $post_id );
+
+	$size = generate_picture_size( $width, $length );
+	update_post_meta( $post_id, 'size', $size );
+}
+
+add_action( 'wp_ajax_fix_pictures_sizes', 'fix_pictures_sizes' );
+function fix_pictures_sizes() {
+	$query = new WP_Query;
+
+	$args = [
+		'post_type'      => 'picture',
+		'posts_per_page' => - 1,
+		'post_status'    => 'any'
+	];
+
+	$pictures = $query->query( $args );
+
+	for ( $i = 0; $i < count( $pictures ); $i ++ ) {
+		$width  = get_field( 'width', $pictures[ $i ]->ID );
+		$length = get_field( 'length', $pictures[ $i ]->ID );
+
+        if (!empty($width) && !empty($length)) {
+	        $size = generate_picture_size( $width, $length );
+	        update_post_meta( $pictures[ $i ]->ID, 'size', $size );
+	        $post_title = $pictures[ $i ]->post_title;
+	        echo "<p>Размер для $post_title обновлен на $size<p>";
+        }
+	}
+
+	wp_die();
 }
