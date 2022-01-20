@@ -35,6 +35,10 @@ function generate_owner_pictures_query( $owner_id, $who_can_see, $user_roles ) {
 				'author'         => $owner_id,
 				'meta_key'       => 'order_number',
 				'orderby'        => [ 'meta_value_num' => 'ASC' ],
+				'meta_query'     => [
+					'relation' => 'AND',
+					[ 'key' => 'who_can_see', 'value' => $who_can_see, 'compare' => '=' ],
+				]
 			];
 
 			return new WP_Query( $args );

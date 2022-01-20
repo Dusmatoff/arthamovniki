@@ -11,7 +11,7 @@ $artist_id = get_the_ID();
 $theme_uri = get_stylesheet_directory_uri();
 $image_src = get_the_post_thumbnail_url() ?: $theme_uri . '/img/ava-default.jpg';
 
-function generate_artist_pictures_query() {
+function generate_artist_pictures_query( $artist_id, $who_can_see ) {
 	global $current_user;
 	$user_roles = $current_user->roles;
 
@@ -23,27 +23,11 @@ function generate_artist_pictures_query() {
 				'post_status'    => 'any',
 				'meta_key'       => 'order_number',
 				'orderby'        => [ 'meta_value_num' => 'ASC' ],
-			];
-
-			return new WP_Query( $args );
-		}
-
-		if ( in_array( 'um_partner', $user_roles ) ) {
-			$args = [
-				'post_type'      => 'picture',
-				'posts_per_page' => - 1,
-				'post_status'    => 'publish',
 				'meta_query'     => [
 					'relation' => 'AND',
-					[
-						'key'     => 'who_can_see',
-						'value'   => [ 'partners', 'everyone', 'hide_from_catalog' ],
-						'compare' => 'IN'
-					],
-					[ 'key' => 'is_active', 'value' => '1' ],
+					[ 'key' => 'artist', 'value' => $artist_id ],
+					[ 'key' => 'who_can_see', 'value' => $who_can_see, 'compare' => '=' ],
 				],
-				'meta_key'       => 'order_number',
-				'orderby'        => [ 'meta_value_num' => 'ASC' ],
 			];
 
 			return new WP_Query( $args );
@@ -57,8 +41,9 @@ function generate_artist_pictures_query() {
 		'post_status'    => 'publish',
 		'meta_query'     => [
 			'relation' => 'AND',
-			[ 'key' => 'who_can_see', 'value' => [ 'hide_from_catalog', 'everyone' ], 'compare' => 'IN' ],
+			[ 'key' => 'who_can_see', 'value' => $who_can_see, 'compare' => '=' ],
 			[ 'key' => 'is_active', 'value' => '1' ],
+			[ 'key' => 'artist', 'value' => $artist_id ],
 		],
 		'meta_key'       => 'order_number',
 		'orderby'        => [ 'meta_value_num' => 'ASC' ],
@@ -77,7 +62,7 @@ function generate_artist_pictures_query() {
                 <div class="author">
                     <div class="author__data">
                         <div class="author__data-ava">
-                            <img src="<?php echo $image_src; ?>">
+                            <img src="<?php echo $image_src; ?>" alt="Автор">
                         </div>
                         <div class="author__data-content">
                             <div class="author__data-name">
@@ -92,14 +77,45 @@ function generate_artist_pictures_query() {
 
                 <div class="catalog-cards catalog-cards--middle">
 					<?php
-					$query = generate_artist_pictures_query();
+					$museum_catalog = generate_artist_pictures_query( $artist_id, 'museum' );
 
-					while ( $query->have_posts() ) {
-						$query->the_post();
-						$picture_artist_id = get_field( 'artist', get_the_ID() );
-						if ( $picture_artist_id == $artist_id ) {
-							get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+					while ( $museum_catalog->have_posts() ) {
+						$museum_catalog->the_post();
+						get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+					}
+					wp_reset_postdata();
+					?>
+
+					<?php
+					$everyone_catalog = generate_artist_pictures_query( $artist_id, 'everyone' );
+
+					while ( $everyone_catalog->have_posts() ) {
+						$everyone_catalog->the_post();
+						get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+					}
+					wp_reset_postdata();
+					?>
+
+					<?php
+					if ( ! empty( $user_roles ) ) {
+						if ( in_array( 'um_partner', $user_roles ) ) {
+							$everyone_catalog = generate_artist_pictures_query( $artist_id, 'partners' );
+
+							while ( $everyone_catalog->have_posts() ) {
+								$everyone_catalog->the_post();
+								get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+							}
+							wp_reset_postdata();
 						}
+					}
+					?>
+
+					<?php
+					$hide_from_catalog = generate_artist_pictures_query( $artist_id, 'hide_from_catalog' );
+
+					while ( $hide_from_catalog->have_posts() ) {
+						$hide_from_catalog->the_post();
+						get_template_part( 'loop-templates/content', 'loop-artist-picture' );
 					}
 					wp_reset_postdata();
 					?>
