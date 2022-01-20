@@ -23,7 +23,9 @@ $owner_title    = get_user_meta( $owner_id, 'owner_title', true );
 $owner_subtitle = get_user_meta( $owner_id, 'owner_subtitle', true );
 $owner_text     = get_user_meta( $owner_id, 'owner_text', true );
 
-function generate_owner_pictures_query( $owner_id, $user_roles ) {
+$is_admin = in_array('administrator', $user_roles);
+
+function generate_owner_pictures_query( $owner_id, $who_can_see, $user_roles ) {
 	if ( ! empty( $user_roles ) ) {
 		if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
 			$args = [
@@ -46,21 +48,9 @@ function generate_owner_pictures_query( $owner_id, $user_roles ) {
 		'author'         => $owner_id,
 		'meta_query'     => [
 			'relation' => 'AND',
+			[ 'key' => 'who_can_see', 'value' => $who_can_see, 'compare' => '=' ],
 			[ 'key' => 'is_active', 'value' => '1' ],
 		]
-	];
-
-	if ( ! empty( $user_roles ) ) {
-		if ( in_array( 'um_partner', $user_roles ) ) {
-			return new WP_Query( $args );
-		}
-	}
-
-	//For subscribers
-	$args['meta_query'] = [
-		'relation' => 'AND',
-		[ 'key' => 'who_can_see', 'value' => [ 'hide_from_catalog', 'everyone' ], 'compare' => 'IN' ],
-		[ 'key' => 'is_active', 'value' => '1' ],
 	];
 
 	return new WP_Query( $args );
@@ -103,10 +93,44 @@ function generate_owner_pictures_query( $owner_id, $user_roles ) {
 
                     <div class="catalog-cards catalog-cards--middle">
 						<?php
-						$query = generate_owner_pictures_query( $owner_id, $user_roles );
+						$museum_catalog = generate_owner_pictures_query( $owner_id, 'museum', $user_roles );
 
-						while ( $query->have_posts() ) {
-							$query->the_post();
+						while ( $museum_catalog->have_posts() ) {
+							$museum_catalog->the_post();
+							get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+						}
+						wp_reset_postdata();
+						?>
+
+						<?php
+						$everyone_catalog = generate_owner_pictures_query( $owner_id, 'everyone', $user_roles );
+
+						while ( $everyone_catalog->have_posts() ) {
+							$everyone_catalog->the_post();
+							get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+						}
+						wp_reset_postdata();
+						?>
+
+						<?php
+						if ( ! empty( $user_roles ) ) {
+							if ( in_array( 'um_partner', $user_roles ) ) {
+								$partners_catalog = generate_owner_pictures_query( $owner_id, 'partners', $user_roles );
+
+								while ( $partners_catalog->have_posts() ) {
+									$partners_catalog->the_post();
+									get_template_part( 'loop-templates/content', 'loop-artist-picture' );
+								}
+								wp_reset_postdata();
+							}
+						}
+						?>
+
+						<?php
+						$hide_from_catalog = generate_owner_pictures_query( $owner_id, 'hide_from_catalog', $user_roles );
+
+						while ( $hide_from_catalog->have_posts() ) {
+							$hide_from_catalog->the_post();
 							get_template_part( 'loop-templates/content', 'loop-artist-picture' );
 						}
 						wp_reset_postdata();
