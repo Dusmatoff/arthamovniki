@@ -409,6 +409,9 @@ function fix_pictures_order_numbers() {
 	$args = [
 		'post_type'      => 'picture',
 		'posts_per_page' => - 1,
+		'post_status'    => 'publish',
+		'meta_key'       => 'order_number',
+		'orderby'        => [ 'meta_value_num' => 'ASC' ],
 		'meta_query'     => [
 			[ 'key' => 'who_can_see', 'value' => $catalog_type ],
 		]
