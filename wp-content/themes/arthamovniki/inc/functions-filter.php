@@ -292,3 +292,7 @@ function get_products_taxonomy_filter( $args, $pictureCategories, $pictureSubjs 
 
 	return $args;
 }
+
+function is_filter_item_checked($name, $value) {
+	return ((empty( $_GET[$name] ) && $_GET[$name] === $value) || (is_array($_GET[$name]) && in_array($value, $_GET[$name])));
+}
