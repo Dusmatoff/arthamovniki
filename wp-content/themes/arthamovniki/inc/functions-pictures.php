@@ -81,7 +81,7 @@ function add_picture() {
 			$price_history_change = date( 'Y-m-d h:i:s' ) . '-' . $_POST['price'] . '₽<br>';
 			add_post_meta( $post_id, 'price_history_change', $price_history_change );
 
-			$size = generate_picture_size($_POST['width'], $_POST['length']);
+			$size = generate_picture_size( $_POST['width'], $_POST['length'] );
 			add_post_meta( $post_id, 'size', $size );
 
 			//Галерея
@@ -146,7 +146,7 @@ function edit_picture() {
 			update_post_meta( $post_id, 'width', $_POST['width'] );
 			update_post_meta( $post_id, 'length', $_POST['length'] );
 
-			$size = generate_picture_size($_POST['width'], $_POST['length']);
+			$size = generate_picture_size( $_POST['width'], $_POST['length'] );
 			update_post_meta( $post_id, 'size', $size );
 
 			$old_price_history_change = get_post_meta( $post_id, 'price_history_change', true );
@@ -371,13 +371,15 @@ function add_unused_media_for_user( $user_id, $attach_id ) {
  *****************************************************/
 
 function generate_picture_size( $width, $length ) {
-	$width = intval($width);
-	$length = intval($length);
+	$width  = intval( $width );
+	$length = intval( $length );
+	$max    = max([ $width, $length ]);
 
-	if ( $width < 50 || $length < 50 ) {
+	if ( $max < 50 ) {
 		return 'small';
 	}
-	if ( $width >= 100 || $length >= 100 ) {
+
+	if ( $max > 100 ) {
 		return 'large';
 	}
 
