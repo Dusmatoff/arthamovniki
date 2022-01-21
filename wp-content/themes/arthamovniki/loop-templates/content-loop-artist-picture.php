@@ -105,6 +105,22 @@ $owner_modal_info = get_user_meta( $author_id, 'owner_modal_info', true );
 						<?php show_icon_for_admin( $id ); ?> (<?php the_field( 'order_number' ); ?>)
                     </div>
                 </li>
+                <li class="catalog-card__info-item">
+                    <div class="catalog-card__info-item-title">
+                        Наша цена в общем каталоге
+                    </div>
+                    <div class="catalog-card__info-item-value">
+						<?php the_field( 'our_price_in_catalog' ); ?>
+                    </div>
+                </li>
+                <li class="catalog-card__info-item">
+                    <div class="catalog-card__info-item-title">
+                        Цена вручную
+                    </div>
+                    <div class="catalog-card__info-item-value">
+						<?php the_field( 'custom_price' ); ?>
+                    </div>
+                </li>
 			<?php endif; ?>
         </ul>
     </div>
