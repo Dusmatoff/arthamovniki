@@ -503,3 +503,19 @@ function fix_pictures_sizes() {
 
 	wp_die();
 }
+
+function generate_artist_pictures_args($count, $who_can_see, $artist_id)
+{
+	return [
+		'post_type'      => 'picture',
+		'posts_per_page' => $count,
+		'meta_query'     => [
+			'relation' => 'AND',
+			[ 'key' => 'who_can_see', 'value' => $who_can_see, 'compare' => '=' ],
+			[ 'key' => 'is_active', 'value' => '1' ],
+			[ 'key' => 'artist', 'value' => $artist_id ]
+		],
+		'meta_key'       => 'order_number',
+		'orderby'        => [ 'meta_value_num' => 'ASC' ],
+	];
+}

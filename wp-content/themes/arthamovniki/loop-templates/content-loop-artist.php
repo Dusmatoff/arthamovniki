@@ -4,6 +4,8 @@ $user_roles = $current_user->roles;
 
 $id        = get_the_ID();
 $image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/img/ava-default.jpg';
+
+$max_count_pictures = 5;
 ?>
 <div class="authors__item">
     <a href="<?php the_permalink( $id ); ?>" class="authors__item-ava">
@@ -13,56 +15,17 @@ $image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/im
         <a href="<?php the_permalink( $id ); ?>" class="authors__item-name">
 			<?php the_title(); ?>
         </a>
-	    <?php if ( in_array( 'administrator', $user_roles ) ): ?>
+		<?php if ( in_array( 'administrator', $user_roles ) ): ?>
             <span>(№<?php the_field( 'order_number' ); ?>)</span>
-        <?php endif; ?>
+		<?php endif; ?>
     </div>
     <div class="authors__item-pictures">
 		<?php
-		if ( ! empty( $user_roles ) ) {
-			if ( in_array( 'administrator', $user_roles ) || in_array( 'editor', $user_roles ) ) {
-				$args = [
-					'post_type'      => 'picture',
-					'posts_per_page' => 5,
-					'post_status'    => 'any',
-					'meta_query'     => [
-						'relation' => 'AND',
-						[ 'key' => 'artist', 'value' => $id ],
-					]
-				];
-			}
+		$museum_catalog = new WP_Query( generate_artist_pictures_args( $max_count_pictures, 'museum', $id ) );
 
-			if ( in_array( 'um_partner', $user_roles ) ) {
-				$args = [
-					'post_type'      => 'picture',
-					'posts_per_page' => 5,
-					'meta_query'     => [
-						'relation' => 'AND',
-						[ 'key' => 'who_can_see', 'value' => [ 'partners', 'everyone' ], 'compare' => 'IN' ],
-						[ 'key' => 'is_active', 'value' => '1' ],
-						[ 'key' => 'artist', 'value' => $id ]
-					]
-				];
-			}
-		}
-
-		$args = [
-			'post_type'      => 'picture',
-			'posts_per_page' => 5,
-			'meta_query'     => [
-				'relation' => 'AND',
-				[ 'key' => 'who_can_see', 'value' => [ 'museum', 'everyone' ], 'compare' => 'IN' ],
-				[ 'key' => 'is_active', 'value' => '1' ],
-				[ 'key' => 'artist', 'value' => $id ]
-			],
-			'meta_key'       => 'order_number',
-			'orderby'        => [ 'meta_value_num' => 'ASC' ],
-		];
-
-		$query = new WP_Query( $args );
-
-		while ( $query->have_posts() ) :
-			$query->the_post();
+		while ( $museum_catalog->have_posts() && $max_count_pictures > 0 ) :
+			$max_count_pictures --;
+			$museum_catalog->the_post();
 			$title = get_the_title();
 			?>
             <div class="authors__item-pictures-item">
@@ -73,8 +36,33 @@ $image_src = get_the_post_thumbnail_url() ?: '/wp-content/themes/arthamovniki/im
                     >
                 </a>
             </div>
-		<?php endwhile;
-		wp_reset_postdata(); ?>
+		<?php
+		endwhile;
+		wp_reset_postdata();
+		?>
+
+		<?php
+		if ( $max_count_pictures > 0 ):
+			$everyone_catalog = new WP_Query( generate_artist_pictures_args( $max_count_pictures, 'everyone', $id ) );
+
+			while ( $everyone_catalog->have_posts() && $max_count_pictures > 0 ) :
+				$max_count_pictures --;
+				$everyone_catalog->the_post();
+				$title = get_the_title();
+				?>
+                <div class="authors__item-pictures-item">
+                    <a href="<?php the_permalink(); ?>">
+                        <img src="<?php the_post_thumbnail_url(); ?>"
+                             alt="<?php echo $title; ?>"
+                             title="<?php echo $title; ?>"
+                        >
+                    </a>
+                </div>
+			<?php
+			endwhile;
+		endif;
+		wp_reset_postdata();
+		?>
     </div>
 </div>
 
