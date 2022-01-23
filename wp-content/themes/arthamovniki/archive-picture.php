@@ -13,14 +13,14 @@ $heading = '';
 
 switch ( $see ) {
 	case 'museum':
-		$heading = 'Музейный каталог';
+		$heading = 'Каталог №1';
 		break;
 	case 'partners':
 		$heading = 'Партнерский каталог';
 		break;
 	case 'everyone':
 	default:
-		$heading = 'Общий каталог';
+		$heading = 'Каталог №2';
 		break;
 }
 ?>
